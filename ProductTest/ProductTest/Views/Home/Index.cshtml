@@ -1,0 +1,20 @@
+﻿@model ProductTest.Models.Table
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.EditorFor(model => model.Id)
+    </div>
+    <p>
+        <input type="submit" title ="Search">
+    </p>
+    
+    <p>
+        @Html.DisplayFor(model => model.Name)
+    </p>
+}

@@ -1,0 +1,23 @@
+﻿@model MvcApplication2.Models.Product
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.EditorFor(model => model.Id)
+    </div>
+    <br />
+    <div>
+        @Html.EditorFor(model => model.Name)
+    </div>
+    <br />
+    <div>
+        @Html.EditorFor(model => model.Category)
+    </div>
+    <br />
+    <input type="submit" value="Add" />
+}

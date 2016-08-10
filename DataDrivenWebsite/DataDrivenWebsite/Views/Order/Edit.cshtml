@@ -1,0 +1,54 @@
+﻿@model DataDrivenWebsite.Order
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Order</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContactID, "Contact")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ContactID", String.Empty)
+            @Html.ValidationMessageFor(model => model.ContactID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Quantity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Quantity)
+            @Html.ValidationMessageFor(model => model.Quantity)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Rate)
+            @Html.ValidationMessageFor(model => model.Rate)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

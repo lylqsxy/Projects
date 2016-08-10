@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDrivenWebsite", "DataDrivenWebsite\DataDrivenWebsite.csproj", "{07A41B19-49BB-4CE9-BD08-CB97A6B00E48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDrivenWebsite.Tests", "DataDrivenWebsite.Tests\DataDrivenWebsite.Tests.csproj", "{577CB37C-59D3-4C33-B7EA-39CF5FB57C54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07A41B19-49BB-4CE9-BD08-CB97A6B00E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07A41B19-49BB-4CE9-BD08-CB97A6B00E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07A41B19-49BB-4CE9-BD08-CB97A6B00E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07A41B19-49BB-4CE9-BD08-CB97A6B00E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{577CB37C-59D3-4C33-B7EA-39CF5FB57C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577CB37C-59D3-4C33-B7EA-39CF5FB57C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577CB37C-59D3-4C33-B7EA-39CF5FB57C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577CB37C-59D3-4C33-B7EA-39CF5FB57C54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

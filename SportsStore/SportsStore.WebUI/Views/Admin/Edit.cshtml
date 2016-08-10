@@ -1,0 +1,13 @@
+﻿@model SportsStore.Domain.Entities.Product
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>@ViewBag.Caption</h1>
+@using (Html.BeginForm("Edit", "Admin"))
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Cancel and return to List", "Index")
+}
