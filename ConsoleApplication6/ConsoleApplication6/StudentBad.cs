@@ -17,6 +17,8 @@ namespace ConsoleApplication6
         [Column(Order = 1)]
         public string Bad { get; set; }
 
+
+
         [Key]
         [Column(Order = 2)]
         public string Info { get; set; }

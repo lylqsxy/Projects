@@ -10,6 +10,7 @@ namespace ConsoleApplication6
         public Model2()
             : base("name=Model2")
         {
+
         }
 
         public virtual DbSet<Student> Students { get; set; }
