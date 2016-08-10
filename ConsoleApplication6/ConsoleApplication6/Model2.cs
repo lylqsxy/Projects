@@ -24,6 +24,7 @@ namespace ConsoleApplication6
                 .WithRequired(e => e.Student)
                 .WillCascadeOnDelete(false);
 
+
             modelBuilder.Entity<Student>()
                 .HasMany(e => e.StudentGoods)
                 .WithRequired(e => e.Student)
