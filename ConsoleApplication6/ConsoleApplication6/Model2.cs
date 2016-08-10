@@ -28,7 +28,6 @@ namespace ConsoleApplication6
                 .HasMany(e => e.StudentGoods)
                 .WithRequired(e => e.Student)
                 .WillCascadeOnDelete(false);
-
         }
     }
 }
