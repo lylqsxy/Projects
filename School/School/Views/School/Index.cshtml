@@ -1,0 +1,18 @@
+﻿@model IEnumerable< School.Models.Subject>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>My Subjects</h2>
+
+@foreach (var item in Model)
+{
+    <p>
+        @item.Name
+    </p>
+}
+
+
+
+
