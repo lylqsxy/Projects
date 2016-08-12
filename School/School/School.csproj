@@ -310,6 +310,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\FirstAction.cshtml" />
     <Content Include="Views\School\Index.cshtml" />
+    <Content Include="Views\School\CreateStudent.cshtml" />
+    <Content Include="Views\School\DisplayAll.cshtml" />
+    <Content Include="Views\School\EditStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,12 +6,21 @@
 
 <h2>My Subjects</h2>
 
+@Html.ActionLink("Display all", "DisplayAll", "School", new { @class = "btn btn-info"})
+
+<p></p>
+
 @foreach (var item in Model)
 {
-    <p>
-        @item.Name
-    </p>
+    <div class="well">
+        <p>
+            @item.Name
+
+            @Html.ActionLink("Create a new Student", "CreateStudent", "School", new { Id = item.ID}, new { @class = "btn btn-success" })
+        </p>
+    </div>
 }
+
 
 
 
