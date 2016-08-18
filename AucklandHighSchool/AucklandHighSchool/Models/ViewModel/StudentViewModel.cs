@@ -5,9 +5,9 @@ using System.Web;
 
 namespace AucklandHighSchool.Models.ViewModel
 {
-    public class TeacherList
+    public class StudentViewModel
     {
         public String Name { get; set; }
-        public String Gender { get; set; }   
+        public String Gender { get; set; }
     }
 }

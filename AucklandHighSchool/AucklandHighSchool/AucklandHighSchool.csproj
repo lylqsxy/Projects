@@ -228,8 +228,9 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ViewModel\StudentList.cs" />
-    <Compile Include="Models\ViewModel\TeacherList.cs" />
+    <Compile Include="Models\ViewModel\StudentViewModel.cs" />
+    <Compile Include="Models\ViewModel\TeacherViewModel.cs" />
+    <Compile Include="Models\ViewModel\TestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Student.cs">
@@ -323,6 +324,7 @@
     <Content Include="Views\Management\TeacherList.cshtml" />
     <Content Include="Views\Management\StudentList.cshtml" />
     <Content Include="Views\Management\ClassList.cshtml" />
+    <Content Include="Views\Management\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

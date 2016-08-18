@@ -23,9 +23,8 @@ namespace AucklandHighSchool.Controllers
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                List<TeacherList> tl = new List<TeacherList>();
-                db.Teachers.Include("Classes").ToList().ForEach(x => tl.Add( new TeacherList { Name = x.FirstName + " " + x.LastName, Gender = x.Gender }));
-                return View(tl);
+                var list = db.Teachers.Include("Classes").Select(x => new TeacherViewModel { Name = x.FirstName + " " + x.LastName, Gender = x.Gender}).ToList();
+                return View(list);
             }
         }
 
@@ -33,9 +32,8 @@ namespace AucklandHighSchool.Controllers
         {
             using(AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                List<StudentList> sl = new List<StudentList>();
-                db.Students.Include("Enrollments").ToList().ForEach(x => sl.Add(new StudentList { Name = x.FirstName + " " + x.LastName, Gender = x.Gender}));
-                return View(sl);
+                var list = db.Students.Include("Enrollments").Select( x => new StudentViewModel { Name = x.FirstName + " " + x.LastName, Gender = x.Gender}).ToList();
+                return View(list);
             }
         }
 
@@ -45,6 +43,15 @@ namespace AucklandHighSchool.Controllers
             {
                 return View(db.Classes.Include("Subject").Include("Teacher").ToList());
             }
+        }
+
+        public ActionResult Test()
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var list = db.Students.Select(x => new TestViewModel { Name = x.FirstName + " " + x.LastName, Number = x.Enrollments.Select(y => y.ClassID).Distinct().Count()}).ToList();
+                return View(list);
+            } 
         }
     }
 }
