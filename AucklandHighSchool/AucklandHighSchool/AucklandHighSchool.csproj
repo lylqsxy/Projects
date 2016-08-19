@@ -228,7 +228,9 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModel\ClassViewModel.cs" />
     <Compile Include="Models\ViewModel\StudentViewModel.cs" />
+    <Compile Include="Models\ViewModel\SubjectViewModel.cs" />
     <Compile Include="Models\ViewModel\TeacherViewModel.cs" />
     <Compile Include="Models\ViewModel\TestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

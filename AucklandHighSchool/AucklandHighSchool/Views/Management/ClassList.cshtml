@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AucklandHighSchool.Class>
+﻿@model IEnumerable<AucklandHighSchool.Models.ViewModel.ClassViewModel>
 
 @{
     ViewBag.Title = "Class List";
@@ -14,12 +14,30 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Teacher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EnrollmentsCount)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Teacher)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EnrollmentsCount)
         </td>
     </tr>
 }

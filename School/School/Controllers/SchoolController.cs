@@ -28,6 +28,7 @@ namespace School.Controllers
             {
                 var std = new Student();
                 std.SubjectId = Id;
+                ViewBag.SubjectId = new SelectList(db.Subjects.ToList(), "Id", "Name", Id);
                 return View(std);
             }
   
