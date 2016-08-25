@@ -201,9 +201,12 @@
       <DependentUpon>Management.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ManagementController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\SubjectController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Enrollment.cs">
       <DependentUpon>Management.tt</DependentUpon>
     </Compile>
@@ -322,11 +325,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Management\SubjectList.cshtml" />
-    <Content Include="Views\Management\TeacherList.cshtml" />
-    <Content Include="Views\Management\StudentList.cshtml" />
-    <Content Include="Views\Management\ClassList.cshtml" />
-    <Content Include="Views\Management\Test.cshtml" />
+    <Content Include="Views\Subject\SubjectList.cshtml" />
+    <Content Include="Views\Student\StudentList.cshtml" />
+    <Content Include="Views\Class\ClassList.cshtml" />
+    <Content Include="Views\Teacher\TeacherList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

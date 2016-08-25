@@ -25,21 +25,25 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TeacherCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClassCount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EnrollmentsCount)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentsCount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditSubject")
+            </td>
+        </tr>
+    }
 
 </table>
