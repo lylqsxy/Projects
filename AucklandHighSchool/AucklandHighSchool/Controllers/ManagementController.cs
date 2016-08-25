@@ -38,7 +38,7 @@ namespace AucklandHighSchool.Controllers
                                 EnrollmentsCount = y.SelectMany(z => z.ebox).Select(a => a.EnrollmentID).Distinct().Count()
                             }).ToList();
 
-                return View(list2);
+                return View(list);
             }
             
         }
@@ -65,11 +65,11 @@ namespace AucklandHighSchool.Controllers
                             {
                                 Name = y.Key.FirstName + " " + y.Key.LastName,
                                 Gender = y.Key.Gender,
-                                ClassCount = y.FirstOrDefault().cbox.Select(z => z.ClassID).Distinct().Count(),
-                                SubjectCount = y.SelectMany(z => z.sbox).Select(z => z.SubjectID).Distinct().Count()
+                                ClassCount = y.SelectMany(z => z.cbox).Where(z => z != null).Select(z => z.ClassID).Distinct().Count(),
+                                SubjectCount = y.SelectMany(z => z.sbox).Where(z => z != null).Select(z => z.SubjectID).Distinct().Count()
                             }).ToList();
 
-                return View(list2);
+                return View(list);
             }
         }
 
@@ -95,7 +95,7 @@ namespace AucklandHighSchool.Controllers
                                 EnrollmentCount = y.FirstOrDefault().ebox.Select(z => z.ClassID).Distinct().Count()
                             }).ToList();
 
-                return View(list2);
+                return View(list1);
             }
         }
 
@@ -128,7 +128,7 @@ namespace AucklandHighSchool.Controllers
                                 EnrollmentsCount = y.FirstOrDefault().ebox.Select(z => z.EnrollmentID).Distinct().Count()
                             }).ToList();
 
-                return View(list2);
+                return View(list1);
             }
         }
 

@@ -80,5 +80,27 @@ namespace School.Controllers
 
             }
         }
+
+        [HttpGet]
+        public ActionResult DeleteStudent(int Id)
+        {
+            using (var db = new StudentManagementEntities())
+            {
+                var student = db.Students.Include("Subject").Where(x => x.ID == Id).FirstOrDefault(); 
+                return View(student);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteStudentPost(int Id)
+        {
+            using (var db = new StudentManagementEntities())
+            {
+                var student = db.Students.Where(x => x.ID == Id).FirstOrDefault();
+                db.Entry(student).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("DisplayAll", "School");
+            }
+        }
     }
 }

@@ -26,6 +26,10 @@
             <td>@item.Subject.Name</td>
             <td>
                 @Html.ActionLink("Edit", "EditStudent", new { Id = item.ID}, null)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteStudent", new { Id = item.ID }, null)
+            </td>
 
         </tr>
     }
