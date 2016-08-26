@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cd932e7e7a3e456797acc05859cc630f" Name="Diagram1">
+      <Diagram DiagramId="e61644148fe144c3901a49f86d659293" Name="Diagram1">
         <EntityTypeShape EntityType="AucklandHighSchoolModel.Class" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="AucklandHighSchoolModel.Enrollment" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AucklandHighSchoolModel.Student" Width="1.5" PointX="5.875" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.Student" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AucklandHighSchoolModel.Subject" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AucklandHighSchoolModel.Teacher" Width="1.5" PointX="1.125" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.Teacher" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
         <AssociationConnector Association="AucklandHighSchoolModel.FK_Class_Subject" ManuallyRouted="false" />
         <AssociationConnector Association="AucklandHighSchoolModel.FK_Class_Teacher" ManuallyRouted="false" />
         <AssociationConnector Association="AucklandHighSchoolModel.FK_Enrollment_Class" ManuallyRouted="false" />

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AucklandHighSchool.Models.ViewModel;
+using System.Data.Entity;
+using AucklandHighSchool.Models;
 
 namespace AucklandHighSchool.Controllers
 {
@@ -16,31 +18,79 @@ namespace AucklandHighSchool.Controllers
             {
                 var list = db.Subjects.Include("Classes").Include("Enrollments").Select(x => new SubjectViewModel
                 {
+                    Id = x.SubjectID,
                     Name = x.Name,
                     ClassCount = x.Classes.Select(y => y.ClassID).Distinct().Count(),
                     TeacherCount = x.Classes.Select(y => y.TeacherID).Distinct().Count(),
                     EnrollmentsCount = x.Classes.SelectMany(y => y.Enrollments.Select(z => z.EnrollmentID)).Distinct().Count()
                 }).ToList();
 
-                var list2 = (from s in db.Subjects
-                             join c in db.Classes on s.SubjectID equals c.SubjectID into cbox
-                             from cb in cbox.DefaultIfEmpty()
-                             join e in db.Enrollments on cb.ClassID equals e.ClassID into ebox
-                             from cbb in cbox.DefaultIfEmpty()
-                             join t in db.Teachers on cbb.TeacherID equals t.TeacherID into tbox
-                             from tb in tbox.DefaultIfEmpty()
-                             select new { s, cbox, ebox, tbox })
-                            .GroupBy(x => x.s).Select(y => new SubjectViewModel
-                            {
-                                Name = y.Key.Name,
-                                ClassCount = y.SelectMany(z => z.cbox).Select(a => a.ClassID).Distinct().Count(),
-                                TeacherCount = y.SelectMany(z => z.tbox).Select(a => a.TeacherID).Distinct().Count(),
-                                EnrollmentsCount = y.SelectMany(z => z.ebox).Select(a => a.EnrollmentID).Distinct().Count()
-                            }).ToList();
-
                 return View(list);
+            }       
+        }
+        public ActionResult EditSubject(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var subject = db.Subjects.Find(Id);
+                return View(subject);
             }
+        }
 
+        [HttpPost]
+        public ActionResult EditSubject(Subject s)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(s).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("SubjectList");
+            }
+        }
+
+        public ActionResult CreateSubject()
+        {
+            Subject subject = new Subject();
+            return View(subject);
+        }
+
+        [HttpPost]
+        public ActionResult CreateSubject(Subject s)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(s).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("SubjectList");
+            }
+        }
+
+        public ActionResult DetailSubject(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var subject = db.Subjects.Include("Classes").Where(x => x.SubjectID == Id).FirstOrDefault();
+                SubjectDetailViewModel sdvm = new SubjectDetailViewModel()
+                {
+                    Name = subject.Name,
+                    ClassList = subject.Classes.Select(x => x.Name).ToList(),
+                    TeacherList = subject.Classes.Select(x => x.Teacher.FirstName + " " + x.Teacher.LastName).Distinct().ToList(),
+                    StudentList = subject.Classes.SelectMany(x => x.Enrollments.Select(y => y.Student.FirstName + " " + y.Student.LastName)).ToList()
+                };
+                return View(sdvm);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSubject(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var s = db.Subjects.Find(Id);
+                db.Entry(s).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("SubjectList");
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AucklandHighSchool
+namespace AucklandHighSchool.Models
 {
     using System;
     using System.Data.Entity;

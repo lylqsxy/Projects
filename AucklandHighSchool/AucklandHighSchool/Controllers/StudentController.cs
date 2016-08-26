@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AucklandHighSchool.Models.ViewModel;
+using AucklandHighSchool.Models;
 
 namespace AucklandHighSchool.Controllers
 {

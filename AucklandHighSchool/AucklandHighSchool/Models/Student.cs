@@ -7,26 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AucklandHighSchool
+namespace AucklandHighSchool.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Class
+    public partial class Student
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Class()
+        public Student()
         {
             this.Enrollments = new HashSet<Enrollment>();
         }
     
-        public int ClassID { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> TeacherID { get; set; }
-        public Nullable<int> SubjectID { get; set; }
+        public int StudentID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Gender { get; set; }
     
-        public virtual Subject Subject { get; set; }
-        public virtual Teacher Teacher { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
