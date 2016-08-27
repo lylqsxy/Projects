@@ -16,7 +16,7 @@ namespace AucklandHighSchool.Controllers
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                var list = db.Subjects.Include("Classes").Include("Enrollments").Select(x => new SubjectViewModel
+                var list = db.Subjects.Select(x => new SubjectViewModel
                 {
                     Id = x.SubjectID,
                     Name = x.Name,
@@ -28,6 +28,7 @@ namespace AucklandHighSchool.Controllers
                 return View(list);
             }       
         }
+
         public ActionResult EditSubject(int Id)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
@@ -69,7 +70,7 @@ namespace AucklandHighSchool.Controllers
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                var subject = db.Subjects.Include("Classes").Where(x => x.SubjectID == Id).FirstOrDefault();
+                var subject = db.Subjects.Where(x => x.SubjectID == Id).FirstOrDefault();
                 SubjectDetailViewModel sdvm = new SubjectDetailViewModel()
                 {
                     Name = subject.Name,

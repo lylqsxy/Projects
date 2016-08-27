@@ -6,21 +6,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AucklandHighSchool.Models.ViewModel
 {
-    public class TeacherViewModel
+    public class StudentDetailViewModel
     {
-        [Display(Name = "Teacher ID")]
         public int Id { get; set; }
 
-        [Display(Name = "Name")]
+        [Display(Name = "Student Name:")]
         public String Name { get; set; }
-        
-        [Display(Name = "Gender")]
+
+        [Display(Name = "Gender:")]
         public String Gender { get; set; }
 
-        [Display(Name = "# Class")]
-        public int ClassCount { get; set; }
+        [Display(Name = "Enrollment Class List:")]
+        public List<Class> ClassList { get; set; }
 
-        [Display(Name = "# Subject")]
-        public int SubjectCount { get; set; }
     }
 }

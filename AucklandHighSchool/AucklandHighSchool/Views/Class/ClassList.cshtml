@@ -4,12 +4,14 @@
     ViewBag.Title = "Class List";
 }
 
-<h2>ClassList</h2>
+<h2>Class List</h2>
+<br />
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.AddIconLink("Add Class", "CreateClass")
 </p>
-<table class="table">
+
+<table class="table table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -22,6 +24,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.EnrollmentsCount)
+        </th>
+        <th>
+            Actions
         </th>
     </tr>
 
@@ -40,7 +45,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EnrollmentsCount)
             </td>
+            <td>
+                @Html.EditIconLink("Edit", "EditClass", new { Id = item.Id })
+                @Html.DetailIconLink("Detail", "DetailClass", new { Id = item.Id })
+                @Html.DeleteIconLinkPost("Delete", "DeleteClass", "Class", "Id", item.Id.ToString())                               
+            </td>
         </tr>
     }
 
 </table>
+
+@Html.BackIconLInk("Back", "Index", "Home")

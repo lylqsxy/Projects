@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using AucklandHighSchool.Models.ViewModel;
 using AucklandHighSchool.Models;
+using System.Data.Entity;
+using System.Data.Entity.Core;
 
 namespace AucklandHighSchool.Controllers
 {
@@ -15,25 +17,142 @@ namespace AucklandHighSchool.Controllers
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                var list = db.Students.Include("Enrollments").Select(x => new StudentViewModel
+                var list = db.Students.Select(x => new StudentViewModel
                 {
+                    Id = x.StudentID,
                     Name = x.FirstName + " " + x.LastName,
                     Gender = x.Gender,
                     EnrollmentCount = x.Enrollments.Select(y => y.EnrollmentID).Distinct().Count()
                 }).ToList();
 
-                var list2 = (from s in db.Students
-                             join e in db.Enrollments on s.StudentID equals e.StudentID into ebox
-                             from eb in ebox.DefaultIfEmpty()
-                             select new { s, ebox })
-                            .GroupBy(x => x.s).Select(y => new StudentViewModel
-                            {
-                                Name = y.Key.FirstName + " " + y.Key.LastName,
-                                Gender = y.Key.Gender,
-                                EnrollmentCount = y.FirstOrDefault().ebox.Select(z => z.EnrollmentID).Distinct().Count()
-                            }).ToList();
-
                 return View(list);
+            }
+        }
+
+        public ActionResult EditStudent(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var student = db.Students.Find(Id);
+                ViewBag.GenderList = new List<SelectListItem>
+                {
+                    new SelectListItem
+                    {
+                        Value = "M",
+                        Text = "Male",
+                    },
+
+                    new SelectListItem
+                    {
+                        Value = "F",
+                        Text = "Female"
+                    }
+                };
+                return View(student);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditStudent(Student s)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(s).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("StudentList");
+            }
+        }
+
+        public ActionResult CreateStudent()
+        {
+            Student student = new Student();
+            ViewBag.GenderList = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Value = "M",
+                    Text = "Male",
+                },
+
+                new SelectListItem
+                {
+                    Value = "F",
+                    Text = "Female"
+                }
+            };
+            return View(student);
+        }
+
+        [HttpPost]
+        public ActionResult CreateStudent(Student s)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(s).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("StudentList");
+            }
+        }
+
+        public ActionResult DetailStudent(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var student = db.Students.Where(x => x.StudentID== Id).FirstOrDefault();
+                StudentDetailViewModel sdvm = new StudentDetailViewModel()
+                {
+                    Id = student.StudentID,
+                    Name = student.FirstName + " " + student.LastName,
+                    Gender = student.Gender == "F" ? "Female" : "Male",
+                    ClassList = student.Enrollments.Select(x => x.Class.Name).ToList()
+                };
+                return View(sdvm);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteStudent(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var s = db.Students.Find(Id);
+                db.Entry(s).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("StudentLIst");
+            }
+        }
+
+        public ActionResult EnrollmentList(int Id)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var student = db.Students.Include("Enrollments").Include("Enrollments.Class").Where(x => x.StudentID == Id).FirstOrDefault();
+                ViewBag.ClassList = db.Classes.Select(x => new SelectListItem { Value = x.ClassID.ToString(), Text = x.Name }).ToList();
+                return View(student);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EnrollmentAdd(Enrollment e)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(e).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("EnrollmentList", new { Id = e.StudentID});
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EnrollmentRemove(int EnrollmentId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var e = db.Enrollments.Find(EnrollmentId);
+                int studentID = (int)e.StudentID;
+                db.Entry(e).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("EnrollmentList", new { Id = studentID });
             }
         }
     }

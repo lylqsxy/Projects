@@ -207,6 +207,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrustracture\IconHtmlHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Class.cs">
       <DependentUpon>Management.tt</DependentUpon>
@@ -240,10 +241,14 @@
     <Compile Include="Models\Teacher.cs">
       <DependentUpon>Management.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\ClassDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\ClassViewModel.cs" />
+    <Compile Include="Models\ViewModel\EnrollmentViewModel.cs" />
+    <Compile Include="Models\ViewModel\StudentDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\StudentViewModel.cs" />
     <Compile Include="Models\ViewModel\SubjectDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\SubjectViewModel.cs" />
+    <Compile Include="Models\ViewModel\TeacherDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\TeacherViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -332,6 +337,16 @@
     <Content Include="Views\Subject\EditSubject.cshtml" />
     <Content Include="Views\Subject\CreateSubject.cshtml" />
     <Content Include="Views\Subject\DetailSubject.cshtml" />
+    <Content Include="Views\Teacher\CreateTeacher.cshtml" />
+    <Content Include="Views\Teacher\EditTeacher.cshtml" />
+    <Content Include="Views\Teacher\DetailTeacher.cshtml" />
+    <Content Include="Views\Class\CreateClass.cshtml" />
+    <Content Include="Views\Class\EditClass.cshtml" />
+    <Content Include="Views\Class\DetailClass.cshtml" />
+    <Content Include="Views\Student\CreateStudent.cshtml" />
+    <Content Include="Views\Student\EditStudent.cshtml" />
+    <Content Include="Views\Student\DetailStudent.cshtml" />
+    <Content Include="Views\Student\EnrollmentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

@@ -1,0 +1,45 @@
+﻿@model AucklandHighSchool.Models.ViewModel.TeacherDetailViewModel
+
+@{
+    ViewBag.Title = "Detail Teacher";
+}
+
+<div>
+    <h2>
+        @Html.DisplayFor(model => model.Name)
+    </h2>
+
+    <h3>
+        @Html.LabelFor(model => model.Gender) @Html.DisplayFor(model => model.Gender)
+    </h3>
+
+    <h3>
+        @Html.LabelFor(model => model.ClassList)
+    </h3>
+
+    <ul class="list-unstyled">
+        @foreach (var item in Model.ClassList)
+        {
+
+            <li>@Html.ActionLink(item.Name, "DetailClass", "Class", new { Id = item.ClassID}, null)</li>
+        }
+    </ul>
+
+    <h3>
+        @Html.LabelFor(model => model.SubjectList)
+    </h3>
+
+    <ul class="list-unstyled">
+        @foreach (var item in Model.SubjectList)
+        {
+
+            <li>@Html.ActionLink(item.Name, "DetailSubject", "Subject", new { Id = item.SubjectID }, null)</li>
+        }
+    </ul>
+
+</div>
+
+<div>
+    @Html.ActionLink("Back", "TeacherList", null, new { @class = "btn btn-default" })
+    @Html.EditIconLink("Edit", "EditTeacher", new { Id = Model.TeacherId })
+</div>

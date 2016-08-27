@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Subject</h4>
+        <h4>SubjectID: @Model.SubjectID</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.SubjectID)
@@ -26,8 +26,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="OK" class="btn btn-default" />
-                @Html.ActionLink("Cancel", "SubjectList", null, new { @class = "btn btn-default" })
+                @Html.OKIconButtonSubmit("OK")
+                @Html.CancelIconLink("Cancel", "SubjectList")
             </div>
         </div>
     </div>

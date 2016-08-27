@@ -8,6 +8,7 @@ namespace AucklandHighSchool.Models.ViewModel
 {
     public class SubjectViewModel
     {
+        [Display(Name = "Subject ID")]
         public int Id { get; set; }
 
         [Display(Name = "Name")]
