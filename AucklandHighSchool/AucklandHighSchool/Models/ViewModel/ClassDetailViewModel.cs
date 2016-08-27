@@ -14,10 +14,10 @@ namespace AucklandHighSchool.Models.ViewModel
         public String Name { get; set; }
 
         [Display(Name =  "Subject:")]
-        public String SubjectName { get; set; }
+        public Subject SubjectProperty { get; set; }
 
         [Display(Name = "Teacher:")]
-        public String TeacherName { get; set; }
+        public Teacher TeacherProperty { get; set; }
 
         [Display(Name = "Enrollment List:")]
         public List<Student> StudentList { get; set; }

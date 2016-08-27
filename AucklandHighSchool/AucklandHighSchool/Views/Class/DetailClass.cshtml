@@ -7,14 +7,17 @@
 <div>
     <h2>
         @Html.DisplayFor(model => model.Name)
+        @Html.EditIconLinkSmall("Edit", "EditClass", new { Id = Model.ClassId })@Html.DeleteIconLinkPostSmall("Delete", "DeleteClass", "Class", "Id", Model.ClassId.ToString())
     </h2>
 
+    <h4>ClassID: @Model.ClassId</h4>
+
     <h3>
-        @Html.LabelFor(model => model.SubjectName) @Html.DisplayFor(model => model.SubjectName)
+        @Html.LabelFor(model => model.SubjectProperty) @Html.ActionLink(Model.SubjectProperty.Name, "DetailSubject", "Subject", new { Id = Model.SubjectProperty.SubjectID }, null)
     </h3>
 
     <h3>
-        @Html.LabelFor(model => model.TeacherName) @Html.DisplayFor(model => model.TeacherName) 
+        @Html.LabelFor(model => model.TeacherProperty) @Html.ActionLink(Model.TeacherProperty.FirstName + " " + Model.TeacherProperty.LastName, "DetailTeacher", "Teacher", new { Id = Model.TeacherProperty.TeacherID }, null) 
     </h3>
 
     <h3>
@@ -25,12 +28,15 @@
         @foreach (var item in Model.StudentList)
         {
 
-            <li>@Html.DisplayFor(modelItem => item)</li>
+            <li>@Html.ActionLink(item.FirstName + " " + item.LastName, "DetailStudent", "Student", new { Id = item.StudentID }, null)</li>
         }
     </ul>
 
 </div>
 
+<br />
+
 <div>
-    @Html.ActionLink("Back", "ClassList", null, new { @class = "btn btn-default" })
+    @Html.BackToListIconLink("Back to List", "ClassList")
+    <input type="button" value="Back" onclick=window.history.back()>
 </div>

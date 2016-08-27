@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace AucklandHighSchool.Models.ViewModel
 {
     public class EnrollmentViewModel
     {
-        public int Id { get; set; }
-
-        [Display(Name = "Class ")]
-        public List<Class> ClassList { get; set; }
+        public int EnrollmentID { get; set; }
+        public Class Class { get; set; }
+        public Teacher Teacher { get; set; }
+        public Subject Subject { get; set; }
+        public int EnrollmentsCount { get; set; }
     }
 }

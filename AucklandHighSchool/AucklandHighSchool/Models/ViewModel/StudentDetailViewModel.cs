@@ -8,7 +8,7 @@ namespace AucklandHighSchool.Models.ViewModel
 {
     public class StudentDetailViewModel
     {
-        public int Id { get; set; }
+        public int StudentId { get; set; }
 
         [Display(Name = "Student Name:")]
         public String Name { get; set; }

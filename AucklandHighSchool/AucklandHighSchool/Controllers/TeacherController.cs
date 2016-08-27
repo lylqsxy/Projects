@@ -122,5 +122,39 @@ namespace AucklandHighSchool.Controllers
                 return RedirectToAction("TeacherList");
             }
         }
+
+        public ActionResult TeacherClassList(int TeacherId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var teacher = db.Teachers.Include("Classes").Include("Classes.Subject").Where(x => x.TeacherID == TeacherId).FirstOrDefault();
+                ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name }).ToList();
+                return View(teacher);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ClassAdd(Class c)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(c).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("TeacherClassList", new { TeacherId = c.TeacherID});
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ClassRemove(int ClassId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var c = db.Classes.Find(ClassId);
+                int teacherId = (int)c.TeacherID;
+                db.Entry(c).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("TeacherClassList", new { TeacherId = teacherId });
+            }
+        }
     }
 }

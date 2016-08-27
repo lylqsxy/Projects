@@ -7,7 +7,10 @@
 <div>
     <h2>
         @Html.DisplayFor(model => model.Name)
+        @Html.EditIconLinkSmall("Edit", "EditTeacher", new { Id = Model.TeacherId })@Html.DeleteIconLinkPostSmall("Delete", "DeleteTeacher", "Teacher", "Id", Model.TeacherId.ToString())
     </h2>
+    
+    <h4>TeacherID: @Model.TeacherId</h4>
 
     <h3>
         @Html.LabelFor(model => model.Gender) @Html.DisplayFor(model => model.Gender)
@@ -25,6 +28,10 @@
         }
     </ul>
 
+    <div>
+        @Html.ActionLink("Add/Remove Class", "TeacherClassList", new { TeacherId = Model.TeacherId }, new { @class = "btn btn-default" })
+    </div>
+
     <h3>
         @Html.LabelFor(model => model.SubjectList)
     </h3>
@@ -39,7 +46,8 @@
 
 </div>
 
+<br />
+
 <div>
-    @Html.ActionLink("Back", "TeacherList", null, new { @class = "btn btn-default" })
-    @Html.EditIconLink("Edit", "EditTeacher", new { Id = Model.TeacherId })
+    @Html.BackToListIconLink("Back to List","TeacherList")
 </div>

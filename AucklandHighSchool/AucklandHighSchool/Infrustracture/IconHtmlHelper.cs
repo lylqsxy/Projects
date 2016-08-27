@@ -32,7 +32,7 @@ namespace AucklandHighSchool.Infrustracture
 
         public static MvcHtmlString DetailIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
         {
-            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-align-justify", new { @class = "btn btn-info" });
+            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-list", new { @class = "btn btn-info" });
         }
 
         public static MvcHtmlString AddIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
@@ -84,6 +84,64 @@ namespace AucklandHighSchool.Infrustracture
         public static MvcHtmlString BackIconLInk(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, object routeValues = null)
         {
             return htmlHelper.IconLinkController(linkText, actionName, controllerName, routeValues, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" });
-        }      
+        }
+
+        public static MvcHtmlString AddIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, object routeValues = null)
+        {
+            return htmlHelper.IconLinkController(linkText, actionName, controllerName, routeValues, "glyphicon glyphicon-plus", new { @class = "btn btn-primary" });
+        }
+
+        public static MvcHtmlString BackToListIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
+        {
+            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-share-alt", new { @class = "btn btn-primary" });
+        }
+
+        public static MvcHtmlString EditIconLinkSmall(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
+        {
+            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-pencil", new { @class = "btn btn-default btn-sm" });
+        }
+
+        public static MvcHtmlString DeleteIconLinkPostSmall(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, String Name, String Value)
+        {
+            return htmlHelper.IconLinkPost(linkText, actionName, controllerName, Name, Value, "glyphicon glyphicon-trash", "btn btn-danger btn-sm");
+        }
+
+        public static MvcHtmlString AddIconButtonSubmit(this HtmlHelper htmlHelper, string buttonText)
+        {
+            return htmlHelper.IconButtonSubmit(buttonText, "glyphicon glyphicon-plus", "btn btn-primary");
+        }
+
+        public static MvcHtmlString LinkPost(this HtmlHelper htmlHelper, string buttonText, string actionName, string controllerName, String Name, String Value, object htmlAttributes = null)
+        {
+            buttonText = " " + buttonText;
+            var markup = @"<div style=""display: inline-block"">";
+            markup += String.Format(@"<form action=""/{0}/{1}"" method=""post"">", controllerName, actionName);
+            markup += String.Format(@"<input id=""{0}"" name=""{1}"" type=""hidden"" value=""{2}"" />", Name, Name, Value);
+            markup += String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
+            markup += String.Format(@"{0}</button></form></div>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
+        public static MvcHtmlString DeleteLinkPost(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, String Name, String Value)
+        {
+            return htmlHelper.LinkPost(linkText, actionName, controllerName, Name, Value, "btn btn-danger");
+        }
+
+        public static MvcHtmlString ButtonSubmit(this HtmlHelper htmlHelper, string buttonText, object htmlAttributes = null)
+        {
+            buttonText = " " + buttonText;
+            var markup = String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
+            markup += String.Format(@"{0}</button>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
+        public static MvcHtmlString ButtonGoBack(this HtmlHelper htmlHelper, string buttonText, object htmlAttributes = null)
+        {
+            buttonText = " " + buttonText;
+            var markup = String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
+            markup += String.Format(@"{0}</button>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
     }
 }

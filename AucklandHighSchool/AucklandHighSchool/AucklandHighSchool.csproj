@@ -215,6 +215,7 @@
     <Compile Include="Models\Enrollment.cs">
       <DependentUpon>Management.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\EnrollmentListViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Management.Context.cs">
       <AutoGen>True</AutoGen>
@@ -347,6 +348,7 @@
     <Content Include="Views\Student\EditStudent.cshtml" />
     <Content Include="Views\Student\DetailStudent.cshtml" />
     <Content Include="Views\Student\EnrollmentList.cshtml" />
+    <Content Include="Views\Teacher\TeacherClassList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

@@ -101,10 +101,10 @@ namespace AucklandHighSchool.Controllers
                 var student = db.Students.Where(x => x.StudentID== Id).FirstOrDefault();
                 StudentDetailViewModel sdvm = new StudentDetailViewModel()
                 {
-                    Id = student.StudentID,
+                    StudentId = student.StudentID,
                     Name = student.FirstName + " " + student.LastName,
                     Gender = student.Gender == "F" ? "Female" : "Male",
-                    ClassList = student.Enrollments.Select(x => x.Class.Name).ToList()
+                    ClassList = student.Enrollments.Select(x => x.Class).ToList()
                 };
                 return View(sdvm);
             }
@@ -122,13 +122,28 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult EnrollmentList(int Id)
+        public ActionResult EnrollmentList(int StudentId)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                var student = db.Students.Include("Enrollments").Include("Enrollments.Class").Where(x => x.StudentID == Id).FirstOrDefault();
+                var student = db.Students.Include("Enrollments").Include("Enrollments.Class")
+                    .Include("Enrollments.Class.Subject").Include("Enrollments.Class.Teacher")
+                    .Where(x => x.StudentID == StudentId).FirstOrDefault();
                 ViewBag.ClassList = db.Classes.Select(x => new SelectListItem { Value = x.ClassID.ToString(), Text = x.Name }).ToList();
-                return View(student);
+                var list = student.Enrollments.Select(x => new EnrollmentViewModel
+                {
+                    EnrollmentID = x.EnrollmentID,
+                    Class = x.Class,
+                    Subject = x.Class.Subject,
+                    Teacher = x.Class.Teacher,
+                    EnrollmentsCount = x.Class.Enrollments.Select(y => y.EnrollmentID).Distinct().Count()
+                }).ToList();
+                EnrollmentListViewModel elvm = new EnrollmentListViewModel
+                {
+                    Student = student,
+                    Evms = list
+                };
+                return View(elvm);
             }
         }
 
@@ -139,7 +154,7 @@ namespace AucklandHighSchool.Controllers
             {
                 db.Entry(e).State = EntityState.Added;
                 db.SaveChanges();
-                return RedirectToAction("EnrollmentList", new { Id = e.StudentID});
+                return RedirectToAction("EnrollmentList", new { StudentId = e.StudentID});
             }
         }
 
@@ -152,7 +167,7 @@ namespace AucklandHighSchool.Controllers
                 int studentID = (int)e.StudentID;
                 db.Entry(e).State = EntityState.Deleted;
                 db.SaveChanges();
-                return RedirectToAction("EnrollmentList", new { Id = studentID });
+                return RedirectToAction("EnrollmentList", new { StudentId = studentID });
             }
         }
     }

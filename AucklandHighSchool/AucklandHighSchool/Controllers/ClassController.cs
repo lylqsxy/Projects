@@ -80,10 +80,11 @@ namespace AucklandHighSchool.Controllers
                 var @class = db.Classes.Where(x => x.ClassID == Id).FirstOrDefault();
                 ClassDetailViewModel cdvm = new ClassDetailViewModel()
                 {
+                    ClassId = @class.ClassID,
                     Name = @class.Name,
-                    SubjectName = @class.Subject.Name,
-                    TeacherName = @class.Teacher.FirstName + " " + @class.Teacher.LastName,
-                    StudentList = @class.Enrollments.Select(x => x.Student.FirstName + " " + x.Student.LastName).ToList()
+                    SubjectProperty = @class.Subject,
+                    TeacherProperty = @class.Teacher,
+                    StudentList = @class.Enrollments.Select(x => x.Student).ToList()
                 };
                 return View(cdvm);
             }

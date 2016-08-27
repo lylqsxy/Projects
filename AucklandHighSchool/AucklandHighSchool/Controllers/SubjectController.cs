@@ -73,10 +73,11 @@ namespace AucklandHighSchool.Controllers
                 var subject = db.Subjects.Where(x => x.SubjectID == Id).FirstOrDefault();
                 SubjectDetailViewModel sdvm = new SubjectDetailViewModel()
                 {
+                    SubjectId = subject.SubjectID,
                     Name = subject.Name,
-                    ClassList = subject.Classes.Select(x => x.Name).ToList(),
-                    TeacherList = subject.Classes.Select(x => x.Teacher.FirstName + " " + x.Teacher.LastName).Distinct().ToList(),
-                    StudentList = subject.Classes.SelectMany(x => x.Enrollments.Select(y => y.Student.FirstName + " " + y.Student.LastName)).ToList()
+                    ClassList = subject.Classes.ToList(),
+                    TeacherList = subject.Classes.Select(x => x.Teacher).Distinct().ToList(),
+                    StudentList = subject.Classes.SelectMany(x => x.Enrollments.Select(y => y.Student)).ToList()
                 };
                 return View(sdvm);
             }

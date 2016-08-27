@@ -14,7 +14,7 @@ namespace AucklandHighSchool.Models.ViewModel
         public String Name { get; set; }
 
         [Display(Name = "Class List:")]
-        public List<String> ClassList { get; set; }
+        public List<Class> ClassList { get; set; }
 
         [Display(Name = "Teacher List:")]
         public List<Teacher> TeacherList { get; set; }

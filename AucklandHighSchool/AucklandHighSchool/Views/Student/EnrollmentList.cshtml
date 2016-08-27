@@ -1,4 +1,4 @@
-﻿@model AucklandHighSchool.Models.Student
+﻿@model AucklandHighSchool.Models.ViewModel.EnrollmentListViewModel
 @{
     ViewBag.Title = "Enrollment List";
 }
@@ -10,49 +10,83 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Student: @Model.FirstName  @Model.LastName</h4>
+        <h4>Student: @Model.Student.FirstName  @Model.Student.LastName</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             <div class="col-md-10">
                 <h4 style="display: inline-block">Class: &nbsp;</h4>
-                @Html.DropDownList("ClassID", (IEnumerable<SelectListItem>)ViewBag.ClassList, htmlAttributes: new { @class = "form-control", style = "display: inline-block " }) &nbsp;
+                @Html.DropDownList("ClassID", (IEnumerable<SelectListItem>)ViewBag.ClassList, htmlAttributes: new { @class = "form-control", style = "display: inline-block" }) &nbsp;
                 @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.StudentID)
-                <input type="submit" value="Create" class="btn btn-default" /> &nbsp;
-                @Html.ActionLink("Back", "DetailStudent", new { Id = Model.StudentID }, new { @class = "btn btn-default" })
+                @Html.Hidden("StudentID", Model.Student.StudentID)
+                @Html.AddIconButtonSubmit("Add")
+                <button type="button" class="btn btn-default" onclick="ShowClassDetail()">Detail</button>
             </div>
         </div>
     </div>
 }
 
-<table class="table" style="width: 500px">
+<table class="table" style="width: 800px">
     <tr>
         <th>
+            Enrollment ID
+        </th>
+        <th>
             Class Name
+        </th>
+        <th>
+            Subject Name
+        </th>
+        <th>
+            Teacher Name
+        </th>
+        <th>
+            # Enrollment
         </th>
         <th>
             Actions
         </th>
     </tr>
 
-    @foreach (var item in Model.Enrollments)
+    @foreach (var item in Model.Evms)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Class.Name)
+                @Html.DisplayFor(ModelItem => item.EnrollmentID)
             </td>
             <td>
-                <div style="display: inline-block">
-                    @using (Html.BeginForm("EnrollmentRemove", "Student"))
-                    {
-                        @Html.Hidden("EnrollmentId", item.EnrollmentID)
-                        <input type="submit" value="Remove" class="btn btn-danger" />
-                    }
-                </div>
+                @Html.ActionLink(item.Class.Name, "DetailClass", "Class", new { Id = item.Class.ClassID }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Subject.Name, "DetailSubject", "Subject", new { Id = item.Subject.SubjectID }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Teacher.FirstName + " " + item.Teacher.LastName, "DetailTeacher", "Teacher", new { Id = item.Teacher.TeacherID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(ModelItem => item.EnrollmentsCount)
+            </td>
+            <td>
+                @Html.DeleteLinkPost("Remove", "EnrollmentRemove", "Student", "EnrollmentId", item.EnrollmentID.ToString())
             </td>
         </tr>
     }
 
 </table>
+
+<br />
+
+<div>
+    @Html.BackToListIconLink("Back to List", "StudentList")
+    @Html.ActionLink("Back to Student", "DetailStudent", new { Id = Model.Student.StudentID }, new { @class = "btn btn-default " })
+</div>
+
+<script type="text/javascript" language="javascript">
+    function ShowClassDetail() {
+        var e = document.getElementById("ClassID");
+        var ClassID = e.options[e.selectedIndex].value;
+        var url = '@Url.Action("DetailClass","Class")';
+        window.location.assign(url + '?Id=' + ClassID);
+    }
+</script>
 
