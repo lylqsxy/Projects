@@ -77,8 +77,8 @@
 <br />
 
 <div>
-    @Html.BackToListIconLink("Back to List", "StudentList")
-    @Html.ActionLink("Back to Student", "DetailStudent", new { Id = Model.Student.StudentID }, new { @class = "btn btn-default " })
+    @Html.IconLink("Back to Student", "DetailStudent", new { Id = Model.Student.StudentID }, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" })
+    @Html.BackToListIconLinkController("Back to List", "StudentList", "Student")
 </div>
 
 <script type="text/javascript" language="javascript">

@@ -11,6 +11,7 @@ namespace AucklandHighSchool.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Class
     {
@@ -21,8 +22,14 @@ namespace AucklandHighSchool.Models
         }
     
         public int ClassID { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public Nullable<int> TeacherID { get; set; }
+
+        [Required]
         public Nullable<int> SubjectID { get; set; }
     
         public virtual Subject Subject { get; set; }

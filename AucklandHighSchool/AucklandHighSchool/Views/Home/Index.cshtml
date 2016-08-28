@@ -9,9 +9,9 @@
 
 <div>
     <p>
-        @Html.ActionLink("Subjects", "SubjectList", "Subject", null, new { @class = "btn btn-default" })
-        @Html.ActionLink("Teachers", "TeacherList", "Teacher",null, new { @class = "btn btn-default" })
-        @Html.ActionLink("Students", "StudentList", "Student", null, new { @class = "btn btn-default" })
-        @Html.ActionLink("Classes", "ClassList", "Class", null, new { @class = "btn btn-default" })
+        @Html.IconLinkController("Subjects", "SubjectList", "Subject", null, "glyphicon glyphicon-tasks", new { @class = "btn btn-default btn-lg" })
+        @Html.IconLinkController("Teachers", "TeacherList", "Teacher", null, "glyphicon glyphicon-user", new { @class = "btn btn-default btn-lg" })
+        @Html.IconLinkController("Students", "StudentList", "Student", null, "glyphicon glyphicon-eye-open", new { @class = "btn btn-default btn-lg" })
+        @Html.IconLinkController("Classes", "ClassList", "Class", null, "glyphicon glyphicon-calendar", new { @class = "btn btn-default btn-lg" })
     </p>
 </div>

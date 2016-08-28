@@ -7,7 +7,7 @@
 <div>
     <h2>
         @Html.DisplayFor(model => model.Name)
-        @Html.EditIconLinkSmall("Edit", "EditStudent", new { Id = Model.StudentId })@Html.DeleteIconLinkPostSmall("Delete", "DeleteStudent", "Student", "Id", Model.StudentId.ToString())
+        @Html.EditIconLinkSmall("Edit", "EditStudent", new { Id = Model.StudentId, RedirectUrl = Request.Url.PathAndQuery })@Html.DeleteIconLinkPostSmall("Delete", "DeleteStudent", "Student", "Id", Model.StudentId.ToString())
     </h2>
 
     <h4>StudentID: @Model.StudentId</h4>
@@ -39,5 +39,6 @@
 <br />
 
 <div>
-    @Html.BackToListIconLink("Back to List", "StudentList")
+    @Html.IconGoBack("Back")
+    @Html.BackToListIconLinkController("Back to List", "StudentList", "Student")
 </div>

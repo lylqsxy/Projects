@@ -23,11 +23,15 @@
                 @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.TeacherID)
                 @Html.AddIconButtonSubmit("Add")
-                @Html.ActionLink("Back", "DetailTeacher", new { Id = Model.TeacherID }, new { @class = "btn btn-default" })
+                <button type="button" class="btn btn-default" onclick="ShowSubjectDetail()">Detail</button>
+                <br />
+                @Html.ValidationMessage("ClassName", new { @class = "text-danger" })
             </div>
         </div>
     </div>
 }
+
+
 
 <table class="table" style="width: 700px">
     <tr>
@@ -53,7 +57,7 @@
             </td>
             <td>
                 @Html.DeleteLinkPost("Remove", "ClassRemove", "Teacher", "ClassId", item.ClassID.ToString())
-                @Html.ActionLink("Edit", "EditClass", "Class", new { Id = item.ClassID}, new { @class = "btn btn-default"})
+                @Html.ActionLink("Edit", "EditClass", "Class", new { Id = item.ClassID, RedirectUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-default"})
             </td>
         </tr>
     }
@@ -63,6 +67,16 @@
 <br />
 
 <div>
-    @Html.BackToListIconLink("Back to List", "TeacherList")
+    @Html.IconLink("Back to Teacher", "DetailTeacher", new { Id = Model.TeacherID }, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" })
+    @Html.BackToListIconLinkController("Back to List", "TeacherList", "Teacher")
 </div>
+
+<script type="text/javascript" language="javascript">
+    function ShowSubjectDetail() {
+        var e = document.getElementById("SubjectID");
+        var SubjectID = e.options[e.selectedIndex].value;
+        var url = '@Url.Action("DetailSubject", "Subject")';
+        window.location.assign(url + '?Id=' + SubjectID);
+    }
+</script>
 

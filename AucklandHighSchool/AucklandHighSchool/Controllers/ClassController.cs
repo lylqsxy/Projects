@@ -29,47 +29,70 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult EditClass(int Id)
+        public ActionResult EditClass(int Id, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var @class = db.Classes.Find(Id);
                 ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name }).ToList();
                 ViewBag.TeacherList = db.Teachers.Select(x => new SelectListItem { Value = x.TeacherID.ToString(), Text = x.FirstName + " " + x.LastName }).ToList();
+                ViewBag.RedirectUrl = RedirectUrl;
                 return View(@class);
             }
         }
 
         [HttpPost]
-        public ActionResult EditClass(Class c)
+        public ActionResult EditClass(Class c, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(c).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ClassList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(c).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name }).ToList();
+                    ViewBag.TeacherList = db.Teachers.Select(x => new SelectListItem { Value = x.TeacherID.ToString(), Text = x.FirstName + " " + x.LastName }).ToList();
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(c);
+                }   
+                
             }
         }
 
-        public ActionResult CreateClass()
+        public ActionResult CreateClass(string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 Class @class = new Class();
                 ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name }).ToList();
                 ViewBag.TeacherList = db.Teachers.Select(x => new SelectListItem { Value = x.TeacherID.ToString(), Text = x.FirstName + " " + x.LastName}).ToList();
+                ViewBag.RedirectUrl = RedirectUrl;
                 return View(@class); 
             }
         }
 
         [HttpPost]
-        public ActionResult CreateClass(Class c)
+        public ActionResult CreateClass(Class c, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(c).State = EntityState.Added;
-                db.SaveChanges();
-                return RedirectToAction("ClassList");
+                if(ModelState.IsValid)
+                {
+                    db.Entry(c).State = EntityState.Added;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name }).ToList();
+                    ViewBag.TeacherList = db.Teachers.Select(x => new SelectListItem { Value = x.TeacherID.ToString(), Text = x.FirstName + " " + x.LastName }).ToList();
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(c);
+                }
             }
         }
 

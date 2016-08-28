@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AucklandHighSchool.Models.ViewModel;
 using AucklandHighSchool.Models;
+using AucklandHighSchool.Infrustracture;
 using System.Data.Entity;
 using System.Data.Entity.Core;
 
@@ -29,68 +30,62 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult EditStudent(int Id)
+        public ActionResult EditStudent(int Id, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var student = db.Students.Find(Id);
-                ViewBag.GenderList = new List<SelectListItem>
-                {
-                    new SelectListItem
-                    {
-                        Value = "M",
-                        Text = "Male",
-                    },
-
-                    new SelectListItem
-                    {
-                        Value = "F",
-                        Text = "Female"
-                    }
-                };
+                ViewBag.GenderList = GenderList.CreateGenderList();
+                ViewBag.RedirectUrl = RedirectUrl;
                 return View(student);
             }
         }
 
         [HttpPost]
-        public ActionResult EditStudent(Student s)
+        public ActionResult EditStudent(Student s, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(s).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("StudentList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(s).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.GenderList = GenderList.CreateGenderList();
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(s);
+                }
             }
         }
 
-        public ActionResult CreateStudent()
+        public ActionResult CreateStudent(string RedirectUrl)
         {
             Student student = new Student();
-            ViewBag.GenderList = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Value = "M",
-                    Text = "Male",
-                },
-
-                new SelectListItem
-                {
-                    Value = "F",
-                    Text = "Female"
-                }
-            };
+            ViewBag.GenderList = GenderList.CreateGenderList();
+            ViewBag.RedirectUrl = RedirectUrl;
             return View(student);
         }
 
         [HttpPost]
-        public ActionResult CreateStudent(Student s)
+        public ActionResult CreateStudent(Student s, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(s).State = EntityState.Added;
-                db.SaveChanges();
-                return RedirectToAction("StudentList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(s).State = EntityState.Added;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.GenderList = GenderList.CreateGenderList();
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(s);
+                }
             }
         }
 

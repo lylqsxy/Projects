@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AucklandHighSchool.Models.ViewModel;
 using AucklandHighSchool.Models;
+using AucklandHighSchool.Infrustracture;
 using System.Data.Entity;
 
 namespace AucklandHighSchool.Controllers
@@ -29,68 +30,62 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult EditTeacher(int Id)
+        public ActionResult EditTeacher(int Id, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var teacher = db.Teachers.Find(Id);
-                ViewBag.GenderList = new List<SelectListItem>
-                {
-                    new SelectListItem
-                    {
-                        Value = "M",
-                        Text = "Male",
-                    },
-
-                    new SelectListItem
-                    {
-                        Value = "F",
-                        Text = "Female"
-                    }
-                };
+                ViewBag.GenderList = GenderList.CreateGenderList();
+                ViewBag.RedirectUrl = RedirectUrl;
                 return View(teacher);
             }
         }
 
         [HttpPost]
-        public ActionResult EditTeacher(Teacher t)
+        public ActionResult EditTeacher(Teacher t, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(t).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("TeacherList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(t).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.GenderList = GenderList.CreateGenderList();
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(t);
+                }  
             }
         }
 
-        public ActionResult CreateTeacher()
+        public ActionResult CreateTeacher(string RedirectUrl)
         {
             Teacher teacher = new Teacher();
-            ViewBag.GenderList = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Value = "M",
-                    Text = "Male",
-                },
-           
-                new SelectListItem
-                {
-                    Value = "F",
-                    Text = "Female"
-                }
-            };
+            ViewBag.GenderList = GenderList.CreateGenderList();
+            ViewBag.RedirectUrl = RedirectUrl;
             return View(teacher);
         }
 
         [HttpPost]
-        public ActionResult CreateTeacher(Teacher t)
+        public ActionResult CreateTeacher(Teacher t, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(t).State = EntityState.Added;
-                db.SaveChanges();
-                return RedirectToAction("TeacherList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(t).State = EntityState.Added;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.GenderList = GenderList.CreateGenderList();
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(t);
+                }
             }
         }
 
@@ -138,9 +133,23 @@ namespace AucklandHighSchool.Controllers
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(c).State = EntityState.Added;
-                db.SaveChanges();
-                return RedirectToAction("TeacherClassList", new { TeacherId = c.TeacherID});
+                if(string.IsNullOrWhiteSpace(c.Name))
+                {
+                    ModelState.AddModelError("ClassName", "Please enter class name");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(c).State = EntityState.Added;
+                    db.SaveChanges();
+                    return RedirectToAction("TeacherClassList", new { TeacherId = c.TeacherID });
+                }
+                else
+                {
+                    var teacher = db.Teachers.Include("Classes").Include("Classes.Subject").Where(x => x.TeacherID == c.TeacherID).FirstOrDefault();
+                    ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name, Selected = x.SubjectID == c.SubjectID ? true : false}).ToList();
+                    return View("TeacherClassList", teacher);
+                }
             }
         }
 

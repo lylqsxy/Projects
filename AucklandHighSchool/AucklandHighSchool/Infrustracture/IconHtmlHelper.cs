@@ -45,11 +45,6 @@ namespace AucklandHighSchool.Infrustracture
             return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-trash", new { @class = "btn btn-danger" });
         }
 
-        public static MvcHtmlString CancelIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
-        {
-            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-remove", new { @class = "btn btn-danger" });
-        }
-
         public static MvcHtmlString IconLinkPost(this HtmlHelper htmlHelper, string buttonText, string actionName, string controllerName, String Name, String Value, String iconName, object htmlAttributes = null)
         {
             buttonText = " " + buttonText;
@@ -59,6 +54,14 @@ namespace AucklandHighSchool.Infrustracture
             markup += String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
             markup += String.Format(@"<span class=""{0}"" aria -hidden=""true"">", iconName);
             markup += String.Format(@"</span>{0}</button></form></div>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
+        public static MvcHtmlString IconUrlLink(this HtmlHelper htmlHelper, string linkText, string url, String iconName, object htmlAttributes = null)
+        {
+            var markup = String.Format(@"<a href =""{0}"" class=""{1}"" >", url, htmlAttributes);
+            markup += String.Format(@"<span class=""{0}"" aria -hidden=""true"">", iconName);
+            markup += String.Format(@"</span>{0}</a>", linkText);
             return new MvcHtmlString(markup);
         }
 
@@ -81,19 +84,9 @@ namespace AucklandHighSchool.Infrustracture
             return htmlHelper.IconButtonSubmit(buttonText, "glyphicon glyphicon-ok", "btn btn-success");
         }
 
-        public static MvcHtmlString BackIconLInk(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, object routeValues = null)
-        {
-            return htmlHelper.IconLinkController(linkText, actionName, controllerName, routeValues, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" });
-        }
-
         public static MvcHtmlString AddIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, object routeValues = null)
         {
             return htmlHelper.IconLinkController(linkText, actionName, controllerName, routeValues, "glyphicon glyphicon-plus", new { @class = "btn btn-primary" });
-        }
-
-        public static MvcHtmlString BackToListIconLink(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
-        {
-            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-share-alt", new { @class = "btn btn-primary" });
         }
 
         public static MvcHtmlString EditIconLinkSmall(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
@@ -138,10 +131,34 @@ namespace AucklandHighSchool.Infrustracture
         public static MvcHtmlString ButtonGoBack(this HtmlHelper htmlHelper, string buttonText, object htmlAttributes = null)
         {
             buttonText = " " + buttonText;
-            var markup = String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
+            var markup = String.Format(@"<button type =""button"" class=""{0}"" onclick=window.history.back()>", htmlAttributes);
             markup += String.Format(@"{0}</button>&nbsp", buttonText);
             return new MvcHtmlString(markup);
         }
 
+        public static MvcHtmlString IconButtonGoBack(this HtmlHelper htmlHelper, string buttonText, String iconName, object htmlAttributes = null)
+        {
+            buttonText = " " + buttonText;
+            var markup = String.Format(@"<button type =""button"" class=""{0}"" onclick=window.history.back()>", htmlAttributes);
+            markup += String.Format(@"<span class=""{0}"" aria -hidden=""true"">", iconName);
+            markup += String.Format(@"</span>{0}</button>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
+        
+        public static MvcHtmlString IconGoBack(this HtmlHelper htmlHelper, string buttonText)
+        {
+            return htmlHelper.IconButtonGoBack(buttonText, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" });
+        }
+
+        public static MvcHtmlString BackToListIconLinkController(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, object routeValues = null)
+        {
+            return htmlHelper.IconLinkController(linkText, actionName, controllerName, routeValues, "glyphicon glyphicon-share-alt", new { @class = "btn btn-default" });
+        }
+
+        public static MvcHtmlString CancelIconUrlLink(this HtmlHelper htmlHelper, string linkText, string url)
+        {
+            return htmlHelper.IconUrlLink(linkText, url, "glyphicon glyphicon-remove", new { @class = "btn btn-danger" });
+        }
     }
 }

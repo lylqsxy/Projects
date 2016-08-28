@@ -29,40 +29,58 @@ namespace AucklandHighSchool.Controllers
             }       
         }
 
-        public ActionResult EditSubject(int Id)
+        public ActionResult EditSubject(int Id, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var subject = db.Subjects.Find(Id);
+                ViewBag.RedirectUrl = RedirectUrl;
                 return View(subject);
             }
         }
 
         [HttpPost]
-        public ActionResult EditSubject(Subject s)
+        public ActionResult EditSubject(Subject s, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(s).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("SubjectList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(s).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(s);
+                }
             }
         }
 
-        public ActionResult CreateSubject()
+        public ActionResult CreateSubject(string RedirectUrl)
         {
             Subject subject = new Subject();
+            ViewBag.RedirectUrl = RedirectUrl;
             return View(subject);
         }
 
         [HttpPost]
-        public ActionResult CreateSubject(Subject s)
+        public ActionResult CreateSubject(Subject s, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
-                db.Entry(s).State = EntityState.Added;
-                db.SaveChanges();
-                return RedirectToAction("SubjectList");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(s).State = EntityState.Added;
+                    db.SaveChanges();
+                    return Redirect(RedirectUrl);
+                }
+                else
+                {
+                    ViewBag.RedirectUrl = RedirectUrl;
+                    return View(s);
+                }
             }
         }
 
