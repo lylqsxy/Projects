@@ -118,12 +118,12 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult TeacherClassList(int TeacherId)
+        public ActionResult TeacherClassList(int TeacherId, int? selectedSubjectId)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var teacher = db.Teachers.Include("Classes").Include("Classes.Subject").Where(x => x.TeacherID == TeacherId).FirstOrDefault();
-                ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name }).ToList();
+                ViewBag.SubjectList = db.Subjects.Select(x => new SelectListItem { Value = x.SubjectID.ToString(), Text = x.Name, Selected = x.SubjectID == selectedSubjectId ? true : false }).ToList();
                 return View(teacher);
             }
         }
@@ -142,7 +142,7 @@ namespace AucklandHighSchool.Controllers
                 {
                     db.Entry(c).State = EntityState.Added;
                     db.SaveChanges();
-                    return RedirectToAction("TeacherClassList", new { TeacherId = c.TeacherID });
+                    return RedirectToAction("TeacherClassList", new { TeacherId = c.TeacherID, selectedSubjectId = c.SubjectID});
                 }
                 else
                 {

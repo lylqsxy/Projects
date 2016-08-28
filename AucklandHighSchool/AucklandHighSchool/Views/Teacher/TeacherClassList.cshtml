@@ -1,9 +1,9 @@
 ﻿@model AucklandHighSchool.Models.Teacher
 @{
-    ViewBag.Title = "Class List";
+    ViewBag.Title = "Class List by Teacher";
 }
 
-<h2>Add/Remove Classes</h2>
+<h2>Add/Remove Classes by Teacher</h2>
 
 @using (Html.BeginForm("ClassAdd", "Teacher"))
 {
@@ -16,7 +16,7 @@
         <div class="form-group">
             <div class="col-md-10">
                 <h4 style="display: inline-block">Class: </h4>
-                @Html.TextBox("Name", null, new { @class = "form-control", style = "display: inline-block" })
+                @Html.TextBox("Name", Model.FirstName + "'s Class", new { @class = "form-control", style = "display: inline-block" })
                 &nbsp;
                 <h4 style="display: inline-block">Subject: </h4>
                 @Html.DropDownList("SubjectID", (IEnumerable<SelectListItem>)ViewBag.SubjectList, htmlAttributes: new { @class = "form-control", style = "display: inline-block" }) &nbsp;
@@ -36,6 +36,9 @@
 <table class="table" style="width: 700px">
     <tr>
         <th>
+            Class ID
+        </th>
+        <th>
             Class Name
         </th>
         <th>
@@ -49,6 +52,9 @@
     @foreach (var item in Model.Classes)
     {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassID)
+            </td>
             <td>
                 @Html.ActionLink(item.Name, "DetailClass", "Class", new { Id = item.ClassID }, null)
             </td>

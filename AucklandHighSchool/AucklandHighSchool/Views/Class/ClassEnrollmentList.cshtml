@@ -1,0 +1,74 @@
+﻿@model AucklandHighSchool.Models.Class
+@{
+    ViewBag.Title = "Enrollment List by Class";
+}
+
+<h2>Add/Remove Enrollments by Class</h2>
+
+@using (Html.BeginForm("EnrollmentAdd", "Class"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Class: @Model.Name</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <h4 style="display: inline-block">Student: &nbsp;</h4>
+                @Html.DropDownList("StudentID", (IEnumerable<SelectListItem>)ViewBag.StudentList, htmlAttributes: new { @class = "form-control", style = "display: inline-block" }) &nbsp;
+                @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+                @Html.Hidden("ClassID", Model.ClassID)
+                @Html.AddIconButtonSubmit("Add")
+                <button type="button" class="btn btn-default" onclick="ShowStudentDetail()">Detail</button>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table" style="width: 800px">
+    <tr>
+        <th>
+            Enrollment ID
+        </th>
+        <th>
+            Student Name
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Enrollments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(ModelItem => item.EnrollmentID)
+            </td>
+            <td>
+                @Html.ActionLink(item.Student.FirstName + " " + item.Student.LastName, "DetailStudent", "Student", new { Id = item.StudentID }, null)
+            </td>
+            <td>
+                @Html.DeleteLinkPost("Remove", "EnrollmentRemove", "Class", "EnrollmentId", item.EnrollmentID.ToString())
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div>
+    @Html.IconLink("Back to Class", "DetailClass", new { Id = Model.ClassID }, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" })
+    @Html.BackToListIconLinkController("Back to List", "ClassList", "Class")
+</div>
+
+<script type="text/javascript" language="javascript">
+    function ShowStudentDetail() {
+        var e = document.getElementById("StudentID");
+        var StudentID = e.options[e.selectedIndex].value;
+        var url = '@Url.Action("DetailStudent", "Student")';
+        window.location.assign(url + '?Id=' + StudentID);
+    }
+</script>
+

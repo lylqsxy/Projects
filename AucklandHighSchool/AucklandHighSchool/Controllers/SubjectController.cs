@@ -112,5 +112,53 @@ namespace AucklandHighSchool.Controllers
                 return RedirectToAction("SubjectList");
             }
         }
+
+        public ActionResult SubjectClassList(int SubjectId, int? selectedTeacherId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var subject = db.Subjects.Include("Classes").Include("Classes.Teacher").Where(x => x.SubjectID == SubjectId).FirstOrDefault();
+                ViewBag.TeacherList = db.Teachers.Select(x => new SelectListItem { Value = x.TeacherID.ToString(), Text = x.FirstName + " " + x.LastName, Selected = x.TeacherID == selectedTeacherId ? true : false }).ToList();
+                return View(subject);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ClassAdd(Class c)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                if (string.IsNullOrWhiteSpace(c.Name))
+                {
+                    ModelState.AddModelError("ClassName", "Please enter class name");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    db.Entry(c).State = EntityState.Added;
+                    db.SaveChanges();
+                    return RedirectToAction("SubjectClassList", new { SubjectId = c.SubjectID, selectedTeacherId = c.TeacherID });
+                }
+                else
+                {
+                    var subject = db.Subjects.Include("Classes").Include("Classes.Teacher").Where(x => x.SubjectID == c.SubjectID).FirstOrDefault();
+                    ViewBag.TeacherList = db.Teachers.Select(x => new SelectListItem { Value = x.TeacherID.ToString(), Text = x.FirstName + " " + x.LastName, Selected = x.TeacherID == c.TeacherID ? true : false }).ToList();
+                    return View("SubjectClassList", subject);
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ClassRemove(int ClassId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var c = db.Classes.Find(ClassId);
+                int subjectId = (int)c.SubjectID;
+                db.Entry(c).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("SubjectClassList", new { SubjectId = subjectId });
+            }
+        }
     }
 }

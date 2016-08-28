@@ -36,6 +36,10 @@
         }
     </ul>
 
+    <div>
+        @Html.ActionLink("Add/Remove Class", "SubjectClassList", new { SubjectId = Model.SubjectId }, new { @class = "btn btn-default" })
+    </div>
+
     <h3>
         @Html.LabelFor(model => model.StudentList)
     </h3>

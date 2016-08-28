@@ -115,9 +115,26 @@ namespace AucklandHighSchool.Infrustracture
             return new MvcHtmlString(markup);
         }
 
+        public static MvcHtmlString LinkPostTwo(this HtmlHelper htmlHelper, string buttonText, string actionName, string controllerName, String Name, String Value, String NameT, String ValueT, object htmlAttributes = null)
+        {
+            buttonText = " " + buttonText;
+            var markup = @"<div style=""display: inline-block"">";
+            markup += String.Format(@"<form action=""/{0}/{1}"" method=""post"">", controllerName, actionName);
+            markup += String.Format(@"<input id=""{0}"" name=""{1}"" type=""hidden"" value=""{2}"" />", Name, Name, Value);
+            markup += String.Format(@"<input id=""{0}"" name=""{1}"" type=""hidden"" value=""{2}"" />", NameT, NameT, ValueT);
+            markup += String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
+            markup += String.Format(@"{0}</button></form></div>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
         public static MvcHtmlString DeleteLinkPost(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, String Name, String Value)
         {
             return htmlHelper.LinkPost(linkText, actionName, controllerName, Name, Value, "btn btn-danger");
+        }
+
+        public static MvcHtmlString DeleteLinkPostTwo(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, String Name, String Value, String NameT, String ValueT)
+        {
+            return htmlHelper.LinkPostTwo(linkText, actionName, controllerName, Name, Value, NameT, ValueT, "btn btn-danger");
         }
 
         public static MvcHtmlString ButtonSubmit(this HtmlHelper htmlHelper, string buttonText, object htmlAttributes = null)

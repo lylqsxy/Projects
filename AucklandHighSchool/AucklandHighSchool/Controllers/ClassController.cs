@@ -124,5 +124,39 @@ namespace AucklandHighSchool.Controllers
                 return RedirectToAction("ClassList");
             }
         }
+
+        public ActionResult ClassEnrollmentList(int ClassId, int? selectedStudentId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var @class = db.Classes.Include("Enrollments").Include("Enrollments.Student").Where(x => x.ClassID == ClassId).FirstOrDefault();
+                ViewBag.StudentList = db.Students.Select(x => new SelectListItem { Value = x.StudentID.ToString(), Text = x.FirstName + " " + x.LastName, Selected = x.StudentID == selectedStudentId ? true : false }).ToList();
+                return View(@class);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EnrollmentAdd(Enrollment e)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                db.Entry(e).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("ClassEnrollmentList", new { ClassId = e.ClassID, selectedStudentId = e.StudentID });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EnrollmentRemove(int EnrollmentId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var e = db.Enrollments.Find(EnrollmentId);
+                int classId = (int)e.ClassID;
+                db.Entry(e).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("ClassEnrollmentList", new { ClassId = classId });
+            }
+        }
     }
 }

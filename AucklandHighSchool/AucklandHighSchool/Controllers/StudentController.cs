@@ -117,14 +117,14 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult EnrollmentList(int StudentId)
+        public ActionResult EnrollmentList(int StudentId, int? selectedClassId)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var student = db.Students.Include("Enrollments").Include("Enrollments.Class")
                     .Include("Enrollments.Class.Subject").Include("Enrollments.Class.Teacher")
                     .Where(x => x.StudentID == StudentId).FirstOrDefault();
-                ViewBag.ClassList = db.Classes.Select(x => new SelectListItem { Value = x.ClassID.ToString(), Text = x.Name }).ToList();
+                ViewBag.ClassList = db.Classes.Select(x => new SelectListItem { Value = x.ClassID.ToString(), Text = x.Name, Selected = x.ClassID == selectedClassId ? true :false }).ToList();
                 var list = student.Enrollments.Select(x => new EnrollmentViewModel
                 {
                     EnrollmentID = x.EnrollmentID,
@@ -149,7 +149,7 @@ namespace AucklandHighSchool.Controllers
             {
                 db.Entry(e).State = EntityState.Added;
                 db.SaveChanges();
-                return RedirectToAction("EnrollmentList", new { StudentId = e.StudentID});
+                return RedirectToAction("EnrollmentList", new { StudentId = e.StudentID, selectedClassId = e.ClassID});
             }
         }
 

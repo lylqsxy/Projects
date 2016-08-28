@@ -1,0 +1,88 @@
+﻿@model AucklandHighSchool.Models.Subject
+@{
+    ViewBag.Title = "Class List by Subject";
+}
+
+<h2>Add/Remove Classes by Subject</h2>
+
+@using (Html.BeginForm("ClassAdd", "Subject"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Subject: @Model.Name</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <h4 style="display: inline-block">Class: </h4>
+                @Html.TextBox("Name", "Enlish Class Level 1", new { @class = "form-control", style = "display: inline-block" })
+                &nbsp;
+                <h4 style="display: inline-block">Teacher: </h4>
+                @Html.DropDownList("TeacherID", (IEnumerable<SelectListItem>)ViewBag.TeacherList, htmlAttributes: new { @class = "form-control", style = "display: inline-block" }) &nbsp;
+                @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.SubjectID)
+                @Html.AddIconButtonSubmit("Add")
+                <button type="button" class="btn btn-default" onclick="ShowTeacherDetail()">Detail</button>
+                <br />
+                @Html.ValidationMessage("ClassName", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<table class="table" style="width: 700px">
+    <tr>
+        <th>
+            Class ID
+        </th>
+        <th>
+            Class Name
+        </th>
+        <th>
+            Teacher Name
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Classes)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassID)
+            </td>
+            <td>
+                @Html.ActionLink(item.Name, "DetailClass", "Class", new { Id = item.ClassID }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Teacher.FirstName + " " + item.Teacher.LastName, "DetailTeacher", "Teacher", new { Id = item.TeacherID }, null)
+            </td>
+            <td>
+                @Html.DeleteLinkPost("Remove", "ClassRemove", "Subject", "ClassId", item.ClassID.ToString())
+                @Html.ActionLink("Edit", "EditClass", "Class", new { Id = item.ClassID, RedirectUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-default" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div>
+    @Html.IconLink("Back to Subject", "DetailSubject", new { Id = Model.SubjectID }, "glyphicon glyphicon-chevron-left", new { @class = "btn btn-primary" })
+    @Html.BackToListIconLinkController("Back to List", "SubjectList", "Subject")
+</div>
+
+<script type="text/javascript" language="javascript">
+    function ShowTeacherDetail() {
+        var e = document.getElementById("TeacherID");
+        var TeacherID = e.options[e.selectedIndex].value;
+        var url = '@Url.Action("DetailTeacher", "Teacher")';
+        window.location.assign(url + '?Id=' + TeacherID);
+    }
+</script>
+
