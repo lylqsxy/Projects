@@ -162,10 +162,17 @@ namespace AucklandHighSchool.Controllers
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var c = db.Classes.Find(ClassId);
-                int subjectId = (int)c.SubjectID;
-                db.Entry(c).State = EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("SubjectClassList", new { SubjectId = subjectId });
+                if (c.Enrollments.Any())
+                {
+                    return RedirectToAction("DeleteClassConfirm", "Class", new { ClassId = c.ClassID });
+                }
+                else
+                {
+                    int subjectId = (int)c.SubjectID;
+                    db.Entry(c).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return RedirectToAction("SubjectClassList", new { SubjectId = subjectId });
+                }
             }
         }
 
@@ -184,10 +191,17 @@ namespace AucklandHighSchool.Controllers
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var c = db.Classes.Find(ClassId);
-                int subjectId = (int)c.SubjectID;
-                db.Entry(c).State = EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("DeleteSubjectConfirm", new { SubjectId = subjectId });
+                if (c.Enrollments.Any())
+                {
+                    return RedirectToAction("DeleteClassConfirm", "Class", new { ClassId = c.ClassID });
+                }
+                else
+                {
+                    int subjectId = (int)c.SubjectID;
+                    db.Entry(c).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return RedirectToAction("DeleteSubjectConfirm", new { SubjectId = subjectId });
+                }
             }
         }
     }
