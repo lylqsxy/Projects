@@ -1,0 +1,66 @@
+﻿@model AucklandHighSchool.Models.Student
+@{
+    ViewBag.Title = "Delete Student Confirm";
+}
+
+<h2 style="color:red"><span class="glyphicon glyphicon-remove-circle"></span> Delete Student Error</h2>
+
+<p>The student can not be deleted because the following enrollments belong to the student. Please remove the related enrollments firstly.</p>
+
+<h3>Details: </h3>
+
+<h4>
+    Student Name: @Model.FirstName @Model.LastName&nbsp;
+    @Html.DetailIconLinkSmall("Detail", "DetailStudent", new { Id = Model.StudentID })
+    @Html.DeleteIconLinkPostSmall("Delete", "DeleteStudent", "Student", "Id", Model.StudentID.ToString())
+</h4>
+
+<table class="table" style="width: 800px">
+    <tr>
+        <th>
+            Enrollment ID
+        </th>
+        <th>
+            Class Name
+        </th>
+        <th>
+            Subject Name
+        </th>
+        <th>
+            Teacher Name
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Enrollments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(ModelItem => item.EnrollmentID)
+            </td>
+            <td>
+                @Html.ActionLink(item.Class.Name, "DetailClass", "Class", new { Id = item.Class.ClassID }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Class.Subject.Name, "DetailSubject", "Subject", new { Id = item.Class.Subject.SubjectID }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Class.Teacher.FirstName + " " + item.Class.Teacher.LastName, "DetailTeacher", "Teacher", new { Id = item.Class.Teacher.TeacherID }, null)
+            </td>
+            <td>
+                @Html.DeleteLinkPost("Remove", "DeleteStudentConfirmEnrollmentRemove", "Student", "EnrollmentId", item.EnrollmentID.ToString())
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div>
+    @Html.IconGoBack("Back")
+    @Html.BackToListIconLinkController("Back to List", "StudentList", "Student")
+</div>
+

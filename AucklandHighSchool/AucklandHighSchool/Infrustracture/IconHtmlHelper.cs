@@ -177,5 +177,10 @@ namespace AucklandHighSchool.Infrustracture
         {
             return htmlHelper.IconUrlLink(linkText, url, "glyphicon glyphicon-remove", new { @class = "btn btn-danger" });
         }
+
+        public static MvcHtmlString DetailIconLinkSmall(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
+        {
+            return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-list", new { @class = "btn btn-primary btn-sm" });
+        }
     }
 }

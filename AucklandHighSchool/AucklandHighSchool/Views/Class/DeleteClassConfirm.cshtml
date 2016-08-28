@@ -1,0 +1,54 @@
+﻿@model AucklandHighSchool.Models.Class
+@{
+    ViewBag.Title = "Delete Class Confirm";
+}
+
+<h2 style="color:red"><span class="glyphicon glyphicon-remove-circle"></span> Delete Class Error</h2>
+
+<p>The class can not be deleted because the following enrollments belong to the class. Please remove the related enrollments firstly.</p>
+
+<h3>Details: </h3>
+
+<h4>
+    Class Name: @Model.Name&nbsp;
+    @Html.DetailIconLinkSmall("Detail", "DetailClass", new { Id = Model.ClassID })
+    @Html.DeleteIconLinkPostSmall("Delete", "DeleteClass", "Class", "Id", Model.ClassID.ToString())
+</h4>
+
+<table class="table" style="width:500px">
+    <tr>
+        <th>
+            Enrollment ID
+        </th>
+        <th>
+            Student Name
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Enrollments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentID)
+            </td>
+            <td>
+                @Html.ActionLink(item.Student.FirstName + " " + item.Student.LastName, "DetailStudent", "Student", new { Id = item.StudentID }, null)
+            </td>
+            <td>
+                @Html.DeleteLinkPost("Remove", "DeleteClassConfirmEnrollmentRemove", "Class", "EnrollmentId", item.EnrollmentID.ToString())
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div>
+    @Html.IconGoBack("Back")
+    @Html.BackToListIconLinkController("Back to List", "ClassList", "Class")
+</div>
+

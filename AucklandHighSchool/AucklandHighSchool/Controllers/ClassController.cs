@@ -119,9 +119,17 @@ namespace AucklandHighSchool.Controllers
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var c = db.Classes.Find(Id);
-                db.Entry(c).State = EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("ClassList");
+                if (c.Enrollments.Any())
+                {
+                    return RedirectToAction("DeleteClassConfirm", new { ClassId = Id });
+                }
+                else
+                {
+                    db.Entry(c).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return RedirectToAction("ClassList");
+                }
+                
             }
         }
 
@@ -156,6 +164,28 @@ namespace AucklandHighSchool.Controllers
                 db.Entry(e).State = EntityState.Deleted;
                 db.SaveChanges();
                 return RedirectToAction("ClassEnrollmentList", new { ClassId = classId });
+            }
+        }
+
+        public ActionResult DeleteClassConfirm(int ClassId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var @class = db.Classes.Include("Enrollments").Include("Enrollments.Student").Where(x => x.ClassID == ClassId).FirstOrDefault();
+                return View(@class);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteClassConfirmEnrollmentRemove(int EnrollmentId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var e = db.Enrollments.Find(EnrollmentId);
+                int classId = (int)e.ClassID;
+                db.Entry(e).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("DeleteClassConfirm", new { ClassId = classId });
             }
         }
     }

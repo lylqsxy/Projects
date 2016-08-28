@@ -352,6 +352,10 @@
     <Content Include="Views\Teacher\TeacherClassList.cshtml" />
     <Content Include="Views\Subject\SubjectClassList.cshtml" />
     <Content Include="Views\Class\ClassEnrollmentList.cshtml" />
+    <Content Include="Views\Teacher\DeleteTeacherConfirm.cshtml" />
+    <Content Include="Views\Subject\DeleteSubjectConfirm.cshtml" />
+    <Content Include="Views\Class\DeleteClassConfirm.cshtml" />
+    <Content Include="Views\Student\DeleteStudentConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

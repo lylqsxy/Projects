@@ -111,9 +111,16 @@ namespace AucklandHighSchool.Controllers
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var s = db.Students.Find(Id);
-                db.Entry(s).State = EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("StudentLIst");
+                if (s.Enrollments.Any())
+                {
+                    return RedirectToAction("DeleteStudentConfirm", new { StudentId = Id });
+                }
+                else
+                {
+                    db.Entry(s).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return RedirectToAction("StudentLIst");
+                }
             }
         }
 
@@ -163,6 +170,30 @@ namespace AucklandHighSchool.Controllers
                 db.Entry(e).State = EntityState.Deleted;
                 db.SaveChanges();
                 return RedirectToAction("EnrollmentList", new { StudentId = studentID });
+            }
+        }
+
+        public ActionResult DeleteStudentConfirm(int StudentId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var student = db.Students.Include("Enrollments").Include("Enrollments.Class")
+                    .Include("Enrollments.Class.Subject").Include("Enrollments.Class.Teacher")
+                    .Where(x => x.StudentID == StudentId).FirstOrDefault();
+                return View(student);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteStudentConfirmEnrollmentRemove(int EnrollmentId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var e = db.Enrollments.Find(EnrollmentId);
+                int studentId = (int)e.StudentID;
+                db.Entry(e).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("DeleteStudentConfirm", new { StudentId = studentId });
             }
         }
     }

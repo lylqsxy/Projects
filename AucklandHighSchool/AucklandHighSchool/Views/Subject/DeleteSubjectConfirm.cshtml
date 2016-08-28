@@ -1,0 +1,60 @@
+﻿@model AucklandHighSchool.Models.Subject
+@{
+    ViewBag.Title = "Delete Subject Confirm";
+}
+
+<h2 style="color:red"><span class="glyphicon glyphicon-remove-circle"></span> Delete Subject Error</h2>
+
+<p>The subject can not be deleted because the following classes belong to the subject. Please remove the related classes firstly.</p>
+
+<h3>Details: </h3>
+
+<h4>
+    Subject Name: @Model.Name&nbsp;
+    @Html.DetailIconLinkSmall("Detail", "DetailSubject", new { Id = Model.SubjectID})
+    @Html.DeleteIconLinkPostSmall("Delete", "DeleteSubject", "Subject", "Id", Model.SubjectID.ToString())
+</h4>
+
+<table class="table" style="width: 700px">
+    <tr>
+        <th>
+            Class ID
+        </th>
+        <th>
+            Class Name
+        </th>
+        <th>
+            Teacher Name
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Classes)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassID)
+            </td>
+            <td>
+                @Html.ActionLink(item.Name, "DetailClass", "Class", new { Id = item.ClassID }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Teacher.FirstName + " " + item.Teacher.LastName, "DetailTeacher", "Teacher", new { Id = item.TeacherID }, null)
+            </td>
+            <td>
+                @Html.DeleteLinkPost("Remove", "DeleteSubjectConfirmClassRemove", "Subject", "ClassId", item.ClassID.ToString())
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+<div>
+    @Html.IconGoBack("Back")
+    @Html.BackToListIconLinkController("Back to List", "SubjectList", "Subject")
+</div>
+

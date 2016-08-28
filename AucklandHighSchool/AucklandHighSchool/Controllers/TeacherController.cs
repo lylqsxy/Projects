@@ -112,9 +112,16 @@ namespace AucklandHighSchool.Controllers
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var t = db.Teachers.Find(Id);
-                db.Entry(t).State = EntityState.Deleted;
-                db.SaveChanges();
-                return RedirectToAction("TeacherList");
+                if(t.Classes.Any())
+                {
+                    return RedirectToAction("DeleteTeacherConfirm", new { TeacherId = Id });
+                }
+                else
+                {
+                    db.Entry(t).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return RedirectToAction("TeacherList");
+                }    
             }
         }
 
@@ -163,6 +170,28 @@ namespace AucklandHighSchool.Controllers
                 db.Entry(c).State = EntityState.Deleted;
                 db.SaveChanges();
                 return RedirectToAction("TeacherClassList", new { TeacherId = teacherId });
+            }
+        }
+
+        public ActionResult DeleteTeacherConfirm(int TeacherId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var teacher = db.Teachers.Include("Classes").Include("Classes.Subject").Where(x => x.TeacherID == TeacherId).FirstOrDefault();
+                return View(teacher);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteTeacherConfirmClassRemove(int ClassId)
+        {
+            using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
+            {
+                var c = db.Classes.Find(ClassId);
+                int teacherId = (int)c.TeacherID;
+                db.Entry(c).State = EntityState.Deleted;
+                db.SaveChanges();
+                return RedirectToAction("DeleteTeacherConfirm", new { TeacherId = teacherId });
             }
         }
     }
