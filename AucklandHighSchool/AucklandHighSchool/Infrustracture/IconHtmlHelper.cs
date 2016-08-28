@@ -59,6 +59,7 @@ namespace AucklandHighSchool.Infrustracture
 
         public static MvcHtmlString IconUrlLink(this HtmlHelper htmlHelper, string linkText, string url, String iconName, object htmlAttributes = null)
         {
+            linkText = " " + linkText;
             var markup = String.Format(@"<a href =""{0}"" class=""{1}"" >", url, htmlAttributes);
             markup += String.Format(@"<span class=""{0}"" aria -hidden=""true"">", iconName);
             markup += String.Format(@"</span>{0}</a>", linkText);
