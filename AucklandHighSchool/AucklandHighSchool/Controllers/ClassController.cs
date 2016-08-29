@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AucklandHighSchool.Models.ViewModel;
 using AucklandHighSchool.Models;
 using System.Data.Entity;
+using PagedList;
 
 namespace AucklandHighSchool.Controllers
 {
@@ -17,13 +18,13 @@ namespace AucklandHighSchool.Controllers
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var list = db.Classes.Select(x => new ClassViewModel
-                    {
-                        Id = x.ClassID,
-                        Name = x.Name,
-                        Subject = x.Subject.Name,
-                        Teacher = x.Teacher.FirstName + " " + x.Teacher.LastName,
-                        EnrollmentsCount = x.Enrollments.Select(y => y.EnrollmentID).Distinct().Count()
-                    }).ToList();
+                {
+                    Id = x.ClassID,
+                    Name = x.Name,
+                    Subject = x.Subject.Name,
+                    Teacher = x.Teacher.FirstName + " " + x.Teacher.LastName,
+                    EnrollmentsCount = x.Enrollments.Select(y => y.EnrollmentID).Distinct().Count()
+                }).ToList();
 
                 return View(list);
             }
@@ -114,20 +115,27 @@ namespace AucklandHighSchool.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteClass(int Id)
+        public ActionResult DeleteClass(int Id, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var c = db.Classes.Find(Id);
                 if (c.Enrollments.Any())
                 {
-                    return RedirectToAction("DeleteClassConfirm", new { ClassId = Id });
+                    return RedirectToAction("DeleteClassConfirm", new { ClassId = Id, RedirectUrl = RedirectUrl });
                 }
                 else
                 {
                     db.Entry(c).State = EntityState.Deleted;
                     db.SaveChanges();
-                    return RedirectToAction("ClassList");
+                    if (string.IsNullOrWhiteSpace(RedirectUrl))
+                    {
+                        return RedirectToAction("ClassList");
+                    }
+                    else
+                    {
+                        return Redirect(RedirectUrl);
+                    }
                 }
                 
             }
@@ -167,17 +175,18 @@ namespace AucklandHighSchool.Controllers
             }
         }
 
-        public ActionResult DeleteClassConfirm(int ClassId)
+        public ActionResult DeleteClassConfirm(int ClassId, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var @class = db.Classes.Include("Enrollments").Include("Enrollments.Student").Where(x => x.ClassID == ClassId).FirstOrDefault();
+                ViewBag.RedirectUrl = RedirectUrl;
                 return View(@class);
             }
         }
 
         [HttpPost]
-        public ActionResult DeleteClassConfirmEnrollmentRemove(int EnrollmentId)
+        public ActionResult DeleteClassConfirmEnrollmentRemove(int EnrollmentId, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
@@ -185,7 +194,7 @@ namespace AucklandHighSchool.Controllers
                 int classId = (int)e.ClassID;
                 db.Entry(e).State = EntityState.Deleted;
                 db.SaveChanges();
-                return RedirectToAction("DeleteClassConfirm", new { ClassId = classId });
+                return Redirect(RedirectUrl);
             }
         }
     }

@@ -57,6 +57,19 @@ namespace AucklandHighSchool.Infrustracture
             return new MvcHtmlString(markup);
         }
 
+        public static MvcHtmlString IconLinkPostTwo(this HtmlHelper htmlHelper, string buttonText, string actionName, string controllerName, String Name, String Value, String NameT, String ValueT, String iconName, object htmlAttributes = null)
+        {
+            buttonText = " " + buttonText;
+            var markup = @"<div style=""display: inline-block"">";
+            markup += String.Format(@"<form action=""/{0}/{1}"" method=""post"">", controllerName, actionName);
+            markup += String.Format(@"<input id=""{0}"" name=""{1}"" type=""hidden"" value=""{2}"" />", Name, Name, Value);
+            markup += String.Format(@"<input id=""{0}"" name=""{1}"" type=""hidden"" value=""{2}"" />", NameT, NameT, ValueT);
+            markup += String.Format(@"<button type =""submit"" class=""{0}"" >", htmlAttributes);
+            markup += String.Format(@"<span class=""{0}"" aria -hidden=""true"">", iconName);
+            markup += String.Format(@"</span>{0}</button></form></div>&nbsp", buttonText);
+            return new MvcHtmlString(markup);
+        }
+
         public static MvcHtmlString IconUrlLink(this HtmlHelper htmlHelper, string linkText, string url, String iconName, object htmlAttributes = null)
         {
             linkText = " " + linkText;
@@ -182,6 +195,11 @@ namespace AucklandHighSchool.Infrustracture
         public static MvcHtmlString DetailIconLinkSmall(this HtmlHelper htmlHelper, string linkText, string actionName, object routeValues = null)
         {
             return htmlHelper.IconLink(linkText, actionName, routeValues, "glyphicon glyphicon-list", new { @class = "btn btn-primary btn-sm" });
+        }
+
+        public static MvcHtmlString DeleteIconLinkPostTwoSmall(this HtmlHelper htmlHelper, string linkText, string actionName, string controllerName, String Name, String Value, String NameT, String ValueT)
+        {
+            return htmlHelper.IconLinkPostTwo(linkText, actionName, controllerName, Name, Value, NameT, ValueT, "glyphicon glyphicon-trash", "btn btn-danger btn-sm");
         }
     }
 }

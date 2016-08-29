@@ -10,7 +10,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Teacher: @Model.FirstName  @Model.LastName</h4>
+        <h4>TeacherID: @Model.TeacherID</h4>
+        <h4>Name: @Model.FirstName  @Model.LastName</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -62,7 +63,7 @@
                 @Html.ActionLink(item.Subject.Name, "DetailSubject", "Subject", new { Id = item.SubjectID }, null)
             </td>
             <td>
-                @Html.DeleteLinkPost("Remove", "ClassRemove", "Teacher", "ClassId", item.ClassID.ToString())
+                @Html.DeleteLinkPostTwo("Remove", "ClassRemove", "Teacher", "ClassId", item.ClassID.ToString(), "RedirectUrl", Request.Url.PathAndQuery)
                 @Html.ActionLink("Edit", "EditClass", "Class", new { Id = item.ClassID, RedirectUrl = Request.Url.PathAndQuery }, new { @class = "btn btn-default"})
             </td>
         </tr>

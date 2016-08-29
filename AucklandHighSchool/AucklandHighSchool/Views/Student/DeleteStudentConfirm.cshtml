@@ -10,7 +10,7 @@
 <h3>Details: </h3>
 
 <h4>
-    Student Name: @Model.FirstName @Model.LastName&nbsp;
+    StudentName: @Model.FirstName @Model.LastName (@Model.StudentID)&nbsp;
     @Html.DetailIconLinkSmall("Detail", "DetailStudent", new { Id = Model.StudentID })
     @Html.DeleteIconLinkPostSmall("Delete", "DeleteStudent", "Student", "Id", Model.StudentID.ToString())
 </h4>

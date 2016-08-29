@@ -10,7 +10,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Student: @Model.Student.FirstName  @Model.Student.LastName</h4>
+        <h4>StudentID: @Model.Student.StudentID</h4>
+        <h4>Name: @Model.Student.FirstName  @Model.Student.LastName</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

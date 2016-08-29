@@ -161,14 +161,14 @@ namespace AucklandHighSchool.Controllers
         }
 
         [HttpPost]
-        public ActionResult ClassRemove(int ClassId)
+        public ActionResult ClassRemove(int ClassId, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var c = db.Classes.Find(ClassId);
                 if (c.Enrollments.Any())
                 {
-                    return RedirectToAction("DeleteClassConfirm", "Class", new { ClassId = c.ClassID });
+                    return RedirectToAction("DeleteClassConfirm", "Class", new { ClassId = c.ClassID, RedirectUrl = RedirectUrl });
                 }
                 else
                 {
@@ -190,14 +190,14 @@ namespace AucklandHighSchool.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteTeacherConfirmClassRemove(int ClassId)
+        public ActionResult DeleteTeacherConfirmClassRemove(int ClassId, string RedirectUrl)
         {
             using (AucklandHighSchoolEntities db = new AucklandHighSchoolEntities())
             {
                 var c = db.Classes.Find(ClassId);
                 if (c.Enrollments.Any())
                 {
-                    return RedirectToAction("DeleteClassConfirm", "Class", new { ClassId = c.ClassID });
+                    return RedirectToAction("DeleteClassConfirm", "Class", new { ClassId = c.ClassID, RedirectUrl = RedirectUrl });
                 }
                 else
                 {

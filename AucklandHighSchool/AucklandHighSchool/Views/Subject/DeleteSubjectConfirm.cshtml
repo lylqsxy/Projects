@@ -10,7 +10,7 @@
 <h3>Details: </h3>
 
 <h4>
-    Subject Name: @Model.Name&nbsp;
+    SubjectName: @Model.Name (@Model.SubjectID)&nbsp;
     @Html.DetailIconLinkSmall("Detail", "DetailSubject", new { Id = Model.SubjectID})
     @Html.DeleteIconLinkPostSmall("Delete", "DeleteSubject", "Subject", "Id", Model.SubjectID.ToString())
 </h4>
@@ -44,7 +44,7 @@
                 @Html.ActionLink(item.Teacher.FirstName + " " + item.Teacher.LastName, "DetailTeacher", "Teacher", new { Id = item.TeacherID }, null)
             </td>
             <td>
-                @Html.DeleteLinkPost("Remove", "DeleteSubjectConfirmClassRemove", "Subject", "ClassId", item.ClassID.ToString())
+                @Html.DeleteLinkPostTwo("Remove", "DeleteSubjectConfirmClassRemove", "Subject", "ClassId", item.ClassID.ToString(), "RedirectUrl", Request.Url.PathAndQuery)
             </td>
         </tr>
     }
