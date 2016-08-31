@@ -1,0 +1,108 @@
+﻿@model Cobra_onboarding.Models.Person
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Person</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Town_City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Town_City)
+        </dd>
+
+        <dt>
+            Total Sales Number
+        </dt>
+
+        <dd>
+            @ViewBag.Count
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderHeaders)
+        </dt>
+
+        @foreach (var item in Model.OrderHeaders)
+        {
+
+            <dd>
+                @Html.DisplayNameFor(modelItem => item.OrderId): @Html.DisplayFor(modelItem => item.OrderId)
+            </dd>
+
+            <dd>
+                @Html.DisplayNameFor(modelItem => item.OrderDate): @Html.DisplayFor(modelItem => item.OrderDate)
+            </dd>
+
+            <dd>
+                @Html.DisplayNameFor(modelItem => item.OrderDetails):
+            </dd>
+
+            <dd>
+                ---------------
+            </dd>
+
+            foreach (var detailItem in item.OrderDetails)
+            {
+                <dd>
+                    @Html.DisplayNameFor(modelItem => detailItem.Product.Name): @Html.DisplayFor(modelItem => detailItem.Product.Name)
+                </dd>
+
+            }
+
+            <dd>
+                &nbsp;
+            </dd>
+
+            <dd>
+                ====================
+            </dd>
+
+        }
+
+    </dl>
+
+    
+
+        
+
+
+            
+        
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

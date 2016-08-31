@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MyLog.LogProvider">
+    <Position X="3.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAEAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>LogProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyLog.LogManager">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <AssociationLine Name="Provider" Type="MyLog.LogProvider">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.6" Y="0.081" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAEAACAEAQAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LogManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Provider" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MyLog.TextLogProvider" Collapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TextLogProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyLog.XmlLogProvider" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TextLogProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -14,6 +14,14 @@
         <AssociationConnector Association="AucklandHighSchoolModel.FK_Class_Teacher" ManuallyRouted="false" />
         <AssociationConnector Association="AucklandHighSchoolModel.FK_Enrollment_Class" ManuallyRouted="false" />
         <AssociationConnector Association="AucklandHighSchoolModel.FK_Enrollment_Student" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.C__MigrationHistory" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.AspNetRole" Width="1.5" PointX="5.375" PointY="6.5" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.AspNetUserClaim" Width="1.5" PointX="9.875" PointY="7.625" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.AspNetUserLogin" Width="1.5" PointX="9.875" PointY="5" />
+        <EntityTypeShape EntityType="AucklandHighSchoolModel.AspNetUser" Width="1.5" PointX="7.625" PointY="5.375" />
+        <AssociationConnector Association="AucklandHighSchoolModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="AucklandHighSchoolModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="AucklandHighSchoolModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

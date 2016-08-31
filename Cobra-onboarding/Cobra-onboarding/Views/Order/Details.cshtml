@@ -1,0 +1,70 @@
+﻿@model Cobra_onboarding.Models.OrderHeader
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+
+<div>
+    <h4>OrderHeader</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate.Value.Date)/@Html.DisplayFor(model => model.OrderDate.Value.Month)/@Html.DisplayFor(model => model.OrderDate.Value.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDetails)
+        </dt>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <dd>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </dd>
+        }
+        
+    </dl>
+
+    @using (Html.BeginForm("AddOrderDetails","Order"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.OrderId)
+
+
+            <div class="form-group">
+                <div class = "control-label col-md-2">Add Product</div>
+                <div class="col-md-10">
+                    @Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.ProductList, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderId }) |
+    @Html.ActionLink("Back to List", "List")
+</p>
