@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>List</h2>
+<h2>Order List</h2>
 
 <p>
     <button type="button" class="btn btn-default" ng-click="createOrder()">Create New</button>
@@ -35,8 +35,7 @@
                 {{x.PersonName}}
             </td>
             <td>
-                <button type="button" class="btn btn-default" ng-click="editOrder(x, '1')">Edit</button>
-                <button type="button" class="btn btn-default" ng-click="editOrder(x, '2')">Edit Large  </button>
+                <button type="button" class="btn btn-default" ng-click="editOrder(x)">Edit</button>
                 <button type="button" class="btn btn-default" ng-click="detailOrder(x)">Details</button>
                 <button type="button" class="btn btn-default" ng-click="deletePost(x)">Delete</button>
             </td>
@@ -45,206 +44,18 @@
     </table>
 </div>
 
-<script>
+<!-- Modal Template-->
+<div id="templateModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-    var app = angular.module('myApp', ['ngAnimate', 'ui.bootstrap']);
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{modalTpl.modalTitle}}</h4>
+            </div>
+            <div ng-view></div>
+        </div>
 
-    app.controller('ListController',
-        function ($scope, $rootScope, $http, $uibModal, $log) {
-            $rootScope.list = function () {
-                $http.get("/Order/List/").then(function (response) {
-                    $scope.list = response.data;
-                });
-            }
-            $rootScope.list();
-            $http.get("/Order/PersonInfo/").then(function (response) {
-                $rootScope.People = response.data;
-            });
-
-            $scope.editOrder = function (o, id) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/Order/EditModal/' + id,
-                    controller: 'EditController',
-                    resolve: {
-                        order: function () {
-                            return o;
-                        }
-                    }
-                });
-            }
-
-            $scope.createOrder = function () {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/Order/CreateModal',
-                    controller: 'CreateController',
-                    
-                });
-            }
-
-            $scope.detailOrder = function (o) {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/Order/DetailModal',
-                    controller: 'DetailController',
-                    resolve: {
-                        order: function () {
-                            return o;
-                        }
-                    }
-                });
-            }
-
-            $scope.deletePost = function (o) {
-                var orderDel = { "Id": o.OrderId };
-                $scope.serverVal = false;
-                $http.post("/Order/Delete/", orderDel).success(function (response) {
-                    if (response == "True") {
-                        $scope.serverValErr = false;
-                        $rootScope.list();
-                        $scope.close();
-                    }
-                    else {
-                        $scope.serverValErr = true;
-                    }
-                })
-            };
-        })
-
-    app.controller('CreateController',
-        function ($scope, $rootScope, $http, $uibModalInstance) {
-            $scope.InputOrderDate = new Date();
-            $scope.createPost = function () {
-                $scope.serverVal = false;
-                $scope.createForm.personId.$touched = true;
-                $scope.createForm.orderDate.$touched = true;
-                if (!$scope.createForm.personId.$invalid && !$scope.createForm.orderDate.$invalid) {
-                    var person = { "OrderDate": $scope.InputOrderDate, "PersonId": $scope.SeletedPersonId };
-                    $http.post("/Order/Create/", person).success(function (response) {
-                        if (response == "True") {
-                            $scope.serverValErr = false;
-                            $rootScope.list();
-                            $scope.close();
-                        }
-                        else {
-                            $scope.serverValErr = true;
-                        }
-                    })
-                }     
-            };
-            $scope.close = function () {
-                $uibModalInstance.close();
-            }
-        });
-
-    app.controller('DetailController',
-        function ($scope, $rootScope, $http, $uibModalInstance, $uibModal, order) {
-            $scope.order = order;
-            $scope.orderList = function(){
-                $http.get("/Order/Details/" + order.OrderId).then(function (response) {
-                    $scope.productDetails = response.data; 
-                })
-            }
-            $scope.orderList();
-            $scope.deletePost = function () {
-                var orderDel = { "Id": order.OrderId };
-                $scope.serverVal = false;
-                $uibModalInstance.close();
-                $http.post("/Order/Delete/", orderDel).success(function (response) {
-                    if (response == "True") {
-                        $scope.serverValErr = false;
-                        $rootScope.list();
-                        $scope.close();
-                    }
-                    else {
-                        $scope.serverValErr = true;
-                    }
-                })
-                $scope.close();
-            };
-            $scope.removeProduct = function (orderDetailId) {
-                var productDel = { "id": orderDetailId };
-                $scope.serverVal = false;
-                $http.post("/Order/DelOrderDetails/", productDel).success(function (response) {
-                    if (response == "True") {
-                        $scope.serverValErr = false;
-                        $scope.orderList();
-                        $scope.close();
-                    }
-                    else {
-                        $scope.serverValErr = true;
-                    }  
-                })
-            }
-            $scope.close = function () {
-                $uibModalInstance.close();
-            }
-            
-            $scope.addProduct = function () {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: '/Order/AddProductModal/',
-                    controller: 'AddProductController' ,
-                    size: 'sm'
-                })
-                modalInstance.result.then(function (selectedItem) {
-                    $scope.test = selectedItem;
-                    var productNew = { "OrderId": order.OrderId, "ProductId": selectedItem }
-                    $scope.serverVal = false;
-                    $http.post("/Order/AddProductModal/", productNew).success(function (response) {
-                        if (response == "True") {
-                            $scope.serverValErr = false;
-                            $scope.orderList();
-                            $scope.close();
-                        }
-                        else {
-                            $scope.serverValErr = true;
-                        }
-                    })
-                })
-            };
-        })
-
-    app.controller('EditController',
-        function ($scope, $rootScope, $http, $uibModalInstance, order) {
-            $scope.order = order;
-            $scope.OrderId = order.OrderId;
-            $scope.InputOrderDate = new Date(order.OrderDate);
-            $scope.SeletedPersonId = order.PersonId;
-
-            $scope.editPost = function () {
-                var orderNew = { "OrderId": $scope.OrderId, "OrderDate": $scope.InputOrderDate, "PersonId": $scope.SeletedPersonId };
-                $scope.serverVal = false;
-                $http.post("/Order/Edit/", orderNew).success(function (response) {
-                    if (response == "True") {
-                        $scope.serverValErr = false;
-                        $rootScope.list();
-                        $scope.close();
-                    }
-                    else {
-                        $scope.serverValErr = true;
-                    }
-                })
-                $scope.close();
-            };
-            $scope.close = function () {
-                $uibModalInstance.close();
-            }
-        });
-
-    app.controller('AddProductController',
-        function ($scope, $rootScope, $http, $uibModalInstance) {
-            $scope.SeletedPrpductId = "1";
-            $http.get("/Order/ProductInfo/").then(function (response) {
-                $scope.productList = response.data;
-            });
-            $scope.AddProduct = function (productId) {
-                $uibModalInstance.close(productId);
-            };
-            $scope.close = function () {
-                $uibModalInstance.close();
-            }
-        });
-
-</script>
+    </div>
+</div>

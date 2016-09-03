@@ -262,6 +262,7 @@
     <Content Include="Scripts\ai.0.22.19-build00125.js" />
     <Content Include="Scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -276,6 +277,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\cobra-onboarding.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -330,11 +332,8 @@
     <Content Include="Views\Order\Edit.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
-    <Content Include="Views\Order\EditModal.cshtml" />
-    <Content Include="Views\Order\CreateModal.cshtml" />
+    <Content Include="Views\Order\ModalContent.cshtml" />
     <Content Include="Views\Testing\Index.cshtml" />
-    <Content Include="Views\Shared\TestingPartial.cshtml" />
-    <Content Include="Views\Shared\PartialEditModal.cshtml" />
     <Content Include="Views\Order\DetailModal.cshtml" />
     <Content Include="Views\Order\AddProductModal.cshtml" />
   </ItemGroup>

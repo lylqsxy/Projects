@@ -1,0 +1,118 @@
+﻿
+<!-- Create/Edit Modal -->
+<div ng-show="modalTpl.modalId==='createEdit'">
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <span ng-show="serverValErr" style="color:red; font-style:oblique">Server Validation Error.</span>
+            <form name="createEditForm">
+
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="OrderDate">Order Date</label>
+                    <div class="col-md-9">
+                        <input name="orderDate" type="date" class="form-control" ng-model="InputOrderDate" required />
+                        <span ng-show="createEditForm.orderDate.$touched && createEditForm.orderDate.$invalid" style="color:red; font-style:oblique">The date is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="PersonId">Person Name</label>
+                    <div class="col-md-9">
+                        <select name="personId" ng-model="SeletedPersonId" class="form-control" required>
+                            <option ng-repeat="p in peopleList" value="{{p.Id}}" ng-selected="p.Id == SeletedPersonId">{{p.Name}}</option>
+                        </select>
+                        <span ng-show="createEditForm.personId.$touched && createEditForm.personId.$invalid" style="color:red; font-style:oblique">The name is required.</span>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-md-offset-2 col-md-10">
+            <button ng-click="dataPost()" type="button" class="btn btn-default">{{modalTpl.buttonName}}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Detail Modal -->
+
+<div ng-show="modalTpl.modalId==='detail'">
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            <dl class="dl-horizontal">
+                <dt>
+                    Order Date
+                </dt>
+
+                <dd>
+                    {{orderToEdit.OrderDate | date:'dd/MM/yyyy'}}
+                </dd>
+
+                <dt>
+                    Customer Name
+                </dt>
+
+                <dd>
+                    {{orderToEdit.PersonName}}
+                </dd>
+
+                <dt>
+                    Product List
+                </dt>
+
+                <dd>
+                    <div ng-repeat="x in productDetails">
+                        {{x.ProductName}}&nbsp;&nbsp;
+                        <button ng-click="removeProduct(x.OrderDetailId)" type="button" class="btn btn-default btn-sm">Remove</button>
+                    </div>
+                    <br />
+                    <button ng-click="addProduct()" type="button" class="btn btn-default btn-sm">Add Product</button>
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="col-md-offset-2 col-md-10">
+            <button ng-click="deletePostInDetail()" type="button" class="btn btn-default">Delete</button>
+            <button ng-click="close()" type="button" class="btn btn-default">Close</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Add Product Modal -->
+
+<div ng-show="modalTpl.modalId==='detail'">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close()">&times;</button>
+        <h4 class="modal-title">Add Product</h4>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label class="control-label col-md-3" for="PersonId">Product Name</label>
+            <div class="col-md-9">
+                <select ng-model="SeletedProductId" class="form-control" style="display:inline-block" required>
+                    <option ng-repeat="p in productList" value="{{p.ProductId}}" ng-selected="1">{{p.ProductName}}</option>
+                </select>
+                &nbsp;
+                <button ng-click="addProductFromList(SeletedProductId)" type="button" class="btn btn-default">Add</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+
+    </div>
+
+</div>
+
+

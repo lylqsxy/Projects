@@ -38,13 +38,14 @@ namespace Cobra_onboarding.Controllers
         }
 
         [HttpPost]
-        public bool Create(OrderHeader o)
+        public bool DataPost(OrderHeader o)
         {
             if (ModelState.IsValid)
             {
                 using (CobraEntities db = new CobraEntities())
                 {
-                    db.Entry(o).State = EntityState.Added;
+
+                    db.Entry(o).State = o.OrderId == 0? EntityState.Added : EntityState.Modified;
                     db.SaveChanges();
                     return true;
                 }
@@ -56,20 +57,14 @@ namespace Cobra_onboarding.Controllers
         }
 
         [HttpPost]
-        public bool Edit(OrderHeader o)
+        public bool Delete(int Id)
         {
-            if (ModelState.IsValid)
+            using (CobraEntities db = new CobraEntities())
             {
-                using (CobraEntities db = new CobraEntities())
-                {
-                    db.Entry(o).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
+                var order = db.OrderHeaders.Find(Id);
+                db.Entry(order).State = EntityState.Deleted;
+                db.SaveChanges();
+                return true;
             }
         }
 
@@ -77,9 +72,13 @@ namespace Cobra_onboarding.Controllers
         {
             using (CobraEntities db = new CobraEntities())
             {
-                OrderHeader o = db.OrderHeaders.Include("Person").Include("OrderDetails").Include("OrderDetails.Product").Where(x => x.OrderId == Id).FirstOrDefault();
-                var productList = o.OrderDetails.Select(x => new { OrderDetailId = x.Id, ProductId = x.ProductId, ProductName = x.Product.Name }).ToList();
-                return Json(productList, JsonRequestBehavior.AllowGet);
+                if(Id > 0)
+                {
+                    OrderHeader o = db.OrderHeaders.Include("Person").Include("OrderDetails").Include("OrderDetails.Product").Where(x => x.OrderId == Id).FirstOrDefault();
+                    var productList = o.OrderDetails.Select(x => new { OrderDetailId = x.Id, ProductId = x.ProductId, ProductName = x.Product.Name }).ToList();
+                    return Json(productList, JsonRequestBehavior.AllowGet);
+                }
+                return null;      
             }
         }
 
@@ -101,18 +100,7 @@ namespace Cobra_onboarding.Controllers
             }
         }
 
-        public ActionResult EditModal(int Id)
-        {
-            ViewBag.Id = Id;
-            return View();
-        }
-
-        public ActionResult PartialEditModal(int Id)
-        {
-            return View(Id);
-        }
-
-        public ActionResult CreateModal()
+        public ActionResult ModalContent()
         {
             return View();
         }
@@ -122,24 +110,7 @@ namespace Cobra_onboarding.Controllers
             return View();
         }
 
-        [HttpPost]
-        public bool Delete(int Id)
-        {
-            if (ModelState.IsValid)
-            {
-                using (CobraEntities db = new CobraEntities())
-                {
-                    var order = db.OrderHeaders.Find(Id);
-                    db.Entry(order).State = EntityState.Deleted;
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
+
 
         public ActionResult AddProductModal()
         {

@@ -10,6 +10,7 @@ namespace Cobra_onboarding
         {
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                         "~/Scripts/angular.js",
+                        "~/Scripts/angular-route.js",
                         "~/Scripts/angular-animate.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
@@ -25,8 +26,11 @@ namespace Cobra_onboarding
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/ui-bootstrap-tpls-{version}.js",
-                      //"~/Scripts/bootstrap.js",
+                      "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/cobra-onboarding").Include(
+                      "~/Scripts/cobra-onboarding.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
