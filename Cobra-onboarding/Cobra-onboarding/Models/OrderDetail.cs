@@ -11,11 +11,16 @@ namespace Cobra_onboarding.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class OrderDetail
     {
         public int Id { get; set; }
+
+        [Required]
         public Nullable<int> OrderId { get; set; }
+
+        [Required]
         public Nullable<int> ProductId { get; set; }
     
         public virtual OrderHeader OrderHeader { get; set; }

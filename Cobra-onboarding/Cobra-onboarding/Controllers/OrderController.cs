@@ -75,44 +75,19 @@ namespace Cobra_onboarding.Controllers
                 if(Id > 0)
                 {
                     OrderHeader o = db.OrderHeaders.Include("Person").Include("OrderDetails").Include("OrderDetails.Product").Where(x => x.OrderId == Id).FirstOrDefault();
-                    var productList = o.OrderDetails.Select(x => new { OrderDetailId = x.Id, ProductId = x.ProductId, ProductName = x.Product.Name }).ToList();
-                    return Json(productList, JsonRequestBehavior.AllowGet);
+                    if(o.OrderDetails != null)
+                    {
+                        var productList = o.OrderDetails.Select(x => new { OrderDetailId = x.Id, ProductId = x.ProductId, ProductName = x.Product.Name }).ToList();
+                        return Json(productList, JsonRequestBehavior.AllowGet);
+                    }
+                    return null;
+                    
                 }
                 return null;      
             }
         }
 
-        [HttpPost]
-        public bool AddOrderDetails(OrderDetail od)
-        {
-            if (ModelState.IsValid)
-            {
-                using (CobraEntities db = new CobraEntities())
-                {
-                    db.Entry(od).State = EntityState.Added;
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public ActionResult ModalContent()
-        {
-            return View();
-        }
-
-        public ActionResult DetailModal()
-        {
-            return View();
-        }
-
-
-
-        public ActionResult AddProductModal()
         {
             return View();
         }

@@ -11,11 +11,17 @@ namespace Cobra_onboarding.Controllers
     public class CustomerController : Controller
     {
         // GET: Customer
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult List()
         {
             using (CobraEntities db = new CobraEntities())
             {
-                var customers = db.People.Select(x => new { Id = x.Id, Name = x.Name}).ToList();
+                var customers = db.OrderHeaders.Select(x => x.Person).Distinct()
+                    .Select(y => new { CustomerId = y.Id, CustomerName = y.Name, Address1 = y.Address1, Address2 = y.Address2, TownCity = y.Town_City }).ToList();
                 return Json(customers, JsonRequestBehavior.AllowGet);
             }
                 

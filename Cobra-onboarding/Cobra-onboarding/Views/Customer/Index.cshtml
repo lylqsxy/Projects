@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer List</h2>
+
+<p>
+    <button type="button" class="btn btn-default" ng-click="createCustomer()">Create New</button>
+</p>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Customer ID
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Town/City
+            </th>
+            <th>
+                
+            </th>
+        </tr>
+
+        <tr ng-repeat="x in customerList">
+            <td>
+                {{x.CustomerId}}
+            </td>
+            <td>
+                {{x.CustomerName}}
+            </td>
+            <td>
+                {{x.Address1}}, {{x.Address2}}
+            </td>
+            <td>
+                {{x.TownCity}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-default" ng-click="editOrder(x)">Edit</button>
+                <button type="button" class="btn btn-default" ng-click="detailOrder(x)">Details</button>
+                <button type="button" class="btn btn-default" ng-click="deletePost(x)">Delete</button>
+            </td>
+        </tr>
+
+    </table>
+</div>
+

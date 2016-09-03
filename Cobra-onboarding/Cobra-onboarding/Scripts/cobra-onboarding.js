@@ -1,4 +1,4 @@
-﻿var app = angular.module('myApp', ['ngAnimate', 'ui.bootstrap', 'ngRoute']);
+﻿var app = angular.module('myApp', ['ngRoute']);
 
 app.config(function ($routeProvider) {
     $routeProvider
@@ -20,13 +20,20 @@ app.config(function ($routeProvider) {
 });
 
 app.controller('appCtrl',
-       function ($scope, $rootScope, $http, $uibModal, $log) {
-           $scope.listFn = function () {
-               $http.get("/Order/List/").then(function (response) {
-                   $scope.list = response.data;
+       function ($scope, $http) {
+           $scope.customerListFn = function () {
+               $http.get("/Customer/List/").then(function (response) {
+                   $scope.customerList = response.data;
                });
            };
-           $scope.listFn();
+           $scope.customerListFn();
+
+           $scope.orderListFn = function () {
+               $http.get("/Order/List/").then(function (response) {
+                   $scope.orderList = response.data;
+               });
+           };
+           $scope.orderListFn();
            $http.get("/Order/PersonInfo/").then(function (response) {
                $scope.peopleList = response.data;
            });
@@ -44,7 +51,6 @@ app.controller('appCtrl',
                    modalTitle: "Create",
                    buttonName: "Create"
                };
-
                document.location = '#create';
            };
 
@@ -74,7 +80,7 @@ app.controller('appCtrl',
                var orderDel = { "Id": o.OrderId };
                $scope.serverVal = false;
                $http.post("/Order/Delete/", orderDel).success(function (response) {
-                   $scope.listFn();
+                   $scope.orderListFn();
                });
            };
        
@@ -85,6 +91,7 @@ app.controller('ModalContentCtrl',
         $scope.OrderId = $scope.orderToEdit.OrderId;
         $scope.InputOrderDate = new Date($scope.orderToEdit.OrderDate);
         $scope.SeletedPersonId = $scope.orderToEdit.PersonId;
+  
         $scope.dataPost = function () {
             $scope.createEditForm.personId.$touched = true;
             $scope.createEditForm.orderDate.$touched = true;
@@ -93,7 +100,7 @@ app.controller('ModalContentCtrl',
                 $http.post("/Order/DataPost/", orderNew).success(function (response) {
                     if (response === "True") {
                         $scope.serverValErr = false;
-                        $scope.listFn();
+                        $scope.orderListFn();
                         $scope.close();
                     }
                     else {
@@ -102,38 +109,64 @@ app.controller('ModalContentCtrl',
                 });
             }
         };
-        $scope.productListFn = function () {
+        $scope.orderDetailFn = function () {
             $http.get("/Order/Details/" + $scope.OrderId).then(function (response) {
-                $scope.productDetails = response.data;
+                $scope.orderDetails = response.data;
             });
         };
-        $scope.productListFn();
-
-        $scope.addProduct = function () {
-
+        
+        $scope.productListFn = function () {
             $http.get("/Order/ProductInfo/").then(function (response) {
                 $scope.productList = response.data;
             });
         };
 
+        $scope.orderDetailFn();
+        $scope.productListFn();
+        $scope.addButtonName = "Add Product >>";
+
+        $scope.addProduct = function () {
+            if ($scope.modalTpl.modalIdDetailAdd === "detailAdd")
+            {
+                $scope.modalTpl.modalIdDetailAdd = null;
+                $scope.addButtonName = "Add Product >>";
+            }
+            else
+            {
+                $scope.modalTpl.modalIdDetailAdd = "detailAdd";
+                $scope.SeletedProductId = null;
+                $scope.addButtonName = "<< Close";
+            }     
+        };
+
+        $scope.closeAddForm = function () {
+            if ($scope.modalTpl.modalIdDetailAdd === "detailAdd") {
+                $scope.modalTpl.modalIdDetailAdd = null;
+                $scope.addButtonName = "Add Product >>";
+            }
+        };
+
         $scope.addProductFromList = function (selectedItem) {
-            var productNew = { "OrderId": $scope.OrderId, "ProductId": selectedItem };
-            $http.post("/Order/AddProductModal/", productNew).success(function (response) {
-                if (response === "True") {
-                    $scope.serverValErr = false;
-                    $scope.productListFn();
-                }
-                else {
-                    $scope.serverValErr = true;
-                }
-            });
+            $scope.addForm.selectedProductId.$touched = true;
+            if (!$scope.addForm.selectedProductId.$invalid) {
+                var productNew = { "OrderId": $scope.OrderId, "ProductId": selectedItem };
+                $http.post("/Order/AddProductModal/", productNew).success(function (response) {
+                    if (response === "True") {
+                        $scope.serverValErr = false;
+                        $scope.orderDetailFn();
+                    }
+                    else {
+                        $scope.serverValErr = true;
+                    }
+                });
+            }
         };
 
         $scope.removeProduct = function (orderDetailId) {
             var productDel = { "id": orderDetailId };
             $scope.serverVal = false;
             $http.post("/Order/DelOrderDetails/", productDel).success(function (response) {
-                $scope.productListFn();
+                $scope.orderDetailFn();
             });
         };
 
