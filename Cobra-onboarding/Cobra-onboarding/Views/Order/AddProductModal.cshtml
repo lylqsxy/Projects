@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+}
+
+<!-- Add Product Modal -->
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Add Product</h4>
+</div>
+<div class="modal-body">
+
+    <div class="form-group">
+        <label class="control-label col-md-3" for="PersonId">Product Name</label>
+        <div class="col-md-9">
+            <select ng-model="SeletedProductId" class="form-control" required>
+                <option ng-repeat="p in productList" value="{{p.ProductId}}" ng-selected="1">{{p.ProductName}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <div class="col-md-offset-2 col-md-10">
+            <button ng-click="AddProduct(SeletedProductId)" type="button" class="btn btn-default">Add</button>
+        </div>
+    </div>
+
+</div>
+

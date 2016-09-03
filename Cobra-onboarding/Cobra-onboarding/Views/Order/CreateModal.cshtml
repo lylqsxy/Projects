@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+
+<!-- Create Modal -->
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Create New</h4>
+</div>
+<div class="modal-body">
+    <form name="createForm" action="/Order/Create" method="post">
+        <div class="form-horizontal">
+            <span ng-show="serverValErr" style="color:red; font-style:oblique">Server Validation Error.</span>
+            <div class="form-group">
+                <label class="control-label col-md-3" for="OrderDate">Order Date</label>
+                <div class="col-md-9">
+                    <input name="orderDate" type="date" class="form-control" ng-model="InputOrderDate" required />
+                    <span ng-show="createForm.orderDate.$touched && createForm.orderDate.$invalid" style="color:red; font-style:oblique">The date is required.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3" for="PersonId">Person Name</label>
+                <div class="col-md-9">
+                    <select name="personId" ng-model="SeletedPersonId" class="form-control" required>
+                        <option ng-repeat="p in People" value="{{p.Id}}" ng-selected="p.Id == SeletedPersonId" >{{p.Name}}</option>
+                    </select>
+                    <span ng-show="createForm.personId.$touched && createForm.personId.$invalid" style="color:red; font-style:oblique">The name is required.</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-md-offset-2 col-md-10">
+                    <button ng-click="createPost()" type="button" class="btn btn-default">Create</button>
+                    <button ng-click="close()" type="button" class="btn btn-default">Close</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

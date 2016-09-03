@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+<!-- Edit Modal -->
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Edit: ID {{order.OrderId}}</h4>
+</div>
+
+@Html.Partial("PartialEditModal", (int)ViewBag.Id)
+
+

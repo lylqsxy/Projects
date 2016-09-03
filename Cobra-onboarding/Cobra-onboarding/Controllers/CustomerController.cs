@@ -15,8 +15,8 @@ namespace Cobra_onboarding.Controllers
         {
             using (CobraEntities db = new CobraEntities())
             {
-                var customers = db.People.ToList();
-                return View(customers);
+                var customers = db.People.Select(x => new { Id = x.Id, Name = x.Name}).ToList();
+                return Json(customers, JsonRequestBehavior.AllowGet);
             }
                 
         }

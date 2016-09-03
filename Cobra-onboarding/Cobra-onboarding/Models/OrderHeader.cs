@@ -11,6 +11,7 @@ namespace Cobra_onboarding.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class OrderHeader
     {
@@ -21,7 +22,11 @@ namespace Cobra_onboarding.Models
         }
     
         public int OrderId { get; set; }
+
+        [Required]
         public Nullable<System.DateTime> OrderDate { get; set; }
+
+        [Required]
         public Nullable<int> PersonId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

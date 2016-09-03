@@ -24,6 +24,7 @@ namespace Cobra_onboarding.Models
         public int Id { get; set; }
 
         [Display(Name = "Customer Name")]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Customer Address")]
