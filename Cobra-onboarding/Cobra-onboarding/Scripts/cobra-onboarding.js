@@ -50,6 +50,25 @@ app.controller('appCtrl',
             $scope.c = JSON.parse(JSON.stringify(customer));
         };
 
+        $scope.orderCustomer = function (customer) {
+            $('#templateModalOut').modal('show');
+            $scope.modalTpl = {
+                modalId: "customerOrderDetail",
+                modalTitle: "Customer ID: " + customer.Id + " | " + "Name: " + customer.Name,
+                buttonName: "Back"
+            };
+            $scope.c = JSON.parse(JSON.stringify(customer));
+            $scope.orderListFn($scope.c);
+        };
+
+        $scope.deleteCustomer = function (customer) {
+            var customerDel = { "Id": customer.Id };
+            $scope.serverVal = false;
+            $http.post("/App/Delete/", customerDel).success(function (response) {
+                $scope.customerListFn();
+            });
+        };
+
         $scope.dataPostCustomer = function (form) {
             form.Name.$touched = true;
             form.Address1.$touched = true;
@@ -68,7 +87,7 @@ app.controller('appCtrl',
                         $scope.serverValErr = false;
                         $scope.c.Id = response;
                         $scope.customerListFn();
-                        $scope.addOrder();
+                        $scope.orderCustomer($scope.c);
                     }
                     else {
                         $scope.serverValErr = true;
@@ -77,17 +96,8 @@ app.controller('appCtrl',
             }
         };
 
-        $scope.addOrder = function () {
-            $scope.modalTpl = {
-                modalId: "customerOrderDetail",
-                modalTitle: "Customer ID: " + $scope.c.Id + " | " + "Name: " + $scope.c.Name,
-                buttonName: "Create"
-            };
-            $scope.orderListFn($scope.c);  
-        };
-
-        $scope.orderListFn = function (c) {
-            $http.get("/Order/List/" + c.Id).then(function (response) {
+        $scope.orderListFn = function (customer) {
+            $http.get("/Order/List/" + customer.Id).then(function (response) {
                 $scope.orderList = response.data;
             });
         };
@@ -145,12 +155,16 @@ app.controller('appCtrl',
         };
 
         $scope.detailOrder = function (order) {
+            $scope.addButtonName = "Add Product >>";
             $('#templateModal').modal('show');
             $scope.modalTplIn = {
                 modalId: "detail",
                 modalTitle: "Customer ID: " + $scope.c.Id + " | " + "Name: " + $scope.c.Name + " | " + "Order  ID: " + order.OrderId,
-                buttonName: "Detail"
+                buttonName: "Detail",
+                modalIdDetailAdd : null
             };
+            $scope.o = JSON.parse(JSON.stringify(order));
+            $scope.o.OrderDate = new Date($scope.o.OrderDate);
             $scope.orderDetailFn(order);
         };
 
@@ -158,7 +172,7 @@ app.controller('appCtrl',
             var orderDel = { "Id": order.OrderId };
             $scope.serverVal = false;
             $http.post("/Order/Delete/", orderDel).success(function (response) {
-                $scope.orderListFn();
+                $scope.orderListFn($scope.c);
                 $scope.customerListFn();
             });
         };
@@ -192,41 +206,41 @@ app.controller('appCtrl',
             }     
         };
 
-        //$scope.closeAddForm = function () {
-        //    if ($scope.modalTpl.modalIdDetailAdd === "detailAdd") {
-        //        $scope.modalTpl.modalIdDetailAdd = null;
-        //        $scope.addButtonName = "Add Product >>";
-        //    }
-        //};
+        $scope.closeAddForm = function () {
+            if ($scope.modalTplIn.modalIdDetailAdd === "detailAdd") {
+                $scope.modalTplIn.modalIdDetailAdd = null;
+                $scope.addButtonName = "Add Product >>";
+            }
+        };
 
-        //$scope.addProductFromList = function (selectedItem) {
-        //    $scope.addForm.selectedProductId.$touched = true;
-        //    if (!$scope.addForm.selectedProductId.$invalid) {
-        //        var productNew = { "OrderId": $scope.OrderId, "ProductId": selectedItem };
-        //        $http.post("/Order/AddProductModal/", productNew).success(function (response) {
-        //            if (response === "True") {
-        //                $scope.serverValErr = false;
-        //                $scope.orderDetailFn();
-        //            }
-        //            else {
-        //                $scope.serverValErr = true;
-        //            }
-        //        });
-        //    }
-        //};
+        $scope.addProductFromList = function (selectedItem, form) {
+            form.selectedProductId.$touched = true;
+            if (!form.selectedProductId.$invalid) {
+                var productNew = { "OrderId": $scope.o.OrderId, "ProductId": selectedItem };
+                $http.post("/Order/AddProductModal/", productNew).success(function (response) {
+                    if (response === "True") {
+                        $scope.serverValErr = false;
+                        $scope.orderDetailFn($scope.o);
+                    }
+                    else {
+                        $scope.serverValErr = true;
+                    }
+                });
+            }
+        };
 
-        //$scope.removeProduct = function (orderDetailId) {
-        //    var productDel = { "id": orderDetailId };
-        //    $scope.serverVal = false;
-        //    $http.post("/Order/DelOrderDetails/", productDel).success(function (response) {
-        //        $scope.orderDetailFn();
-        //    });
-        //};
+        $scope.removeProduct = function (orderDetailId) {
+            var productDel = { "id": orderDetailId };
+            $scope.serverVal = false;
+            $http.post("/Order/DelOrderDetails/", productDel).success(function (response) {
+                $scope.orderDetailFn($scope.o);
+            });
+        };
 
-        //$scope.deletePostInDetail = function () {
-        //    $scope.deletePost($scope.orderToEdit);
-        //    $scope.close();
-        //};
+        $scope.deletePostInDetail = function () {
+            $scope.deletePost($scope.o);
+            $scope.closeIn();
+        };
 
         $scope.close = function () {
             $('#templateModalOut').modal('hide');

@@ -26,7 +26,7 @@ namespace Cobra_onboarding.Controllers
             return View();
         }
      
-        public ActionResult List()
+        public JsonResult List()
         {
             using (CobraEntities db = new CobraEntities())
             {
@@ -55,67 +55,15 @@ namespace Cobra_onboarding.Controllers
             }
         }
 
-
-
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
-        public ActionResult Create(Person p)
-        {
-            if(ModelState.IsValid)
-            {
-                using (CobraEntities db = new CobraEntities())
-                {
-                    db.Entry(p).State = EntityState.Added;
-                    db.SaveChanges();
-                    return RedirectToAction("List");
-                }
-            }
-            else
-            {
-                return View(p);
-            }  
-        }
-
-        public ActionResult Edit(int Id)
+        public bool Delete(int Id)
         {
             using (CobraEntities db = new CobraEntities())
             {
-                Person p = db.People.Find(Id);
-                return View(p);
-            }
-                
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Person p)
-        {
-            if (ModelState.IsValid)
-            {
-                using (CobraEntities db = new CobraEntities())
-                {
-                    db.Entry(p).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("List");
-                }
-            }
-            else
-            {
-                return View(p);
-            }
-        }
-
-        public ActionResult Details(int Id)
-        {
-            using (CobraEntities db = new CobraEntities())
-            {
-                Person p = db.People.Include("OrderHeaders").Include("OrderHeaders.OrderDetails").Include("OrderHeaders.OrderDetails.Product").Where(x => x.Id == Id).FirstOrDefault();
-                ViewBag.Count = p.OrderHeaders.Count();
-                return View(p);
+                var customer = db.People.Find(Id);
+                db.Entry(customer).State = EntityState.Deleted;
+                db.SaveChanges();
+                return true;
             }
         }
     }

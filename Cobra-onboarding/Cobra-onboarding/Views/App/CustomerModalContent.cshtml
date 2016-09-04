@@ -39,7 +39,7 @@
                     </div>
                 </div>
             </form>
-            <button ng-click="addOrder()" type="button" class="btn btn-default btn-sm">Add Order</button>
+            <button ng-click="orderCustomer(c)" type="button" class="btn btn-default btn-sm">Add Order</button>
         </div>
 
     </div>
@@ -93,7 +93,7 @@
     <!-- Modal Template-->
     <div id="templateModal" class="modal fade" role="dialog">
 
-        <div class="modal-body" style="width:600px">
+        <div class="modal-dialog" style="width:600px">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -106,9 +106,10 @@
 
         </div>
     </div>
+
     <div class="modal-footer">
         <div class="col-md-offset-2 col-md-10">
-            <button ng-click="dataPostCustomer(createEditCustomerForm)" type="button" class="btn btn-default">{{modalTpl.buttonName}}</button>
+            <button ng-click="editCustomer(c)" type="button" class="btn btn-default">{{modalTpl.buttonName}}</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
     </div>
