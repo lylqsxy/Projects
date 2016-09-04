@@ -17,14 +17,13 @@ namespace Cobra_onboarding.Controllers
             return View();
         }
 
-        public JsonResult List()
+        public JsonResult List(int Id)
         {
             using (CobraEntities db = new CobraEntities())
             {
-                var orders = db.OrderHeaders.Include("Person").ToList().Select(x => new { OrderId = x.OrderId, OrderDate = x.OrderDate.Value.ToString("yyyy-MM-dd"), PersonName = x.Person.Name, PersonId = x.Person.Id.ToString() });
+                var orders = db.OrderHeaders.Where(x => x.PersonId == Id).ToList().Select(x => new { OrderId = x.OrderId, OrderDate = x.OrderDate.Value.ToString("yyyy-MM-dd"), PersonId = x.PersonId});
                 return Json(orders, JsonRequestBehavior.AllowGet);
-            }
-                
+            }       
         }
 
         public JsonResult PersonInfo()

@@ -1,0 +1,121 @@
+﻿
+<!-- Create/Edit Customer Modal -->
+
+<div ng-show="modalTpl.modalId==='createEditCustomer'">
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <span ng-show="serverValErr" style="color:red; font-style:oblique">Server Validation Error.</span>
+            <form name="createEditCustomerForm">
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Name</label>
+                    <div class="col-md-9">
+                        <input name="Name" class="form-control" ng-model="c.Name" required />
+                        <span ng-show="createEditCustomerForm.Name.$touched && createEditCustomerForm.Name.$invalid" style="color:red; font-style:oblique">Name is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Address1</label>
+                    <div class="col-md-9">
+                        <input name="Address1" class="form-control" ng-model="c.Address1" required />
+                        <span ng-show="createEditCustomerForm.Address1.$touched && createEditCustomerForm.Address1.$invalid" style="color:red; font-style:oblique">Address1 is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Address2</label>
+                    <div class="col-md-9">
+                        <input name="Address2" class="form-control" ng-model="c.Address2" required />
+                        <span ng-show="createEditCustomerForm.Address2.$touched && createEditCustomerForm.Address2.$invalid" style="color:red; font-style:oblique">Address2 is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">Town/City</label>
+                    <div class="col-md-9">
+                        <input name="Town_City" class="form-control" ng-model="c.Town_City" required />
+                        <span ng-show="createEditCustomerForm.Town_City.$touched && createEditCustomerForm.Town_City.$invalid" style="color:red; font-style:oblique">Town/City is required.</span>
+                    </div>
+                </div>
+            </form>
+            <button ng-click="addOrder()" type="button" class="btn btn-default btn-sm">Add Order</button>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <div class="col-md-offset-2 col-md-10">
+            <button ng-click="dataPostCustomer(createEditCustomerForm)" type="button" class="btn btn-default">{{modalTpl.buttonName}}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Customer Order List Modal -->
+
+<div ng-show="modalTpl.modalId==='customerOrderDetail'" class="container body-content">
+    <br />
+    <p>
+        <button type="button" class="btn btn-primary" ng-click="createOrder()">Create New</button>
+    </p>
+    <div>
+        <table class="table">
+            <tr>
+                <th>
+                    Order ID
+                </th>
+                <th>
+                    Order Date
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+            <tr ng-repeat="x in orderList">
+                <td>
+                    {{x.OrderId}}
+                </td>
+                <td>
+                    {{x.OrderDate | date:'dd/MM/yyyy'}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-default" ng-click="editOrder(x)">Edit</button>
+                    <button type="button" class="btn btn-default" ng-click="detailOrder(x)">Details</button>
+                    <button type="button" class="btn btn-default" ng-click="deletePost(x)">Delete</button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <!-- Modal Template-->
+    <div id="templateModal" class="modal fade" role="dialog">
+
+        <div class="modal-body" style="width:600px">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="closeIn()">&times;</button>
+                    <h4 class="modal-title">{{modalTplIn.modalTitle}}</h4>
+                </div>
+                <div ng-include="'/App/OrderModalContent'"></div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-md-offset-2 col-md-10">
+            <button ng-click="dataPostCustomer(createEditCustomerForm)" type="button" class="btn btn-default">{{modalTpl.buttonName}}</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

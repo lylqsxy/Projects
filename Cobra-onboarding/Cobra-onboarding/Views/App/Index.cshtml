@@ -5,7 +5,7 @@
 <h2>Customer List</h2>
 
 <p>
-    <button type="button" class="btn btn-default" ng-click="createCustomer()">Create New</button>
+    <button type="button" class="btn btn-primary" ng-click="createCustomer()">Create New</button>
 </p>
 <div>
     <table class="table">
@@ -29,19 +29,19 @@
 
         <tr ng-repeat="x in customerList">
             <td>
-                {{x.CustomerId}}
+                {{x.Id}}
             </td>
             <td>
-                {{x.CustomerName}}
+                {{x.Name}}
             </td>
             <td>
                 {{x.Address1}}, {{x.Address2}}
             </td>
             <td>
-                {{x.TownCity}}
+                {{x.Town_City}}
             </td>
             <td>
-                <button type="button" class="btn btn-default" ng-click="editOrder(x)">Edit</button>
+                <button type="button" class="btn btn-default" ng-click="editCustomer(x)">Edit</button>
                 <button type="button" class="btn btn-default" ng-click="detailOrder(x)">Details</button>
                 <button type="button" class="btn btn-default" ng-click="deletePost(x)">Delete</button>
             </td>
@@ -50,3 +50,19 @@
     </table>
 </div>
 
+<!-- Modal Template-->
+<div id="templateModalOut" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">{{modalTpl.modalTitle}}</h4>
+            </div>
+            <div ng-include="'/App/CustomerModalContent'"></div>
+        </div>
+
+
+    </div>
+</div>
