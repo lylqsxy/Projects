@@ -10,16 +10,18 @@
                     <label class="control-label col-md-3">Order Date</label>
                     <div class="col-md-9">
                         <input name="orderDate" type="date" class="form-control" ng-model="o.OrderDate" required />
-                        <span ng-show="createEditForm.orderDate.$touched && createEditForm.orderDate.$invalid" style="color:red; font-style:oblique">The date is required.</span>
+                        <span ng-show="createEditForm.orderDate.$touched && createEditForm.orderDate.$invalid" style="color:red; font-style:oblique">Date is required.</span>
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <div class="modal-footer">
-        <div class="col-md-offset-2 col-md-10">
-            <button ng-click="dataPostOrder(createEditForm)" type="button" class="btn btn-default">{{modalTplIn.buttonName}}</button>
-            <button ng-click="closeIn()" type="button" class="btn btn-default">Close</button>
+        <div class="col-md-offset-0 col-md-12">
+            <button ng-click="dataPostOrder(createEditForm, true)" type="button" class="btn btn-default">{{modalTplIn.buttonName}}</button>
+            <button ng-show="modalTplIn.editButtonShow" ng-click="detailOrder(o)" type="button" class="btn btn-default">Show Products</button>
+            <button ng-click="dataPostOrder(createEditForm, false)" type="button" class="btn btn-default">Save</button>
+            <button ng-click="closeIn(createEditForm)" type="button" class="btn btn-default">Close</button>
         </div>
     </div>
 </div>
@@ -69,7 +71,7 @@
                             &nbsp;
                             <button ng-click="addProductFromList(SeletedProductId, addForm)" type="button" class="btn btn-default">Add</button>
                             <br />
-                            <span ng-show="addForm.selectedProductId.$touched && addForm.selectedProductId.$invalid" style="color:red; font-style:oblique">The product is required.</span>
+                            <span ng-show="addForm.selectedProductId.$touched && addForm.selectedProductId.$invalid" style="color:red; font-style:oblique">Product is required.</span>
                         </div>
                     </div>
                 </form>
@@ -80,8 +82,8 @@
 
     <div class="modal-footer">
         <div class="col-md-offset-2 col-md-10">
-            <button ng-click="deletePostInDetail()" type="button" class="btn btn-default">Delete</button>
-            <button ng-click="closeIn()" type="button" class="btn btn-default">Close</button>
+            <button ng-click="deletePostInDetail(form)" type="button" class="btn btn-default">Delete</button>
+            <button ng-click="closeIn(addForm)" type="button" class="btn btn-default">Close</button>
         </div>
     </div>
 </div>

@@ -30,8 +30,8 @@ namespace Cobra_onboarding.Controllers
         {
             using (CobraEntities db = new CobraEntities())
             {
-                var customers = db.OrderHeaders.Select(x => x.Person).Distinct()
-                    .Select(y => new { Id = y.Id, Name = y.Name, Address1 = y.Address1, Address2 = y.Address2, Town_City = y.Town_City }).ToList();
+                var customers = db.People
+                    .Select(y => new { Id = y.Id, Name = y.Name, Address1 = y.Address1, Address2 = y.Address2, Town_City = y.Town_City, OrderCount = y.OrderHeaders.Count }).ToList();
                 return Json(customers, JsonRequestBehavior.AllowGet);
             }
                 
@@ -56,14 +56,26 @@ namespace Cobra_onboarding.Controllers
         }
 
         [HttpPost]
-        public bool Delete(int Id)
+        public int Delete(int Id)
         {
             using (CobraEntities db = new CobraEntities())
             {
                 var customer = db.People.Find(Id);
+                if (db.OrderHeaders.Any(x => x.PersonId == customer.Id))
+                {
+                    var ohs = db.OrderHeaders.Where(y => y.PersonId == customer.Id);
+                    foreach(var oh in ohs)
+                    {
+                        if (db.OrderDetails.Any(z => z.OrderId == oh.OrderId))
+                        {
+                            db.OrderDetails.Where(z => z.OrderId == oh.OrderId).ToList()
+                                .ForEach(zz => db.Entry(zz).State = EntityState.Deleted);
+                        }
+                        db.Entry(oh).State = EntityState.Deleted;
+                    }
+                }
                 db.Entry(customer).State = EntityState.Deleted;
-                db.SaveChanges();
-                return true;
+                return db.SaveChanges();
             }
         }
     }

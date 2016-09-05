@@ -37,7 +37,7 @@ namespace Cobra_onboarding.Controllers
         }
 
         [HttpPost]
-        public bool DataPost(OrderHeader o)
+        public int DataPost(OrderHeader o)
         {
             if (ModelState.IsValid)
             {
@@ -46,24 +46,28 @@ namespace Cobra_onboarding.Controllers
 
                     db.Entry(o).State = o.OrderId == 0? EntityState.Added : EntityState.Modified;
                     db.SaveChanges();
-                    return true;
+                    return o.OrderId;
                 }
             }
             else
             {
-                return false;
+                return 0;
             }
         }
 
         [HttpPost]
-        public bool Delete(int Id)
+        public int Delete(int Id)
         {
             using (CobraEntities db = new CobraEntities())
             {
                 var order = db.OrderHeaders.Find(Id);
+                if(db.OrderDetails.Any(x => x.OrderId == order.OrderId))
+                {
+                    db.OrderDetails.Where(x => x.OrderId == order.OrderId).ToList()
+                        .ForEach(y => db.Entry(y).State = EntityState.Deleted);
+                }
                 db.Entry(order).State = EntityState.Deleted;
-                db.SaveChanges();
-                return true;
+                return db.SaveChanges();
             }
         }
 
@@ -92,20 +96,19 @@ namespace Cobra_onboarding.Controllers
         }
 
         [HttpPost]
-        public bool AddProductModal(OrderDetail od)
+        public int AddProductModal(OrderDetail od)
         {
             if (ModelState.IsValid)
             {
                 using (CobraEntities db = new CobraEntities())
                 {
                     db.Entry(od).State = EntityState.Added;
-                    db.SaveChanges();
-                    return true;
+                    return db.SaveChanges();
                 }
             }
             else
             {
-                return false;
+                return 0;
             }
         }
 
@@ -119,21 +122,13 @@ namespace Cobra_onboarding.Controllers
         }
 
         [HttpPost]
-        public bool DelOrderDetails(int id)
+        public int DelOrderDetails(int id)
         {
-            if (ModelState.IsValid)
+            using (CobraEntities db = new CobraEntities())
             {
-                using (CobraEntities db = new CobraEntities())
-                {
-                    var od = db.OrderDetails.Find(id);
-                    db.Entry(od).State = EntityState.Deleted;
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
+                var od = db.OrderDetails.Find(id);
+                db.Entry(od).State = EntityState.Deleted;
+                return db.SaveChanges();
             }
         }
     }

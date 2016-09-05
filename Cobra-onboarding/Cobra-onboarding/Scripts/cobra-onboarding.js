@@ -34,7 +34,8 @@ app.controller('appCtrl',
             $scope.modalTpl = {
                 modalId: "createEditCustomer",
                 modalTitle: "Create Customer",
-                buttonName: "Create"
+                buttonName: "Save & Add Orders",
+                editButtonShow: false
             };
             $scope.initCustomerToEdit();
         };
@@ -45,7 +46,8 @@ app.controller('appCtrl',
             $scope.modalTpl = {
                 modalId: "createEditCustomer",
                 modalTitle: "Edit Customer ID: " + customer.Id,
-                buttonName: "Edit"
+                buttonName: "Save & Show Orders",
+                editButtonShow: true
             };
             $scope.c = JSON.parse(JSON.stringify(customer));
         };
@@ -55,13 +57,14 @@ app.controller('appCtrl',
             $scope.modalTpl = {
                 modalId: "customerOrderDetail",
                 modalTitle: "Customer ID: " + customer.Id + " | " + "Name: " + customer.Name,
-                buttonName: "Back"
+                buttonName: "Back to Edit"
             };
             $scope.c = JSON.parse(JSON.stringify(customer));
             $scope.orderListFn($scope.c);
         };
 
         $scope.deleteCustomer = function (customer) {
+            window.alert("All the customer's orders will be deleted!");
             var customerDel = { "Id": customer.Id };
             $scope.serverVal = false;
             $http.post("/App/Delete/", customerDel).success(function (response) {
@@ -69,25 +72,24 @@ app.controller('appCtrl',
             });
         };
 
-        $scope.dataPostCustomer = function (form) {
+        $scope.dataPostCustomer = function (form, ifShowOrder) {
             form.Name.$touched = true;
             form.Address1.$touched = true;
             form.Address2.$touched = true;
             form.Town_City.$touched = true;
-            if (!form.Name.$invalid &&
-                !form.Address1.$invalid &&
-                !form.Address2.$invalid &&
-                !form.Town_City.$invalid) {
-                form.Name.$touched = false;
-                form.Address1.$touched = false;
-                form.Address2.$touched = false;
-                form.Town_City.$touched = false;
+            if (!form.$invalid) {
                 $http.post("/App/DataPostCustomer/", $scope.c).success(function (response) {
                     if (response > 0) {
                         $scope.serverValErr = false;
                         $scope.c.Id = response;
                         $scope.customerListFn();
-                        $scope.orderCustomer($scope.c);
+                        if (ifShowOrder === true)
+                        {
+                            $scope.orderCustomer($scope.c);
+                        }
+                        else {
+                            $scope.close(form);
+                        }
                     }
                     else {
                         $scope.serverValErr = true;
@@ -106,7 +108,7 @@ app.controller('appCtrl',
             $scope.o =
             {
                 "OrderId": 0,
-                "OrderDate": undefined,
+                "OrderDate": null,
                 "PersonId": $scope.c.Id
             };
         };
@@ -118,7 +120,8 @@ app.controller('appCtrl',
             $scope.modalTplIn = {
                 modalId: "createEdit",
                 modalTitle: "Create",
-                buttonName: "Create"
+                buttonName: "Save & Add Products",
+                editButtonShow: false
             };
             $scope.initOrderToEdit();
         };
@@ -129,23 +132,28 @@ app.controller('appCtrl',
             $scope.modalTplIn = {
                 modalId: "createEdit",
                 modalTitle: "Edit  ID: " + order.OrderId,
-                buttonName: "Edit"
+                buttonName: "Save & Show Products",
+                editButtonShow: true
             };
             $scope.o = JSON.parse(JSON.stringify(order));
             $scope.o.OrderDate = new Date($scope.o.OrderDate);
         };
 
-        $scope.dataPostOrder = function (form) {
+        $scope.dataPostOrder = function (form, ifShowOrderDetail) {
             form.orderDate.$touched = true;
-            if (!form.orderDate.$invalid) {
-                form.orderDate.$touched = false;
-                console.log($scope.o);
+            if (!form.$invalid) {
                 $http.post("/Order/DataPost/", $scope.o).success(function (response) {
-                    if (response === "True") {
+                    if (response > 0) {
                         $scope.serverValErr = false;
+                        $scope.o.OrderId = response;
                         $scope.orderListFn($scope.c);
                         $scope.customerListFn();
-                        $scope.closeIn();
+                        if (ifShowOrderDetail === true) {
+                            $scope.detailOrder($scope.o);
+                        }
+                        else {
+                            $scope.closeIn(form);
+                        }
                     }
                     else {
                         $scope.serverValErr = true;
@@ -169,6 +177,7 @@ app.controller('appCtrl',
         };
 
         $scope.deletePost = function (order) {
+            window.alert("All the order details will be deleted!");
             var orderDel = { "Id": order.OrderId };
             $scope.serverVal = false;
             $http.post("/Order/Delete/", orderDel).success(function (response) {
@@ -215,10 +224,10 @@ app.controller('appCtrl',
 
         $scope.addProductFromList = function (selectedItem, form) {
             form.selectedProductId.$touched = true;
-            if (!form.selectedProductId.$invalid) {
+            if (!form.$invalid) {
                 var productNew = { "OrderId": $scope.o.OrderId, "ProductId": selectedItem };
                 $http.post("/Order/AddProductModal/", productNew).success(function (response) {
-                    if (response === "True") {
+                    if (response > 0) {
                         $scope.serverValErr = false;
                         $scope.orderDetailFn($scope.o);
                     }
@@ -239,14 +248,18 @@ app.controller('appCtrl',
 
         $scope.deletePostInDetail = function () {
             $scope.deletePost($scope.o);
-            $scope.closeIn();
+            $('#templateModal').modal('hide');
         };
 
-        $scope.close = function () {
+        $scope.close = function (form) {
+            form.$setPristine();
+            form.$setUntouched();
             $('#templateModalOut').modal('hide');
         };
 
-        $scope.closeIn = function () {
+        $scope.closeIn = function (form) {
+            form.$setPristine();
+            form.$setUntouched();
             $('#templateModal').modal('hide');
         };
 

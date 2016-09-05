@@ -325,7 +325,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\App\CustomerModalContent.cshtml" />
+    <None Include="Views\App\CustomerModalContent.cshtml" />
     <Content Include="Views\App\Index.cshtml" />
     <Content Include="Views\App\OrderModalContent.cshtml" />
   </ItemGroup>
