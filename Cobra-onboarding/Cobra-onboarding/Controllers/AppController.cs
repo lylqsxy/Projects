@@ -78,5 +78,22 @@ namespace Cobra_onboarding.Controllers
                 return db.SaveChanges();
             }
         }
+
+        public bool UserVal(String Name)
+        {
+            System.Threading.Thread.Sleep(1000);
+            using (CobraEntities db = new CobraEntities())
+            {
+                if(!db.People.Any(x => x.Name == Name))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
     }
 }

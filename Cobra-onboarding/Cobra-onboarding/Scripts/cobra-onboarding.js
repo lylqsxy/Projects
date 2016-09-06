@@ -4,8 +4,48 @@ app.config(function ($routeProvider) {
     $routeProvider
     .when("/", {
         templateUrl: "/"
-    });
+    })
 });
+
+app.directive('validateInteger', function () {
+
+    var REGEX = /^\-?\d+$/;
+
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ctrl) {
+
+            ctrl.$validators.integer = function (modelValue, viewValue) {
+                if (REGEX.test(viewValue)) {
+                    return true;
+                }
+                return false;
+            };
+        }
+    };
+});
+
+app.directive('usernameValidator', function ($http, $q) {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ctrl) {
+            ctrl.$asyncValidators.username = function (modelValue, viewValue) {
+                return $http.get("/App/UserVal/?Name=" + viewValue).then(
+                    function (response) {
+                        if (response.data === "False") {
+                            return $q.reject('exists');
+                        }
+                        else
+                        {
+                            return true;
+                        }      
+                    }
+                );
+            };
+        }
+    };
+});
+
 
 app.controller('appCtrl',
     function ($scope, $http) {
@@ -270,4 +310,5 @@ app.controller('appCtrl',
         };
 
         $scope.today = new Date().toISOString().substr(0, 10);
+
     });
