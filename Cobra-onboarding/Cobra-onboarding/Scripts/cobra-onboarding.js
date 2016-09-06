@@ -64,12 +64,15 @@ app.controller('appCtrl',
         };
 
         $scope.deleteCustomer = function (customer) {
-            window.alert("All the customer's orders will be deleted!");
-            var customerDel = { "Id": customer.Id };
-            $scope.serverVal = false;
-            $http.post("/App/Delete/", customerDel).success(function (response) {
-                $scope.customerListFn();
-            });
+            if (confirm("All the customer's orders will be deleted!"))
+            {
+                var customerDel = { "Id": customer.Id };
+                $scope.serverVal = false;
+                $http.post("/App/Delete/", customerDel).success(function (response) {
+                    $scope.customerListFn();
+                });
+            }
+            
         };
 
         $scope.dataPostCustomer = function (form, ifShowOrder) {
@@ -177,13 +180,16 @@ app.controller('appCtrl',
         };
 
         $scope.deletePost = function (order) {
-            window.alert("All the order details will be deleted!");
-            var orderDel = { "Id": order.OrderId };
-            $scope.serverVal = false;
-            $http.post("/Order/Delete/", orderDel).success(function (response) {
-                $scope.orderListFn($scope.c);
-                $scope.customerListFn();
-            });
+            if (confirm("All the order details will be deleted!"))
+            {
+                var orderDel = { "Id": order.OrderId };
+                $scope.serverVal = false;
+                $http.post("/Order/Delete/", orderDel).success(function (response) {
+                    $scope.orderListFn($scope.c);
+                    $scope.customerListFn();
+                });
+            }
+            
         };
 
         $scope.orderDetailFn = function (order) {
@@ -263,4 +269,5 @@ app.controller('appCtrl',
             $('#templateModal').modal('hide');
         };
 
+        $scope.today = new Date().toISOString().substr(0, 10);
     });

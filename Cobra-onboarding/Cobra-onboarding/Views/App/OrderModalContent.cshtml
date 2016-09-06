@@ -9,8 +9,10 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Order Date</label>
                     <div class="col-md-9">
-                        <input name="orderDate" type="date" class="form-control" ng-model="o.OrderDate" required />
-                        <span ng-show="createEditForm.orderDate.$touched && createEditForm.orderDate.$invalid" style="color:red; font-style:oblique">Date is required.</span>
+                        <input name="orderDate" type="date" class="form-control" ng-model="o.OrderDate" min="2015-01-01" max="{{today}}" required />
+                        <span ng-show="createEditForm.orderDate.$touched && createEditForm.orderDate.$error.required" style="color:red; font-style:oblique">Date is required.</span>
+                        <span ng-show="createEditForm.orderDate.$error.min" style="color:red; font-style:oblique">Date can not be before 1/1/2015.</span>
+                        <span ng-show="createEditForm.orderDate.$error.max" style="color:red; font-style:oblique">Date can not be after today.</span>
                     </div>
                 </div>
             </form>
@@ -71,7 +73,7 @@
                             &nbsp;
                             <button ng-click="addProductFromList(SeletedProductId, addForm)" type="button" class="btn btn-default">Add</button>
                             <br />
-                            <span ng-show="addForm.selectedProductId.$touched && addForm.selectedProductId.$invalid" style="color:red; font-style:oblique">Product is required.</span>
+                            <span ng-show="addForm.selectedProductId.$touched && addForm.selectedProductId.$error.required" style="color:red; font-style:oblique">Product is required.</span>
                         </div>
                     </div>
                 </form>

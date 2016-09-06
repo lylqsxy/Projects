@@ -10,24 +10,26 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Name</label>
                     <div class="col-md-9">
-                        <input name="Name" class="form-control" ng-model="c.Name" required />
-                        <span ng-show="createEditCustomerForm.Name.$touched && createEditCustomerForm.Name.$invalid" style="color:red; font-style:oblique">Name is required.</span>
+                        <input name="Name" class="form-control" ng-model="c.Name" minlength="2" ng-pattern="/^[a-zA-Z]*$/" required />
+                        <span ng-show="createEditCustomerForm.Name.$touched && createEditCustomerForm.Name.$error.required" style="color:red; font-style:oblique">Name is required.</span>
+                        <span ng-show="createEditCustomerForm.Name.$error.minlength" style="color:red; font-style:oblique">At least two letters are required.</span>
+                        <span ng-show="createEditCustomerForm.Name.$error.pattern" style="color:red; font-style:oblique">Format is incorrect.</span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3">Address1</label>
                     <div class="col-md-9">
-                        <input name="Address1" class="form-control" ng-model="c.Address1" required />
-                        <span ng-show="createEditCustomerForm.Address1.$touched && createEditCustomerForm.Address1.$invalid" style="color:red; font-style:oblique">Address1 is required.</span>
+                        <input name="Address1" class="form-control" ng-model="c.Address1" minlength="4" required />
+                        <span ng-show="createEditCustomerForm.Address1.$touched && createEditCustomerForm.Address1.$error.required" style="color:red; font-style:oblique">Address1 is required.</span>
+                        <span ng-show="createEditCustomerForm.Address1.$error.minlength" style="color:red; font-style:oblique">At least Four characters are required.</span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3">Address2</label>
                     <div class="col-md-9">
-                        <input name="Address2" class="form-control" ng-model="c.Address2" required />
-                        <span ng-show="createEditCustomerForm.Address2.$touched && createEditCustomerForm.Address2.$invalid" style="color:red; font-style:oblique">Address2 is required.</span>
+                        <input name="Address2" class="form-control" ng-model="c.Address2" />
                     </div>
                 </div>
 
