@@ -81,7 +81,6 @@ namespace Cobra_onboarding.Controllers
 
         public bool UserVal(String Name)
         {
-            System.Threading.Thread.Sleep(1000);
             using (CobraEntities db = new CobraEntities())
             {
                 if(!db.People.Any(x => x.Name == Name))

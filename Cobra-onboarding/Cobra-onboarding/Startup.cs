@@ -8,7 +8,7 @@ namespace Cobra_onboarding
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+
         }
     }
 }

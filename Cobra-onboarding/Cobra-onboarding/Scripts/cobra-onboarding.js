@@ -1,51 +1,4 @@
-﻿var app = angular.module('myApp', ['ngRoute']);
-
-app.config(function ($routeProvider) {
-    $routeProvider
-    .when("/", {
-        templateUrl: "/"
-    })
-});
-
-app.directive('validateInteger', function () {
-
-    var REGEX = /^\-?\d+$/;
-
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, ctrl) {
-
-            ctrl.$validators.integer = function (modelValue, viewValue) {
-                if (REGEX.test(viewValue)) {
-                    return true;
-                }
-                return false;
-            };
-        }
-    };
-});
-
-app.directive('usernameValidator', function ($http, $q) {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, ctrl) {
-            ctrl.$asyncValidators.username = function (modelValue, viewValue) {
-                return $http.get("/App/UserVal/?Name=" + viewValue).then(
-                    function (response) {
-                        if (response.data === "False") {
-                            return $q.reject('exists');
-                        }
-                        else
-                        {
-                            return true;
-                        }      
-                    }
-                );
-            };
-        }
-    };
-});
-
+﻿var app = angular.module('myApp', ['angularValidator']);
 
 app.controller('appCtrl',
     function ($scope, $http) {
@@ -74,8 +27,6 @@ app.controller('appCtrl',
             $scope.modalTpl = {
                 modalId: "createEditCustomer",
                 modalTitle: "Create Customer",
-                buttonName: "Save & Add Orders",
-                editButtonShow: false
             };
             $scope.initCustomerToEdit();
         };
@@ -86,8 +37,6 @@ app.controller('appCtrl',
             $scope.modalTpl = {
                 modalId: "createEditCustomer",
                 modalTitle: "Edit Customer ID: " + customer.Id,
-                buttonName: "Save & Show Orders",
-                editButtonShow: true
             };
             $scope.c = JSON.parse(JSON.stringify(customer));
         };
@@ -115,24 +64,14 @@ app.controller('appCtrl',
             
         };
 
-        $scope.dataPostCustomer = function (form, ifShowOrder) {
-            form.Name.$touched = true;
-            form.Address1.$touched = true;
-            form.Address2.$touched = true;
-            form.Town_City.$touched = true;
+        $scope.dataPostCustomer = function (form) {
             if (!form.$invalid) {
                 $http.post("/App/DataPostCustomer/", $scope.c).success(function (response) {
                     if (response > 0) {
                         $scope.serverValErr = false;
                         $scope.c.Id = response;
                         $scope.customerListFn();
-                        if (ifShowOrder === true)
-                        {
-                            $scope.orderCustomer($scope.c);
-                        }
-                        else {
-                            $scope.close(form);
-                        }
+                        $scope.close(form);
                     }
                     else {
                         $scope.serverValErr = true;
@@ -163,8 +102,6 @@ app.controller('appCtrl',
             $scope.modalTplIn = {
                 modalId: "createEdit",
                 modalTitle: "Create",
-                buttonName: "Save & Add Products",
-                editButtonShow: false
             };
             $scope.initOrderToEdit();
         };
@@ -175,28 +112,20 @@ app.controller('appCtrl',
             $scope.modalTplIn = {
                 modalId: "createEdit",
                 modalTitle: "Edit  ID: " + order.OrderId,
-                buttonName: "Save & Show Products",
-                editButtonShow: true
             };
             $scope.o = JSON.parse(JSON.stringify(order));
             $scope.o.OrderDate = new Date($scope.o.OrderDate);
         };
 
-        $scope.dataPostOrder = function (form, ifShowOrderDetail) {
-            form.orderDate.$touched = true;
+        $scope.dataPostOrder = function (form) {
             if (!form.$invalid) {
                 $http.post("/Order/DataPost/", $scope.o).success(function (response) {
                     if (response > 0) {
                         $scope.serverValErr = false;
                         $scope.o.OrderId = response;
                         $scope.orderListFn($scope.c);
-                        $scope.customerListFn();
-                        if (ifShowOrderDetail === true) {
-                            $scope.detailOrder($scope.o);
-                        }
-                        else {
-                            $scope.closeIn(form);
-                        }
+                        $scope.customerListFn();                  
+                        $scope.closeIn(form);
                     }
                     else {
                         $scope.serverValErr = true;
@@ -228,8 +157,7 @@ app.controller('appCtrl',
                     $scope.orderListFn($scope.c);
                     $scope.customerListFn();
                 });
-            }
-            
+            }           
         };
 
         $scope.orderDetailFn = function (order) {
@@ -298,14 +226,12 @@ app.controller('appCtrl',
         };
 
         $scope.close = function (form) {
-            form.$setPristine();
-            form.$setUntouched();
+            form.reset();
             $('#templateModalOut').modal('hide');
         };
 
         $scope.closeIn = function (form) {
-            form.$setPristine();
-            form.$setUntouched();
+            form.reset();
             $('#templateModal').modal('hide');
         };
 

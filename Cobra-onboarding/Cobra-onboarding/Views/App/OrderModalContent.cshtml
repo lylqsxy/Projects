@@ -2,30 +2,26 @@
 <!-- Create/Edit Modal -->
 
 <div ng-show="modalTplIn.modalId==='createEdit'">
-    <div class="modal-body">
-        <div class="form-horizontal">
-            <span ng-show="serverValErr" style="color:red; font-style:oblique">Server Validation Error.</span>
-            <form name="createEditForm">
+    <form angular-validator-submit="dataPostOrder(createEditOrderForm)" name="createEditOrderForm" novalidate angular-validator>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <span ng-show="serverValErr" style="color:red; font-style:oblique">Server Validation Error.</span>
                 <div class="form-group">
                     <label class="control-label col-md-3">Order Date</label>
                     <div class="col-md-9">
-                        <input name="orderDate" type="date" class="form-control" ng-model="o.OrderDate" min="2015-01-01" max="{{today}}" required />
-                        <span ng-show="createEditForm.orderDate.$touched && createEditForm.orderDate.$error.required" style="color:red; font-style:oblique">Date is required.</span>
-                        <span ng-show="createEditForm.orderDate.$error.min" style="color:red; font-style:oblique">Date can not be before 1/1/2015.</span>
-                        <span ng-show="createEditForm.orderDate.$error.max" style="color:red; font-style:oblique">Date can not be after today.</span>
+                        <input name="orderDate" type="date" class="form-control" validate-on="dirty" ng-model="o.OrderDate" min="2015-01-01" max="{{today}}" 
+                               invalid-message="'Date format is invalid.'" required-message="'Date is required.'" required />
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <div class="col-md-offset-0 col-md-12">
-            <button ng-click="dataPostOrder(createEditForm, true)" type="button" class="btn btn-default">{{modalTplIn.buttonName}}</button>
-            <button ng-show="modalTplIn.editButtonShow" ng-click="detailOrder(o)" type="button" class="btn btn-default">Show Products</button>
-            <button ng-click="dataPostOrder(createEditForm, false)" type="button" class="btn btn-default">Save</button>
-            <button ng-click="closeIn(createEditForm)" type="button" class="btn btn-default">Close</button>
+        <div class="modal-footer">
+            <div class="col-md-offset-0 col-md-12">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button ng-click="closeIn(createEditOrderForm)" type="button" class="btn btn-default">Close</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 

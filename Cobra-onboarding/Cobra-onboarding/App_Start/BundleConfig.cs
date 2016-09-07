@@ -11,6 +11,7 @@ namespace Cobra_onboarding
             bundles.Add(new ScriptBundle("~/bundles/angularjs").Include(
                         "~/Scripts/angular.js",
                         "~/Scripts/angular-route.js",
+                        "~/Scripts/angular-validator.js",
                         "~/Scripts/angular-animate.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
