@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Single Page Application</title>
+    <title>@ViewBag.Title - My ASP.NET Application</title>
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -25,18 +25,29 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
-            </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
+
+        <!-- Common Modal -->
+        <div id="commonModal" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width: 700px; min-height: 650px">
+
+                <!-- Common Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">{{modalTpl.modalTitle}}</h4>
+                    </div>
+                    <div ng-include="modalTpl.modalPath"></div>
+                </div>
+            </div>
+        </div>
+
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Single Page Application</p>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 

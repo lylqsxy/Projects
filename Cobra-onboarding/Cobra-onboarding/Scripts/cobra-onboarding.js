@@ -1,13 +1,38 @@
-﻿var app = angular.module('myApp', ['angularValidator']);
+﻿var app = angular.module('myApp', ['ngRoute', 'angularValidator']);
+
+app.config(function ($routeProvider) {
+    $routeProvider
+    .when("/", {
+        templateUrl: "/Home/App"
+    })
+    .when("/order", {
+        templateUrl: "/Order"
+    })
+    .when("/customer", {
+        templateUrl: "/Customer"
+    })
+    .when("/app", {
+        templateUrl: "/Home/App"
+    })
+    .when("/order", {
+        templateUrl: "/Order"
+    })
+    .when("/customer", {
+        templateUrl: "/Customer"
+    })
+
+});
 
 app.controller('appCtrl',
-    function ($scope, $http) {
+    function ($scope, $http, $location, $anchorScroll) {
         $scope.customerListFn = function () {
-            $http.get("/App/List/").then(function (response) {
+            $http.get("/Customer/List/").then(function (response) {
                 $scope.customerList = response.data;
             });
         };
         $scope.customerListFn();
+        window.location.assign("#app");
+        $scope.modalPath = '/Customer/CustomerModalContent';
 
         $scope.initCustomerToEdit = function () {
             $scope.c =
@@ -23,31 +48,29 @@ app.controller('appCtrl',
 
         $scope.createCustomer = function () {
             $scope.serverValErr = false;
-            $('#templateModalOut').modal('show');
+            $('#commonModal').modal('show');
             $scope.modalTpl = {
                 modalId: "createEditCustomer",
                 modalTitle: "Create Customer",
+                modalPath: '/Customer/CustomerModalContent'
             };
             $scope.initCustomerToEdit();
         };
 
         $scope.editCustomer = function (customer) {
             $scope.serverValErr = false;
-            $('#templateModalOut').modal('show');
+            $('#commonModal').modal('show');
             $scope.modalTpl = {
                 modalId: "createEditCustomer",
                 modalTitle: "Edit Customer ID: " + customer.Id,
+                modalPath: '/Customer/CustomerModalContent'
             };
             $scope.c = JSON.parse(JSON.stringify(customer));
         };
 
         $scope.orderCustomer = function (customer) {
-            $('#templateModalOut').modal('show');
-            $scope.modalTpl = {
-                modalId: "customerOrderDetail",
-                modalTitle: "Customer ID: " + customer.Id + " | " + "Name: " + customer.Name,
-                buttonName: "Back to Edit"
-            };
+            $scope.showOrder = true;
+            $scope.scrollToHash("orderAnchor");
             $scope.c = JSON.parse(JSON.stringify(customer));
             $scope.orderListFn($scope.c);
         };
@@ -57,7 +80,7 @@ app.controller('appCtrl',
             {
                 var customerDel = { "Id": customer.Id };
                 $scope.serverVal = false;
-                $http.post("/App/Delete/", customerDel).success(function (response) {
+                $http.post("/Customer/Delete/", customerDel).success(function (response) {
                     $scope.customerListFn();
                 });
             }
@@ -66,7 +89,7 @@ app.controller('appCtrl',
 
         $scope.dataPostCustomer = function (form) {
             if (!form.$invalid) {
-                $http.post("/App/DataPostCustomer/", $scope.c).success(function (response) {
+                $http.post("/Customer/DataPostCustomer/", $scope.c).success(function (response) {
                     if (response > 0) {
                         $scope.serverValErr = false;
                         $scope.c.Id = response;
@@ -98,20 +121,22 @@ app.controller('appCtrl',
 
         $scope.createOrder = function () {
             $scope.serverValErr = false;
-            $('#templateModal').modal('show');
-            $scope.modalTplIn = {
+            $('#commonModal').modal('show');
+            $scope.modalTpl = {
                 modalId: "createEdit",
                 modalTitle: "Create",
+                modalPath: '/Order/OrderModalContent'
             };
             $scope.initOrderToEdit();
         };
 
         $scope.editOrder = function (order) {
             $scope.serverValErr = false;
-            $('#templateModal').modal('show');
-            $scope.modalTplIn = {
+            $('#commonModal').modal('show');
+            $scope.modalTpl = {
                 modalId: "createEdit",
                 modalTitle: "Edit  ID: " + order.OrderId,
+                modalPath: '/Order/OrderModalContent'
             };
             $scope.o = JSON.parse(JSON.stringify(order));
             $scope.o.OrderDate = new Date($scope.o.OrderDate);
@@ -125,7 +150,7 @@ app.controller('appCtrl',
                         $scope.o.OrderId = response;
                         $scope.orderListFn($scope.c);
                         $scope.customerListFn();                  
-                        $scope.closeIn(form);
+                        $scope.close(form);
                     }
                     else {
                         $scope.serverValErr = true;
@@ -136,10 +161,11 @@ app.controller('appCtrl',
 
         $scope.detailOrder = function (order) {
             $scope.addButtonName = "Add Product >>";
-            $('#templateModal').modal('show');
-            $scope.modalTplIn = {
+            $('#commonModal').modal('show');
+            $scope.modalTpl = {
                 modalId: "detail",
                 modalTitle: "Customer ID: " + $scope.c.Id + " | " + "Name: " + $scope.c.Name + " | " + "Order  ID: " + order.OrderId,
+                modalPath: '/Order/OrderModalContent',
                 buttonName: "Detail",
                 modalIdDetailAdd : null
             };
@@ -176,22 +202,22 @@ app.controller('appCtrl',
         $scope.addButtonName = "Add Product >>";
 
         $scope.addProduct = function () {
-            if ($scope.modalTplIn.modalIdDetailAdd === "detailAdd")
+            if ($scope.modalTpl.modalIdDetailAdd === "detailAdd")
             {
-                $scope.modalTplIn.modalIdDetailAdd = null;
+                $scope.modalTpl.modalIdDetailAdd = null;
                 $scope.addButtonName = "Add Product >>";
             }
             else
             {
-                $scope.modalTplIn.modalIdDetailAdd = "detailAdd";
+                $scope.modalTpl.modalIdDetailAdd = "detailAdd";
                 $scope.SeletedProductId = null;
                 $scope.addButtonName = "<< Close";
             }     
         };
 
         $scope.closeAddForm = function () {
-            if ($scope.modalTplIn.modalIdDetailAdd === "detailAdd") {
-                $scope.modalTplIn.modalIdDetailAdd = null;
+            if ($scope.modalTpl.modalIdDetailAdd === "detailAdd") {
+                $scope.modalTpl.modalIdDetailAdd = null;
                 $scope.addButtonName = "Add Product >>";
             }
         };
@@ -222,18 +248,18 @@ app.controller('appCtrl',
 
         $scope.deletePostInDetail = function () {
             $scope.deletePost($scope.o);
-            $('#templateModal').modal('hide');
+            $('#commonModal').modal('hide');
         };
 
         $scope.close = function (form) {
             form.reset();
-            $('#templateModalOut').modal('hide');
+            $('#commonModal').modal('hide');
         };
 
-        $scope.closeIn = function (form) {
-            form.reset();
-            $('#templateModal').modal('hide');
-        };
+        $scope.scrollToHash = function (hashKey) {
+            $location.hash(hashKey);
+            $anchorScroll();
+        }
 
         $scope.today = new Date().toISOString().substr(0, 10);
 

@@ -1,0 +1,74 @@
+﻿@using ModalPractice.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<button type="button" ng-click="test()">Test</button>
+
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+
+
+            <form angular-validator-submit="loginFn(loginForm)" class="form-horizontal" name="loginForm" novalidate angular-validator>
+                <h4>Use a local account to log in.</h4>
+                <hr />
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="Email">Email</label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="Email" name="Email" ng-model="login.Email" type="text" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="Password">Password</label>
+                    <div class="col-md-10">
+                        <input class="form-control" id="Password" name="Password" type="password" ng-model="login.Password"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-default" >Log in</button>
+                    </div>
+                </div>
+                <p>
+                    <a href="/Account/Register">Register as a new user</a>
+                </p>
+            </form>
+
+
+        </section>
+    </div>
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/ng-template" id="modalTmp">
+
+    <div class="modal-body">
+        <h4>{{modalTpl.modalResponse.errMsg}}</h4>
+        <div>
+            <ul ng-repeat="x in modalTpl.modalResponse.errorList">
+                <li>
+                    {{x}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-md-offset-0 col-md-12">
+            <button ng-click="close()" type="button" class="btn btn-default">Close</button>
+        </div>
+    </div>
+
+
+</script>

@@ -1,7 +1,7 @@
 ﻿
 <!-- Create/Edit Modal -->
 
-<div ng-show="modalTplIn.modalId==='createEdit'">
+<div ng-show="modalTpl.modalId==='createEdit'">
     <form angular-validator-submit="dataPostOrder(createEditOrderForm)" name="createEditOrderForm" novalidate angular-validator>
         <div class="modal-body">
             <div class="form-horizontal">
@@ -18,7 +18,7 @@
         <div class="modal-footer">
             <div class="col-md-offset-0 col-md-12">
                 <button type="submit" class="btn btn-primary">Save</button>
-                <button ng-click="closeIn(createEditOrderForm)" type="button" class="btn btn-default">Close</button>
+                <button ng-click="close(createEditOrderForm)" type="button" class="btn btn-default">Close</button>
             </div>
         </div>
     </form>
@@ -28,7 +28,7 @@
 
 <!-- Detail Modal -->
 
-<div ng-show="modalTplIn.modalId==='detail'">
+<div ng-show="modalTpl.modalId==='detail'">
     <div class="modal-body">
 
         <div class="form-horizontal">
@@ -53,13 +53,13 @@
         </div>
         <!-- Add Product Modal -->
 
-        <div ng-show="modalTplIn.modalIdDetailAdd==='detailAdd'">
+        <div ng-show="modalTpl.modalIdDetailAdd==='detailAdd'">
             <div class="modal-header">
                 <h4 class="modal-title">Add Product</h4>
             </div>
 
             <div class="modal-body">
-                <form name="addForm">
+                <form name="addForm" angular-validator>
                     <div class="form-group">
                         <label class="control-label col-md-3" for="PersonId">Product Name</label>
                         <div class="col-md-9">
@@ -81,7 +81,7 @@
     <div class="modal-footer">
         <div class="col-md-offset-2 col-md-10">
             <button ng-click="deletePostInDetail(form)" type="button" class="btn btn-default">Delete</button>
-            <button ng-click="closeIn(addForm)" type="button" class="btn btn-default">Close</button>
+            <button ng-click="close(addForm)" type="button" class="btn btn-default">Close</button>
         </div>
     </div>
 </div>

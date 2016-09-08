@@ -17,6 +17,11 @@ namespace Cobra_onboarding.Controllers
             return View();
         }
 
+        public ActionResult OrderModalContent()
+        {
+            return View();
+        }
+
         public JsonResult List(int Id)
         {
             using (CobraEntities db = new CobraEntities())

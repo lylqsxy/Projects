@@ -1,7 +1,4 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+﻿
 <h2>Customer List</h2>
 
 <p>
@@ -26,11 +23,11 @@
                 Total Order
             </th>
             <th>
-                
+
             </th>
         </tr>
 
-        <tr ng-repeat="x in customerList">
+        <tr ng-repeat="x in customerList" id="{{x.Id}}">
             <td>
                 {{x.Id}}
             </td>
@@ -56,19 +53,6 @@
     </table>
 </div>
 
-<!-- Modal Template-->
-<div id="templateModalOut" class="modal fade" role="dialog">
-    <div class="modal-dialog" style="width: 700px; min-height: 650px" >
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">{{modalTpl.modalTitle}}</h4>
-            </div>
-            <div ng-include="'/App/CustomerModalContent'"></div>
-        </div>
+<div id="orderAnchor" ng-show="showOrder" ng-include="'/Order'"></div>
 
 
-    </div>
-</div>

@@ -1,5 +1,5 @@
 ﻿
-<!-- Create/Edit Customer Modal -->
+<!-- Order Page -->
 
 <div ng-show="modalTpl.modalId==='createEditCustomer'">
     <form angular-validator-submit="dataPostCustomer(createEditCustomerForm)" name="createEditCustomerForm" novalidate angular-validator>
@@ -50,68 +50,7 @@
 </div>
 
 
-<!-- Customer Order List Modal -->
 
-<div ng-show="modalTpl.modalId==='customerOrderDetail'" class="container body-content">
-    <br />
-    <p>
-        <button type="button" class="btn btn-primary" ng-click="createOrder()">Create New</button>
-    </p>
-    <div>
-        <table class="table">
-            <tr>
-                <th>
-                    Order ID
-                </th>
-                <th>
-                    Order Date
-                </th>
-                <th>
-
-                </th>
-            </tr>
-
-            <tr ng-repeat="x in orderList">
-                <td>
-                    {{x.OrderId}}
-                </td>
-                <td>
-                    {{x.OrderDate | date:'dd/MM/yyyy'}}
-                </td>
-                <td>
-                    <button type="button" class="btn btn-default" ng-click="editOrder(x)">Edit</button>
-                    <button type="button" class="btn btn-default" ng-click="detailOrder(x)">Details</button>
-                    <button type="button" class="btn btn-default" ng-click="deletePost(x)">Delete</button>
-                </td>
-            </tr>
-
-        </table>
-    </div>
-
-    <!-- Modal Template-->
-    <div id="templateModal" class="modal fade" role="dialog">
-
-        <div class="modal-dialog" style="width:600px">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">{{modalTplIn.modalTitle}}</h4>
-                </div>
-                <div ng-include="'/App/OrderModalContent'"></div>
-            </div>
-
-
-        </div>
-    </div>
-
-    <div class="modal-footer">
-        <div class="col-md-offset-2 col-md-10">
-            <button ng-click="editCustomer(c)" type="button" class="btn btn-default">{{modalTpl.buttonName}}</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-    </div>
-</div>
 
 
 

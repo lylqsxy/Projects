@@ -8,7 +8,7 @@ using System.Data.Entity;
 
 namespace Cobra_onboarding.Controllers
 {
-    public class AppController : Controller
+    public class CustomerController : Controller
     {
         // GET: Customer
         public ActionResult Index()
@@ -17,11 +17,6 @@ namespace Cobra_onboarding.Controllers
         }
 
         public ActionResult CustomerModalContent()
-        {
-            return View();
-        }
-
-        public ActionResult OrderModalContent()
         {
             return View();
         }
@@ -81,6 +76,7 @@ namespace Cobra_onboarding.Controllers
 
         public bool UserVal(String Name)
         {
+            System.Threading.Thread.Sleep(1000);
             using (CobraEntities db = new CobraEntities())
             {
                 if(!db.People.Any(x => x.Name == Name))

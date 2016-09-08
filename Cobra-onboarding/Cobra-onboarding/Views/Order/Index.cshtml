@@ -1,0 +1,43 @@
+﻿<!-- Customer Order List Modal -->
+
+<h2>Order List</h2>
+
+<h4>Customer ID: {{c.Id}} | Name: {{c.Name}} | Order Count: {{c.OrderCount}}</h4>
+
+<br />
+<p>
+    <button type="button" class="btn btn-primary" ng-click="createOrder()">Create New</button>
+    <button type="button" class="btn btn-default" ng-click="scrollToHash(c.Id)">Back</button>
+</p>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Order ID
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+
+            </th>
+        </tr>
+
+        <tr ng-repeat="x in orderList">
+            <td>
+                {{x.OrderId}}
+            </td>
+            <td>
+                {{x.OrderDate | date:'dd/MM/yyyy'}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-default" ng-click="editOrder(x)">Edit</button>
+                <button type="button" class="btn btn-default" ng-click="detailOrder(x)">Details</button>
+                <button type="button" class="btn btn-default" ng-click="deletePost(x)">Delete</button>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+
