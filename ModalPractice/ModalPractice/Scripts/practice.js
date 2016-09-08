@@ -2,8 +2,6 @@
 
 app.controller('appCtrl',
     function ($scope, $http) {
-        $scope.login = {};
-        $scope.login.RememberMe = false;
 
         $scope.showModal = function (response) {
             $('#commonModal').modal('show');
@@ -26,7 +24,7 @@ app.controller('appCtrl',
             
         };
 
-        $scope.loginFn = function (form) {
+        $scope.loginFn = function (login) {
 
             $http.post("/Account/Login/", $scope.login).success(function (response) {
                 console.log(response);
