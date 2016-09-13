@@ -1,7 +1,22 @@
 ﻿var app = angular.module('myApp', ['ngRoute', 'angularValidator']);
 
+app.service('Test', function () {
+    var test = {};
+    var i = 1;
+    test.add = function(num){
+        i += num;
+    }
+    test.minus = function (num) {
+        i -= num;
+    }
+    test.get = function () {
+        return i;
+    }
+    return test;
+});
+
 app.controller('appCtrl',
-    function ($scope, $http) {
+    function ($scope, $http, Test) {
 
         ////////////////////////
         $scope.showModal = function (response) {
@@ -79,4 +94,38 @@ app.controller('appCtrl',
             $scope.close();
         }
 
+        /////////////////////////
+
+        $scope.t = Test.get();
+
+        $scope.Add = function () {
+            Test.add(parseInt($scope.num, 10));
+            $scope.t = Test.get();
+        }
+
+        $scope.Minus = function () {
+            Test.minus(parseInt($scope.num, 10));
+            $scope.t = Test.get();
+        }
+
+
+
     });
+
+
+app.controller('testCtrl',
+    function ($scope, $http, Test) {
+
+        $scope.t = Test.get();
+
+        $scope.Add = function () {
+            Test.add(1);
+            $scope.t = Test.get();
+        }
+
+        $scope.Minus = function () {
+            Test.minus(1);
+            $scope.t = Test.get();
+        }
+
+    })

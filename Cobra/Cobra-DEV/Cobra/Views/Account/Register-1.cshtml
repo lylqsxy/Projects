@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Register";
+    var emailPattern = @"/^.+@.+\..+$/";
+}
+@model Cobra.Models.Account.LoginViewModel
+
+@using Microsoft.Owin.Security
+<hr />
+<div layout="row" layout-align="center center" ng-controller="account/RegisterCtrl" ng-cloak="">
+    <div flex-gt-sm="45" flex="100">
+        <md-card class="content" style="height: 85vh;">
+            
+            <md-tabs flex layout="column" md-stretch-tabs="always">
+                <md-tab flex layout="column" label="Register">
+                    <md-tab-content flex layout-fill>
+                        <hr />
+                        <div layout="row" layout-xs="column">
+                            <md-toolbar>
+                                <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                                    <h2>Create An Account</h2>
+                                </div>
+                            </md-toolbar>
+                        </div>
+                        <div layout="row" layout-xs="column" class="m-padding">
+                            <md-progress-linear ng-if="loading" md-mode='indeterminate'></md-progress-linear>
+                        </div>
+                        <form name="registerForm" autocomplete="off">
+                            @Html.AntiForgeryToken()
+                            <div layout="column" class="md-padding">
+                                <div flex>
+                                    <md-input-container class="md-block">
+                                        <label>Email</label>
+                                        <input class="unique-field" required="" type="email" name="email" ng-model="user.email" ng-pattern="@emailPattern" unique-email>
+                                        <div ng-messages="registerForm.email.$error" role="alert">
+                                            <div ng-message="required">This is required.</div>
+                                            <div ng-message="pattern">This is not a valid email</div>
+                                            <div ng-message="uniqueEmail">This emai is not available</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div flex>
+                                    <md-input-container class="md-block">
+                                        <label>Password</label>
+                                        <input required="" type="password" name="password" ng-model="user.password" ng-minlength="6" ng-maxlength="14"
+                                               ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
+                                        <div ng-messages="registerForm.password.$error" role="alert">
+                                            <div ng-message="required">This is required.</div>
+                                            <div ng-message="pattern">At least one lower &amp; uppercase letter, and one non-alpha character</div>
+                                            <div ng-message="minlength">Between 6 and 14 character long</div>
+                                            <div ng-message="maxlength">Between 6 and 14 character long</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                                <div flex>
+                                    <md-input-container class="md-block">
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="confirmPassword" ng-model="user.confirmPassword"
+                                               match-password="user.password" required />
+                                        <div ng-messages="registerForm.confirmPassword.$error" role="alert">
+                                            <div ng-message="required">Please re-enter password</div>
+                                            <div ng-message="matchResult">Passwords don't match</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <md-card-actions layout="row" layout-align="end center">
+                                <md-button ng-disabled="registerForm.$invalid" ng-click="submit(user)" class="md-raised md-primary">Register</md-button>
+                                <md-button ng-disabled="registerForm.$pristine && !registerForm.$dirty" ng-click="reset()"
+                                           style="margin-right:20px;" class="md-raised md-warn">Reset</md-button>
+                            </md-card-actions>
+                        </form>
+                    </md-tab-content>
+                </md-tab>
+                
+                <md-tab label="Social Media Login" layout-fill>
+                    <md-tab-content flex layout-fill>
+                        <hr />
+                        @{Html.RenderAction("ExternalLogin");}
+                    </md-tab-content>
+                </md-tab>
+            </md-tabs>
+        </md-card>
+    </div>
+</div>
+
+@section styles {
+    <style>
+        .carddemoBasicUsage .card-media {
+            background-color: #999999;
+        }
+
+        .md-dialog-container {
+            z-index: 9999;
+        }
+
+        label:not(.md-no-float):not(._md-container-ignore) {
+            font-style: italic;
+        }
+
+        .inputErrorsApp {
+            min-height: 38px;
+        }
+
+        md-input-container > p {
+            font-size: 0.8em;
+            text-align: left;
+            width: 100%;
+        }
+
+        .flex {
+            padding: 0 10px;
+        }
+
+        #login-social-media .md-button {
+            color: #ffffff;
+        }
+
+        md-tabs .md-tab .md-ripple-container {
+            color: rgb(63,81,181);
+            border-bottom: rgb(63,81,181);
+        }
+
+        md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+            color: rgb(63,81,181) !important;
+            background-color: rgb(63,81,181) !important;
+        }
+
+        md-tabs .md-tab.md-active {
+            color: #ffffff;
+            background-color: rgb(63,81,181) !important;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/App/controllers/account/RegisterCtrl.js"></script>
+<script src="~/App/directives/account/unique-email.js"></script>
+    <script src="~/App/directives/account/match-password.js"></script>
+}
+
+
+
