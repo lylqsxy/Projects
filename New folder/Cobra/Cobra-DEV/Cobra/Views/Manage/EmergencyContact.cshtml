@@ -94,9 +94,9 @@
                 <span class="td heavyline">
                     <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showEditBtn" ng-click="EditRow($index)">Edit</button>
                     <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showDelBtn" ng-click="DelRow($index)">Delete</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showSaveBtn" ng-click="SaveRow($index, tableForm)">Save</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showSaveBtn" ng-click="SaveRow($index, tableForm)" ng-disabled="form[{{$index}}].disableSaveBtn">Save</button>
                     <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showCancelBtn" ng-click="CancelRow($index)" ng-disabled="form[{{$index}}].disableCancelBtn">Cancel</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-click="PhoneList($index)">Phone</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-click="PhoneList($index)" ng-disabled="form[{{$index}}].disablePhoneBtn">Phone</button>
                 </span>
             </div>
 
@@ -108,7 +108,7 @@
                     </span>
 
                     <span class="td heavyline">
-                        <button type="button" class="btn btn-default btn-sm" ng-click="">Add Phone</button>
+                        <button type="button" class="btn btn-default btn-sm" ng-click="AddRow($index)" ng-disabled="form[{{$index}}].disableAddBtn">Add Phone</button>
 
                     </span>
 
