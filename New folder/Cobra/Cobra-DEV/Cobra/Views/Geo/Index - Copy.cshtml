@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Geo";
+}
+
+
+<h2>Geo Fence</h2>
+
+<div ng-controller="GeoLocationCtrl">
+    <div layout="row">
+        <div flex="60">
+            <div layout="column">
+                <div flex>
+                    <div layout="row">
+                        <div flex>
+                            <md-input-container class="md-block" flex-gt-sm="">
+                                <input ng-model="searchForm.SearchBox" name="SearchBox" id="search-box" placeholder="">
+                            </md-input-container>
+                        </div>
+                        <div flex>
+                            <md-input-container class="md-block" flex-gt-sm="">
+                                <md-button id="delete-button" class="md-raised md-warn">Delete</md-button>
+                                <md-button id="delete-all-button" class="md-raised md-warn">Clear</md-button>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div fex>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+        <div flex="40">
+            <form name="GeoForm" style="margin-left: 30px;">
+                <div flex>
+                    <div layout="row">
+                        <sm-date-time-picker fname="StartDate"
+                                             lable="Select date start"
+                                             form="GeoForm"
+                                             value="Geo.StartDate"
+                                             flex="100"
+                                             is-required="{{true}}"
+                                             format="DD-MM-YYYY HH:mm"
+                                             mode="date-time"
+                                             min-date="{{StartDateMin}}"
+                                             id="StartDate">
+                        </sm-date-time-picker>
+                    </div>
+                </div>
+                <div flex>
+                    <div layout="row">
+                        <sm-date-time-picker fname="EndDate"
+                                             lable="Select date end"
+                                             form="GeoForm"
+                                             value="Geo.EndDate"
+                                             flex="100"
+                                             flex-sm="100"
+                                             flex-xs="100"
+                                             is-required="{{true}}"
+                                             format="DD-MM-YYYY HH:mm"
+                                             mode="date-time"
+                                             min-date="{{EndDateMin}}">
+
+                        </sm-date-time-picker>
+                    </div>
+                </div>
+
+                <div flex>
+                    <md-input-container class="md-block">
+                        <md-button ng-disabled="GeoForm.$invalid" class="md-raised md-primary" ng-click="drawFence()">Save</md-button>
+                    </md-input-container>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section styles {
+
+    <style type="text/css">
+        #map {
+            height: 350px;
+            width: 100% !important;
+            box-shadow: 3px 3px 10px gray;
+        }
+
+        #color-pallete li {
+            list-style: none;
+            float: left;
+            height: 40px;
+            width: 40px;
+            box-shadow: 3px 3px 10px gray;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+            #color-pallete li.selected {
+                border: 3px solid #ffffff;
+            }
+
+        md-input-container {
+            margin-top: 10px;
+        }
+    </style>
+}
+
+@section scripts {
+    <script src="~/App/controllers/GeoLocation/GeoLocatonCtrl.js"></script>
+}

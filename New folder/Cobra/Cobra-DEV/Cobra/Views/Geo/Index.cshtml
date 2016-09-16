@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Zone";
+}
+
+<div class="container">
+    <div class="contact-sec">
+        <h2>Create Zone</h2>
+        <hr />
+        <div ng-controller="GeoLocationCtrl as ctrl">
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">Location</label>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-8">
+                                <input ng-model="searchForm.SearchBox" name="SearchBox" id="search-box" placeholder="Enter your location">
+                            </div>
+                            <div class="col-md-4" style="float: right; padding-left: 30px !important;">
+                                <input type="button" id="delete-button" class="btn btn-warning" value="Delete Zone" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="control-label">From</label>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="input-group" id="date-from">
+                                <input type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm"
+                                       ng-model="ctrl.pickerMin.date" is-open="ctrl.pickerMin.open" enable-time="true"
+                                       datepicker-options="ctrl.pickerMin.datepickerOptions" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="ctrl.openCalendar($event, 'pickerMin')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="control-label">To</label>
+                        </div>
+                        <div class="col-md-8">
+                            <p class="input-group" id="date-from">
+                                <input type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm"
+                                       ng-model="ctrl.pickerMax.date" is-open="ctrl.pickerMax.open" enable-time="true"
+                                       datepicker-options="ctrl.pickerMax.datepickerOptions" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="ctrl.openCalendar($event, 'pickerMax')">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form class="form-horizontal" name="geoFenceForm">
+                            <div class="col-md-12">
+                                <input ng-model="ctrl.pickerMin.date" class="hidden" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input ng-model="ctrl.pickerMax.date" class="hidden" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input ng-model="ctrl.pickerMin.date" class="hidden" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input ng-model="polygons" class="hidden" required>
+                            </div>
+                            <div class="col-md-12">
+                                <input ng-model="coordinates" class="hidden" required>
+                            </div>
+                            <div class="feild col-md-12">
+                                <input type="button" class="btn btn-primary" ng-disabled="geoFenceForm.$invalid" ng-click="" value="Set Zone" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6" style="height: 600px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="map" ng-model="map"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section styles {
+    <style type="text/css">
+        #map {
+            height: 350px;
+            width: 100% !important;
+            box-shadow: 3px 3px 10px gray;
+        }
+
+        #color-pallete li {
+            list-style: none;
+            float: left;
+            height: 40px;
+            width: 40px;
+            box-shadow: 3px 3px 10px gray;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+
+        #search-box, #date-from, #date-to {
+            border: 1px solid #e6eaea;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            border-radius: 30px;
+            float: left;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding: 13px 30px;
+            width: 360px;
+        }
+
+        #search-box {
+            margin-left: -15px;
+        }
+
+        #date-from, #date-to {
+            border: 1px solid #e6eaea;
+            border-radius: 30px;
+            background: #fff;
+            padding: 5px 0 5px;
+        }
+
+            #date-from input, #date-to input {
+                box-shadow: none !important;
+                border-color: transparent;
+                margin-left: 20px;
+            }
+
+                #date-from input:focus, #date-to input:focus {
+                    outline: none;
+                    border: none !important;
+                    -webkit-box-shadow: none !important;
+                    -moz-box-shadow: none !important;
+                    box-shadow: none !important;
+                }
+
+            #date-from > span > button, #date-to > span > button {
+                border: none;
+                background: transparent;
+                margin-right: 20px;
+            }
+
+        .control-label {
+            padding-left: 10px;
+        }
+
+    </style>
+}
+
+@section scripts {
+    <script src="~/App/controllers/GeoLocation/GeoLocatonCtrl.js"></script>
+}

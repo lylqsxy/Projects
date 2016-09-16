@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNet.Identity
+@using Cobra.Resources
+@if (Request.IsAuthenticated)
+{
+    <md-nav-item md-nav-href="@Url.Action("Manage", "Account")">Hello @User.Identity.GetUserName()</md-nav-item>
+    <md-nav-item md-nav-href="@Url.Action("LogOff", "Account")">LogOff</md-nav-item>
+}
+else
+{
+    <md-nav-item md-nav-href="@Url.Action("Register", "Account")">Register</md-nav-item>
+    <md-nav-item md-nav-href="@Url.Action("Login", "Account")">Login</md-nav-item>
+
+}

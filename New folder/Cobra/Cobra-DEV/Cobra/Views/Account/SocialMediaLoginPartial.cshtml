@@ -1,0 +1,36 @@
+﻿@using Microsoft.Owin.Security
+@{ var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes(); }
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("ExternalLogin", "Account"))
+{
+    @Html.AntiForgeryToken()
+        <ul>
+            @foreach (AuthenticationDescription p in loginProviders)
+            {
+                <li>
+                    @if (p.AuthenticationType == "Facebook")
+                    {
+                        <button type="submit" class="btn facebook" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><i class="fa fa-facebook"></i></button>
+                    }
+                    else if (p.AuthenticationType == "Google")
+                    {
+                        <button type="submit" class="btn googleplus" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"><i class="fa fa-google-plus"></i></button>
+                    }
+                </li>
+            }
+        </ul>
+}
+
+@*<form>
+        @Html.AntiForgeryToken()
+        <div class="text-center">
+
+            <div class="social-account">
+                <a href="#"><i class="fa fa-google-plus"></i></a>
+            </div>
+        </div>
+    </form>*@
