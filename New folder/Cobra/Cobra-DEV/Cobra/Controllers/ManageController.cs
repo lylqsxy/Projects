@@ -646,8 +646,7 @@ namespace Cobra.Controllers
 
             _profileService.UpdateEmergencyContact(ecModel); 
 
-            
-           return new HttpStatusCodeResult(HttpStatusCode.OK);  //:)
+            return new HttpStatusCodeResult(HttpStatusCode.OK);  //:)
         }
 
         [HttpPost]

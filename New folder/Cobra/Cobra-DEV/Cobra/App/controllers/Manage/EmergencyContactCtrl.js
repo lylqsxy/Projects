@@ -42,6 +42,12 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     };
                     ToggleShow(i, -1, j);
                 }
+                if ($scope.emergencyContactList[i].PhoneList.length === 1) {
+                    $scope.form[i].phoneForm[0].disableDelBtn = true;
+                }
+                else {
+                    $scope.form[i].phoneForm[0].disableDelBtn = false;
+                }
                 ToggleShow(i, -1);
             }
 
@@ -80,6 +86,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
             }
             else if (arguments.length === 1) {
                 newIndex = index;
+                
             }
 
             $scope.emergencyContactList[newIndex].PhoneList.push({ Id: 0 });
@@ -90,7 +97,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 focusTextBox: new Array(5)
             };
             dataPhoneTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[newIndex].PhoneList[newPhoneIndex]));
-            ToggleEdit(newIndex, -1, newPhoneIndex);
+            ToggleEdit(newIndex, -1, newPhoneIndex);            
         }
     };
 
@@ -122,8 +129,41 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 $scope.form[index].disableCancelBtn = false;
                 $scope.form[index].disableAddBtn = false;
                 $scope.form[index].disablePhoneBtn = false;
+                if ($scope.emergencyContactList[index].PhoneList.length === 1) {
+                    $scope.form[index].phoneForm[0].disableDelBtn = true;
+                }
+                else {
+                    $scope.form[index].phoneForm[0].disableDelBtn = false;
+                }
             }
-            editMode = false;
+            editMode = false;  
+        }
+    };
+
+    $scope.DelRow = function (index, phoneIndex) {
+        if (!editMode) {        
+            if (arguments.length === 1) {
+                if (confirm("All the phone data will be deleted!")) {
+                    var x = $scope.emergencyContactList[index];
+                    DataDelPost(x);
+                    $scope.emergencyContactList.splice(index, 1);
+                }    
+            }
+            else if (arguments.length === 2) {
+                if (confirm("Are you sure?")) {
+                    var x = {
+                        id: $scope.emergencyContactList[index].PhoneList[phoneIndex].Id
+                    }
+                    PhoneDataDelPost(x);
+                    $scope.emergencyContactList[index].PhoneList.splice(phoneIndex, 1);
+                    if ($scope.emergencyContactList[index].PhoneList.length === 1) {
+                        $scope.form[index].phoneForm[0].disableDelBtn = true;
+                    }
+                    else {
+                        $scope.form[index].phoneForm[0].disableDelBtn = false;
+                    }
+                }
+            }
         }
     };
 
@@ -135,7 +175,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         else if (arguments.length === 2) {
             $scope.emergencyContactList[index].PhoneList[phoneIndex] = JSON.parse(JSON.stringify(dataPhoneTMP));
             if ($scope.emergencyContactList[index].PhoneList[phoneIndex].Id === 0) {
-                $scope.emergencyContactList[index].PhoneList.pop();
+                $scope.emergencyContactList[index].PhoneList.pop();              
                 if ($scope.emergencyContactList[index].Id === 0) {
                     $scope.emergencyContactList.pop();
                 }
@@ -176,6 +216,38 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
             });
         }
     };
+
+    var DataDelPost = function (x) {
+            // delete
+        $http({
+            method: "Post",
+            url: "/Manage/DeleteEmergencyContact",
+            data: x,
+            headers: {
+                'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
+            }
+        }).then(function SentOk(result) {
+            console.log(result);
+        }, function Error(result) {
+            console.log(result);
+        });
+    }
+
+    var PhoneDataDelPost = function (x) {
+        // delete
+        $http({
+            method: "Post",
+            url: "/Manage/DeletePhone",
+            data: x,
+            headers: {
+                'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
+            }
+        }).then(function SentOk(result) {
+            console.log(result);
+        }, function Error(result) {
+            console.log(result);
+        });
+    }
 
     $scope.PhoneList = function (index) {
         //var s = "collapseMain" + index;
@@ -219,8 +291,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     $scope.form[index].phoneForm[phoneIndex].showLable[j] = true;
                     $scope.form[index].phoneForm[phoneIndex].showTextBox[j] = false;
                     $scope.form[index].phoneForm[phoneIndex].focusTextBox[j] = false;
-                    $scope.form[index].phoneForm[phoneIndex].disableCancelBtn = false;
                 }
+                $scope.form[index].phoneForm[phoneIndex].disableCancelBtn = false;
             }
             else {
                 $scope.form[index].phoneForm[phoneIndex].showLable[i] = true;
@@ -239,8 +311,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     $scope.form[index].showLable[k] = true;
                     $scope.form[index].showTextBox[k] = false;
                     $scope.form[index].focusTextBox[k] = false;
-                    $scope.form[index].disableCancelBtn = false;
                 }
+                $scope.form[index].disableCancelBtn = false;
             }
             else {
                 $scope.form[index].showLable[i] = true;
@@ -261,8 +333,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 for (var j = 0; j < $scope.form[index].phoneForm[phoneIndex].showLable.length; j++) {
                     $scope.form[index].phoneForm[phoneIndex].showLable[j] = false;
                     $scope.form[index].phoneForm[phoneIndex].showTextBox[j] = true;
-                    $scope.form[index].phoneForm[phoneIndex].disableCancelBtn = false;
                 }
+                $scope.form[index].phoneForm[phoneIndex].disableCancelBtn = false;
             }
             else {
                 $scope.form[index].phoneForm[phoneIndex].showLable[i] = false;
@@ -281,8 +353,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 for (var k = 0; k < $scope.form[index].showLable.length; k++) {
                     $scope.form[index].showLable[k] = false;
                     $scope.form[index].showTextBox[k] = true;
-                    $scope.form[index].disableCancelBtn = false;
                 }
+                $scope.form[index].disableCancelBtn = false;
             }
             else {
                 $scope.form[index].showLable[i] = false;

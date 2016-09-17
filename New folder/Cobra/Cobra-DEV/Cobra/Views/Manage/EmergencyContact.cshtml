@@ -54,53 +54,53 @@
                 </span>
 
                 <span class="td heavyline">
-                    <span class="form-input" name="Lable_0" ng-show="form[{{$index}}].showLable[0]" ng-dblclick="LableOnClick(0, $index)">{{x.Firstname}}</span>
-                    <input type="text" name="textBox_0" class="form-input" ng-model="x.Firstname" ng-show="form[{{$index}}].showTextBox[0]" 
-                           ng-blur="LableOnUnfocus(0, $index, tableForm)" show-focus ="form[{{$index}}].showTextBox[0] && form[{{$index}}].focusTextBox[0]"
+                    <span class="form-input" name="Lable_0" ng-show="form[$index].showLable[0]" ng-dblclick="LableOnClick(0, $index)">{{x.Firstname}}</span>
+                    <input type="text" name="textBox_0" class="form-input" ng-model="x.Firstname" ng-show="form[$index].showTextBox[0]" 
+                           ng-blur="LableOnUnfocus(0, $index, tableForm)" show-focus ="form[$index].showTextBox[0] && form[$index].focusTextBox[0]"
                            required />
                     <span ng-show="tableForm.textBox_0.$error.required && tableForm.textBox_0.$touched ">required!!!!</span>
                 </span>
 
                 <span class="td heavyline">
-                    <span class="form-input" name="Lable_1" ng-show="form[{{$index}}].showLable[1]" ng-click="LableOnClick(1, $index)">{{x.Middlename}}</span>
-                    <input type="text" name="textBox_1" class="form-input" ng-model="x.Middlename" ng-show="form[{{$index}}].showTextBox[1]" 
-                           ng-blur="LableOnUnfocus(1, $index, tableForm)" show-focus ="form[{{$index}}].showTextBox[1] && form[{{$index}}].focusTextBox[1]"/>
+                    <span class="form-input" name="Lable_1" ng-show="form[$index].showLable[1]" ng-dblclick="LableOnClick(1, $index)">{{x.Middlename}}</span>
+                    <input type="text" name="textBox_1" class="form-input" ng-model="x.Middlename" ng-show="form[$index].showTextBox[1]" 
+                           ng-blur="LableOnUnfocus(1, $index, tableForm)" show-focus ="form[$index].showTextBox[1] && form[$index].focusTextBox[1]"/>
                 </span>
 
                 <span class="td heavyline">
-                    <span class="form-input" name="Lable_2" ng-show="form[{{$index}}].showLable[2]" ng-click="LableOnClick(2, $index)">{{x.Lastname}}</span>
-                    <input type="text" name="textBox_2" class="form-input" ng-model="x.Lastname" ng-show="form[{{$index}}].showTextBox[2]" 
-                           ng-blur="LableOnUnfocus(2, $index, tableForm)" show-focus ="form[{{$index}}].showTextBox[2] && form[{{$index}}].focusTextBox[2]"/>
+                    <span class="form-input" name="Lable_2" ng-show="form[$index].showLable[2]" ng-dblclick="LableOnClick(2, $index)">{{x.Lastname}}</span>
+                    <input type="text" name="textBox_2" class="form-input" ng-model="x.Lastname" ng-show="form[$index].showTextBox[2]" 
+                           ng-blur="LableOnUnfocus(2, $index, tableForm)" show-focus ="form[$index].showTextBox[2] && form[$index].focusTextBox[2]"/>
                 </span>
 
                 <span class="td heavyline">
-                    <span class="form-input" name="Lable_3" ng-show="form[{{$index}}].showLable[3]" ng-click="LableOnClick(3, $index)">{{x.RelationshipID}}</span>
-                    <input type="text" name="textBox_3" class="form-input" ng-model="x.RelationshipID" ng-show="form[{{$index}}].showTextBox[3]"
-                           ng-blur="LableOnUnfocus(3, $index, tableForm)" show-focus ="form[{{$index}}].showTextBox[3] && form[{{$index}}].focusTextBox[3]" />
+                    <span class="form-input" name="Lable_3" ng-show="form[$index].showLable[3]" ng-dblclick="LableOnClick(3, $index)">{{x.RelationshipID}}</span>
+                    <input type="text" name="textBox_3" class="form-input" ng-model="x.RelationshipID" ng-show="form[$index].showTextBox[3]"
+                           ng-blur="LableOnUnfocus(3, $index, tableForm)" show-focus ="form[$index].showTextBox[3] && form[$index].focusTextBox[3]" />
                 </span>
 
                 <span class="td heavyline">
-                    <span class="form-input" name="Lable_4" ng-show="form[{{$index}}].showLable[4]" ng-click="LableOnClick(4, $index)">{{x.Priority}}</span>
-                    <input type="text" name="textBox_4" class="form-input" ng-model="x.Priority" ng-show="form[{{$index}}].showTextBox[4]"
-                           ng-blur="LableOnUnfocus(4, $index, tableForm)" show-focus ="form[{{$index}}].showTextBox[4] && form[{{$index}}].focusTextBox[4]" />
+                    <span class="form-input" name="Lable_4" ng-show="form[$index].showLable[4]" ng-dblclick="LableOnClick(4, $index)">{{x.Priority}}</span>
+                    <input type="text" name="textBox_4" class="form-input" ng-model="x.Priority" ng-show="form[$index].showTextBox[4]"
+                           ng-blur="LableOnUnfocus(4, $index, tableForm)" show-focus ="form[$index].showTextBox[4] && form[$index].focusTextBox[4]" />
                 </span>
 
                 <span class="td heavyline">
-                    <span class="form-input" name="Lable_5" ng-show="form[{{$index}}].showLable[5]" ng-click="LableOnClick(5, $index)">{{x.Reason}}</span>
-                    <input type="text" name="textBox_5" class="form-input" ng-model="x.Reason" ng-show="form[{{$index}}].showTextBox[5]"
-                           ng-blur="LableOnUnfocus(5, $index, tableForm)" show-focus ="form[{{$index}}].showTextBox[5] && form[{{$index}}].focusTextBox[5]" />
+                    <span class="form-input" name="Lable_5" ng-show="form[$index].showLable[5]" ng-dblclick="LableOnClick(5, $index)">{{x.Reason}}</span>
+                    <input type="text" name="textBox_5" class="form-input" ng-model="x.Reason" ng-show="form[$index].showTextBox[5]"
+                           ng-blur="LableOnUnfocus(5, $index, tableForm)" show-focus ="form[$index].showTextBox[5] && form[$index].focusTextBox[5]" />
                 </span>
 
                 <span class="td heavyline">
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showEditBtn" ng-click="EditRow($index)">Edit</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showDelBtn" ng-click="DelRow($index)">Delete</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showSaveBtn" ng-click="SaveRow($index, tableForm)" ng-disabled="form[{{$index}}].disableSaveBtn">Save</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$index}}].showCancelBtn" ng-click="CancelRow($index)" ng-disabled="form[{{$index}}].disableCancelBtn">Cancel</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-click="PhoneList($index)" ng-disabled="form[{{$index}}].disablePhoneBtn">Phone</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$index].showEditBtn" ng-click="EditRow($index)">Edit</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$index].showDelBtn" ng-click="DelRow($index)">Delete</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$index].showSaveBtn" ng-click="SaveRow($index, tableForm)" ng-disabled="form[$index].disableSaveBtn">Save</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$index].showCancelBtn" ng-click="CancelRow($index)" ng-disabled="form[$index].disableCancelBtn">Cancel</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-click="PhoneList($index)" ng-disabled="form[$index].disablePhoneBtn">Phone</button>
                 </span>
             </div>
 
-            <div class="table tt" style="background-color: transparent" id="collapseMain{{$index}}" ng-show="form[{{$index}}].showList">
+            <div class="table tt" style="background-color: transparent" ng-show="form[$index].showList">
                 
                 <div class="tr">
                     <span class="td noline">
@@ -108,8 +108,7 @@
                     </span>
 
                     <span class="td heavyline">
-                        <button type="button" class="btn btn-default btn-sm" ng-click="AddRow($index)" ng-disabled="form[{{$index}}].disableAddBtn">Add Phone</button>
-
+                        <button type="button" class="btn btn-default btn-sm" ng-click="AddRow($index)" ng-disabled="form[$index].disableAddBtn">Add Phone</button>
                     </span>
 
                     <span class="td heavyline">
@@ -178,41 +177,41 @@
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable_0" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showLable[0]" ng-click="LableOnClick(0, $parent.$index, $index)">{{y.Number}}</span>
-                        <input type="text" name="textBox_0" class="form-input" ng-model="y.Number" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[0]" 
-                               ng-blur="LableOnUnfocus(0, $parent.$index, tableForm, $index)" show-focus ="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[0] && form[{{$parent.$index}}].phoneForm[{{$index}}].focusTextBox[0]" />
+                        <span class="form-input" name="Lable_0" ng-show="form[$parent.$index].phoneForm[$index].showLable[0]" ng-dblclick="LableOnClick(0, $parent.$index, $index)">{{y.Number}}</span>
+                        <input type="text" name="textBox_0" class="form-input" ng-model="y.Number" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[0]" 
+                               ng-blur="LableOnUnfocus(0, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[0] && form[$parent.$index].phoneForm[$index].focusTextBox[0]" />
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable_1" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showLable[1]" ng-click="LableOnClick(1, $parent.$index, $index)">{{y.PhoneTypeID}}</span>
-                        <input type="text" name="textBox_1" class="form-input" ng-model="y.PhoneTypeID" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[1]" 
-                               ng-blur="LableOnUnfocus(1, $parent.$index, tableForm, $index)" show-focus ="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[1] && form[{{$parent.$index}}].phoneForm[{{$index}}].focusTextBox[1]" />
+                        <span class="form-input" name="Lable_1" ng-show="form[$parent.$index].phoneForm[$index].showLable[1]" ng-dblclick="LableOnClick(1, $parent.$index, $index)">{{y.PhoneTypeID}}</span>
+                        <input type="text" name="textBox_1" class="form-input" ng-model="y.PhoneTypeID" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[1]" 
+                               ng-blur="LableOnUnfocus(1, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[1] && form[$parent.$index].phoneForm[$index].focusTextBox[1]" />
 
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable_2" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showLable[2]" ng-click="LableOnClick(2, $parent.$index, $index)">{{y.IsMobile}}</span>
-                        <input type="text" name="textBox_2" class="form-input" ng-model="y.IsMobile" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[2]" 
-                               ng-blur="LableOnUnfocus(2, $parent.$index, tableForm, $index)" show-focus ="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[2] && form[{{$parent.$index}}].phoneForm[{{$index}}].focusTextBox[2]" />
+                        <span class="form-input" name="Lable_2" ng-show="form[$parent.$index].phoneForm[$index].showLable[2]" ng-dblclick="LableOnClick(2, $parent.$index, $index)">{{y.IsMobile}}</span>
+                        <input type="text" name="textBox_2" class="form-input" ng-model="y.IsMobile" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[2]" 
+                               ng-blur="LableOnUnfocus(2, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[2] && form[$parent.$index].phoneForm[$index].focusTextBox[2]" />
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable_3" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showLable[3]" ng-click="LableOnClick(3, $parent.$index, $index)">{{y.IsPrimary}}</span>
-                        <input type="text" name="textBox_3" class="form-input" ng-model="y.IsPrimary" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[3]" 
-                               ng-blur="LableOnUnfocus(3, $parent.$index, tableForm, $index)" show-focus ="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[3] && form[{{$parent.$index}}].phoneForm[{{$index}}].focusTextBox[3]" />
+                        <span class="form-input" name="Lable_3" ng-show="form[$parent.$index].phoneForm[$index].showLable[3]" ng-dblclick="LableOnClick(3, $parent.$index, $index)">{{y.IsPrimary}}</span>
+                        <input type="text" name="textBox_3" class="form-input" ng-model="y.IsPrimary" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[3]" 
+                               ng-blur="LableOnUnfocus(3, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[3] && form[$parent.$index].phoneForm[$index].focusTextBox[3]" />
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable_4" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showLable[4]" ng-click="LableOnClick(4, $parent.$index, $index)">{{y.CountryID}}</span>
-                        <input type="text" name="textBox_4" class="form-input" ng-model="y.CountryID" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[4]" 
-                               ng-blur="LableOnUnfocus(4, $parent.$index, tableForm, $index)" show-focus ="form[{{$parent.$index}}].phoneForm[{{$index}}].showTextBox[4] && form[{{$parent.$index}}].phoneForm[{{$index}}].focusTextBox[4]" />
+                        <span class="form-input" name="Lable_4" ng-show="form[$parent.$index].phoneForm[$index].showLable[4]" ng-dblclick="LableOnClick(4, $parent.$index, $index)">{{y.CountryID}}</span>
+                        <input type="text" name="textBox_4" class="form-input" ng-model="y.CountryID" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[4]" 
+                               ng-blur="LableOnUnfocus(4, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[4] && form[$parent.$index].phoneForm[$index].focusTextBox[4]" />
                     </span>
 
                     <span class="td lightline">
-                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showEditBtn" ng-click="EditRow($parent.$index, $index)">Edit</button>
-                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showDelBtn" ng-click="DelRow($parent.$index, $index)">Delete</button>
-                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showSaveBtn" ng-click="SaveRow($parent.$index, tableForm, $index )">Save</button>
-                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[{{$parent.$index}}].phoneForm[{{$index}}].showCancelBtn" ng-click="CancelRow($parent.$index, $index)" ng-disabled="form[{{$parent.$index}}].phoneForm[{{$index}}].disableCancelBtn">Cancel</button>
+                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showEditBtn" ng-click="EditRow($parent.$index, $index)">Edit</button>
+                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showDelBtn" ng-click="DelRow($parent.$index, $index)" ng-disabled="form[$parent.$index].phoneForm[$index].disableDelBtn">Delete</button>
+                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showSaveBtn" ng-click="SaveRow($parent.$index, tableForm, $index )">Save</button>
+                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showCancelBtn" ng-click="CancelRow($parent.$index, $index)" ng-disabled="form[$parent.$index].phoneForm[$index].disableCancelBtn">Cancel</button>
                     </span>
                 </div>
             </div>
