@@ -15,6 +15,21 @@ app.service('Test', function () {
     return test;
 });
 
+app.directive('convertToNumber', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function (val) {
+                return parseInt(val, 10);
+            });
+            ngModel.$formatters.push(function (val) {
+                return '' + val;
+            });
+        }
+    };
+});
+
+
 app.controller('appCtrl',
     function ($scope, $http, Test) {
 
@@ -108,7 +123,27 @@ app.controller('appCtrl',
             $scope.t = Test.get();
         }
 
+        //////////////////////
 
+        $scope.test = { Id: 2, value: 'bug' }
+
+        $scope.typeOptions = [
+        { Id: 1, value: 'feature' },
+        { Id: 2, value: 'bug' },
+        { Id: 3, value: 'enhancement' }
+        ];
+
+        $scope.filterCondition = {
+            operator: 'neq'
+        }
+
+        $scope.operators = [{
+            value: 'eq',
+            displayName: 'equals'
+        }, {
+            value: 'neq',
+            displayName: 'not equal'
+        }]
 
     });
 

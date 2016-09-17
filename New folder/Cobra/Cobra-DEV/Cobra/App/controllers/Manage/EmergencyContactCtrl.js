@@ -13,6 +13,20 @@ cobraApp.directive('showFocus', function ($timeout) {
     };
 });
 
+cobraApp.directive('convertToNumber', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function (val) {
+                return parseInt(val, 10);
+            });
+            ngModel.$formatters.push(function (val) {
+                return '' + val;
+            });
+        }
+    };
+});
+
 
 cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScroll, $location, $window) {
 
@@ -21,6 +35,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
     var dataTMP = {};
     var dataPhoneTMP = {};
     var editMode = false;
+    var cellLock = false;
 
     $scope.EmergencyContactListFn = function () {
         $http.get("/Manage/GetEmergencyContacts/").then(function (response) {
@@ -56,10 +71,19 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
 
     $scope.EmergencyContactListFn();
 
+    $scope.EmergencyContactAttributesListFn = function () {
+        $http.get("/Manage/GetEmergencyContactAttributes/").then(function (response) {
+            $scope.ecaList = response.data;
+
+        });
+    };
+
+    $scope.EmergencyContactAttributesListFn();
+
     $scope.AddRow = function (index) {
         if (!editMode) {
             editMode = true;
-            var newIndex
+            var newIndex;
             if (arguments.length === 0) {
                 $scope.emergencyContactList.push({ Id: 0 });
                 newIndex = $scope.emergencyContactList.length - 1;
@@ -136,7 +160,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     $scope.form[index].phoneForm[0].disableDelBtn = false;
                 }
             }
-            editMode = false;  
+            editMode = false;
+            cellLock = false;
         }
     };
 
@@ -153,7 +178,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 if (confirm("Are you sure?")) {
                     var x = {
                         id: $scope.emergencyContactList[index].PhoneList[phoneIndex].Id
-                    }
+                    };
                     PhoneDataDelPost(x);
                     $scope.emergencyContactList[index].PhoneList.splice(phoneIndex, 1);
                     if ($scope.emergencyContactList[index].PhoneList.length === 1) {
@@ -218,7 +243,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
     };
 
     var DataDelPost = function (x) {
-            // delete
+        // delete
         $http({
             method: "Post",
             url: "/Manage/DeleteEmergencyContact",
@@ -231,7 +256,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         }, function Error(result) {
             console.log(result);
         });
-    }
+    };
 
     var PhoneDataDelPost = function (x) {
         // delete
@@ -247,7 +272,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         }, function Error(result) {
             console.log(result);
         });
-    }
+    };
 
     $scope.PhoneList = function (index) {
         //var s = "collapseMain" + index;
@@ -258,13 +283,14 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
     };
 
     $scope.LableOnClick = function (i, index, phoneIndex) {
-        if (!editMode) {
+        if (!editMode && !cellLock) {
             if (arguments.length === 2) {
                 ToggleEdit(index, i);
             }
             else if (arguments.length === 3) {
                 ToggleEdit(index, i, phoneIndex);
             }
+            cellLock = true;
         }
     };
 
@@ -279,6 +305,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 else if (arguments.length === 4) {
                     ToggleShow(index, i, phoneIndex);
                 }
+                cellLock = false;
             }
         }
     };

@@ -32,6 +32,24 @@
 
 </table>
 
+{{test.Id}}
+
+
+<select ng-model="test" class="form-input"  
+        ng-options="option.value for option in typeOptions track by option.Id">
+    
+</select>
+
+<select ng-model="test.Id" class="form-input" convert-to-number>
+    <option ng-selected="test.Id===tt.Id" ng-repeat="tt in typeOptions" value="{{tt.Id}}" >
+        {{tt.value}}
+    </option>
+</select>
+
+<select ng-model="filterCondition.operator">
+    <option ng-selected="{{operator.value == filterCondition.operator}}" ng-repeat="operator in operators" value="{{operator.value}}">{{operator.displayName}}</option>
+</select>
+
 <script type="text/ng-template" id="modalEdit">
     <form name="editForm">
         <div class="modal-body">
