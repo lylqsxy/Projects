@@ -15,6 +15,21 @@ app.service('Test', function () {
     return test;
 });
 
+app.directive('dynamicName', function ($compile, $parse) {
+    return {
+        restrict: 'A',
+        terminal: true,
+        priority: 100000,
+        link: function (scope, elem) {
+            var name = $parse(elem.attr('dynamic-name'))(scope);
+            // $interpolate() will support things like 'skill'+skill.id where parse will not
+            elem.removeAttr('dynamic-name');
+            elem.attr('name', name);
+            $compile(elem)(scope);
+        }
+    };
+});
+
 app.directive('convertToNumber', function () {
     return {
         require: 'ngModel',
@@ -144,6 +159,14 @@ app.controller('appCtrl',
             value: 'neq',
             displayName: 'not equal'
         }]
+
+        $scope.doStuff = function () {
+            console.log($scope.myForm); // InputController
+            console.log($scope.myForm.$inputName); // InputController
+            console.log($scope.myForm.staticName); // InputController
+            
+
+        }
 
     });
 

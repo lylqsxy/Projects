@@ -50,6 +50,14 @@
     <option ng-selected="{{operator.value == filterCondition.operator}}" ng-repeat="operator in operators" value="{{operator.value}}">{{operator.displayName}}</option>
 </select>
 
+<div>
+    <form name='myForm'>
+        <input name='inputName' />
+        <input name='staticName' />
+    </form>
+    <a ng-click='doStuff()'>Click</a>
+</div>
+
 <script type="text/ng-template" id="modalEdit">
     <form name="editForm">
         <div class="modal-body">
