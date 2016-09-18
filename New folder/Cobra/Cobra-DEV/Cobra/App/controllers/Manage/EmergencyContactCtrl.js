@@ -1,4 +1,4 @@
-﻿/*
+﻿/* Author: Nicky Li
 
 */
 
@@ -34,7 +34,6 @@ cobraApp.service('arrayService', function ($filter) {
 });
 
 
-
 cobraApp.directive('showFocus', function ($timeout) {
     return function (scope, element, attrs) {
         scope.$watch(attrs.showFocus,
@@ -59,7 +58,6 @@ cobraApp.directive('convertToNumber', function () {
         }
     };
 });
-
 
 cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $anchorScroll, $location, $window, arrayService) {
 
@@ -460,6 +458,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             arrayService.ArrayAdd($scope.priorityList, $scope.emergencyContactList[index].Priority);
         }
     };
+
     var setFormDirty = function (index, form, phoneIndex) {
         for (var k = 0; k < 6; k++) {
             eval("form.textBox" + k.toString()).$setDirty();
@@ -468,8 +467,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             for (var j = 6; j < 11; j++) {
                 eval("form.textBox" + j.toString() + phoneIndex.toString()).$setDirty();
             }
-        }
-        
+        }      
     };
 
 });
