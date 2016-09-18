@@ -133,6 +133,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     showTextBox: new Array(6),
                     focusTextBox: new Array(6),
                     showList: true,
+                    phoneBtn: "Phone <<",
                     phoneForm: new Array(1)
                 };
 
