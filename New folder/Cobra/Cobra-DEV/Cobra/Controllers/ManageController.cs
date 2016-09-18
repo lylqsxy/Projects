@@ -501,7 +501,7 @@ namespace Cobra.Controllers
 
         [HttpPost]
         [ValidateCustomAntiForgeryToken]
-        public HttpStatusCodeResult CreateEmergencyContact(EmergencyContactViewModel newEmergencyContact)
+        public JsonResult CreateEmergencyContact(EmergencyContactViewModel newEmergencyContact)
         {
             //if (!ModelState.IsValid)
             //{
@@ -533,7 +533,8 @@ namespace Cobra.Controllers
             }catch(Exception ex)
             {
                 _logService.Error(ex.Message);
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "exeption when in phoneList"); 
+                HttpStatusCodeResult error = new HttpStatusCodeResult(HttpStatusCode.Forbidden, "exeption when in phoneList"); //Nicky
+                return Json(error, JsonRequestBehavior.AllowGet);                               //Nicky
             }
             //Create new emergency contact mode
             //Emergency contact profile
@@ -577,9 +578,9 @@ namespace Cobra.Controllers
             }).ToList();
 
             newEmergencyContact.PhoneList = createdPhoneList;
-
-            //return Json(newEmergencyContact);
-            return new HttpStatusCodeResult(HttpStatusCode.OK); 
+            HttpStatusCodeResult success = new HttpStatusCodeResult(HttpStatusCode.OK);         //Nicky
+            return Json(new { newEmergencyContact, success }, JsonRequestBehavior.AllowGet);    //Nicky
+            //return new HttpStatusCodeResult(HttpStatusCode.OK); 
         }
 
         [HttpGet] 
@@ -589,7 +590,7 @@ namespace Cobra.Controllers
         }
 
         [HttpPost]
-        public HttpStatusCodeResult EditEmergencyContact(EmergencyContactViewModel contactToUpdate)
+        public JsonResult EditEmergencyContact(EmergencyContactViewModel contactToUpdate)
         {
             //int loginID = _accountService.GetCurrentUserId();
             //Person loginUser = _profileService.GetPersonById(loginID);
@@ -602,7 +603,8 @@ namespace Cobra.Controllers
             } catch(Exception ex)
             {
                 //todo log exception 
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden); 
+                HttpStatusCodeResult error = new HttpStatusCodeResult(HttpStatusCode.Forbidden);        //Nicky
+                return Json(error, JsonRequestBehavior.AllowGet);                                       //Nicky
             }
 
             ecModel.ReasonContact = contactToUpdate.Reason;
@@ -644,9 +646,26 @@ namespace Cobra.Controllers
                 }
             }
 
-            _profileService.UpdateEmergencyContact(ecModel); 
+            _profileService.UpdateEmergencyContact(ecModel);
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);  //:)
+            //wrap emergency contact model to send it back to the view
+            //get id of the created Emergency Contact model, and attached to the view
+            
+            var updatedPhoneList = ecModel.Profile.Phones.Select(p => new PhoneViewModel          //Nicky
+            {
+                Id = p.Id,
+                PhoneTypeID = p.PhoneTypeId,
+                Number = p.Number,
+                CountryID = p.CountryId,
+                IsMobile = p.IsMobile,
+                IsPrimary = p.IsPrimary
+            }).ToList();
+
+            contactToUpdate.PhoneList = updatedPhoneList;                                       //Nicky
+            HttpStatusCodeResult success = new HttpStatusCodeResult(HttpStatusCode.OK);         //Nicky
+            return Json(new { contactToUpdate, success }, JsonRequestBehavior.AllowGet);        //Nicky
+
+            //return new HttpStatusCodeResult(HttpStatusCode.OK);  //:)                         //Nicky
         }
 
         [HttpPost]

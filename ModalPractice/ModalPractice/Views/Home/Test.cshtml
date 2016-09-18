@@ -41,7 +41,7 @@
 </select>
 
 <select ng-model="test.Id" class="form-input" convert-to-number>
-    <option ng-selected="test.Id===tt.Id" ng-repeat="tt in typeOptions" value="{{tt.Id}}" >
+    <option  ng-repeat="tt in typeOptions" value="{{tt.Id}}" >
         {{tt.value}}
     </option>
 </select>

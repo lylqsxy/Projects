@@ -2,6 +2,39 @@
 
 */
 
+cobraApp.service('arrayService', function ($filter) {
+    var arrayService = {};
+    arrayService.PriorityListGenerator = function (inputArray) {
+        var max = Math.max.apply(Math, inputArray);
+        var array = [];
+        for (var i = 1; i < max+5; i++) {
+            if ($filter('filter')(inputArray, i).length < 1) {
+                array.push(i);
+            }
+        }
+        return array;
+    };
+
+    arrayService.ArrayAdd = function (array, i) {
+        var index = array.indexOf(i);
+        if (index <= -1) {
+            array.push(i);
+        }
+        array = array.sort(function (a, b) { return a - b; });
+    };
+
+    arrayService.ArrayRemove = function (array, i) {
+        var index = array.indexOf(i);
+        if (index > -1) {
+            array.splice(index, 1);
+        }
+        array = array.sort(function (a, b) { return a - b; });
+    };
+    return arrayService;
+});
+
+
+
 cobraApp.directive('showFocus', function ($timeout) {
     return function (scope, element, attrs) {
         scope.$watch(attrs.showFocus,
@@ -28,10 +61,11 @@ cobraApp.directive('convertToNumber', function () {
 });
 
 
-cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScroll, $location, $window) {
+cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $anchorScroll, $location, $window, arrayService) {
 
     $scope.emergencyContactList = [];
     $scope.form = [];
+    $scope.priorityList = [];
     var dataTMP = {};
     var dataPhoneTMP = {};
     var editMode = false;
@@ -40,13 +74,14 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
     $scope.EmergencyContactListFn = function () {
         $http.get("/Manage/GetEmergencyContacts/").then(function (response) {
             $scope.emergencyContactList = response.data;
-            
+            var priorityArray = [];
             for (var i = 0; i < $scope.emergencyContactList.length; i++) {
                 $scope.form[i] = {
                     showLable: new Array(6),
                     showTextBox: new Array(6),
                     focusTextBox: new Array(6),
                     showList: false,
+                    phoneBtn: "Phone >>",
                     phoneForm: new Array($scope.emergencyContactList[i].PhoneList.length)
                 };
                 for (var j = 0; j < $scope.emergencyContactList[i].PhoneList.length; j++) {
@@ -64,8 +99,9 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     $scope.form[i].phoneForm[0].disableDelBtn = false;
                 }
                 ToggleShow(i, -1);
+                priorityArray.push($scope.emergencyContactList[i].Priority);
             }
-
+            $scope.priorityList = arrayService.PriorityListGenerator(priorityArray);
         });
     };
 
@@ -85,7 +121,11 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
             editMode = true;
             var newIndex;
             if (arguments.length === 0) {
-                $scope.emergencyContactList.push({ Id: 0 });
+                $scope.emergencyContactList.push({
+                    Id: "New",
+                    RelationshipID: "",
+                    Priority: $scope.priorityList[0]
+                });
                 newIndex = $scope.emergencyContactList.length - 1;
                 $scope.emergencyContactList[newIndex].PhoneList = [];
                 $scope.form[newIndex] = {
@@ -95,7 +135,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     showList: true,
                     phoneForm: new Array(1)
                 };
-                
+
                 $scope.form[newIndex].phoneForm[0] = {
                     showLable: new Array(5),
                     showTextBox: new Array(5),
@@ -110,10 +150,15 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
             }
             else if (arguments.length === 1) {
                 newIndex = index;
-                
             }
 
-            $scope.emergencyContactList[newIndex].PhoneList.push({ Id: 0 });
+            $scope.emergencyContactList[newIndex].PhoneList.push({
+                Id: "New",
+                PhoneTypeID: "",
+                IsMobile: false,
+                IsPrimary: false,
+                CountryID: "a"
+            });
             var newPhoneIndex = $scope.emergencyContactList[newIndex].PhoneList.length - 1;
             $scope.form[newIndex].phoneForm[newPhoneIndex] = {
                 showLable: new Array(5),
@@ -121,13 +166,13 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                 focusTextBox: new Array(5)
             };
             dataPhoneTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[newIndex].PhoneList[newPhoneIndex]));
-            ToggleEdit(newIndex, -1, newPhoneIndex);            
+            ToggleEdit(newIndex, -1, newPhoneIndex);
         }
     };
 
     $scope.EditRow = function (index, phoneIndex) {
         if (!editMode) {
-            editMode = true;       
+            editMode = true;
             if (arguments.length === 1) {
                 dataTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[index]));
                 ToggleEdit(index, -1);
@@ -140,9 +185,10 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
     };
 
     $scope.SaveRow = function (index, form, phoneIndex) {
+        setFormDirty(index, form, phoneIndex);
         if (!form.$invalid) {
             var x = $scope.emergencyContactList[index];
-            DataPost(x);
+            DataPost(x, index, phoneIndex);
             if (arguments.length === 2) {
                 ToggleShow(index, -1);
             }
@@ -166,20 +212,20 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
     };
 
     $scope.DelRow = function (index, phoneIndex) {
-        if (!editMode) {        
+        if (!editMode) {
             if (arguments.length === 1) {
                 if (confirm("All the phone data will be deleted!")) {
                     var x = $scope.emergencyContactList[index];
                     DataDelPost(x);
                     $scope.emergencyContactList.splice(index, 1);
-                }    
+                }
             }
             else if (arguments.length === 2) {
                 if (confirm("Are you sure?")) {
-                    var x = {
+                    var y = {
                         id: $scope.emergencyContactList[index].PhoneList[phoneIndex].Id
                     };
-                    PhoneDataDelPost(x);
+                    PhoneDataDelPost(y);
                     $scope.emergencyContactList[index].PhoneList.splice(phoneIndex, 1);
                     if ($scope.emergencyContactList[index].PhoneList.length === 1) {
                         $scope.form[index].phoneForm[0].disableDelBtn = true;
@@ -199,9 +245,9 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         }
         else if (arguments.length === 2) {
             $scope.emergencyContactList[index].PhoneList[phoneIndex] = JSON.parse(JSON.stringify(dataPhoneTMP));
-            if ($scope.emergencyContactList[index].PhoneList[phoneIndex].Id === 0) {
-                $scope.emergencyContactList[index].PhoneList.pop();              
-                if ($scope.emergencyContactList[index].Id === 0) {
+            if ($scope.emergencyContactList[index].PhoneList[phoneIndex].Id === "New") {
+                $scope.emergencyContactList[index].PhoneList.pop();
+                if ($scope.emergencyContactList[index].Id === "New") {
                     $scope.emergencyContactList.pop();
                 }
             }
@@ -210,8 +256,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         editMode = false;
     };
 
-    var DataPost = function (x) {
-        if (x.Id > 0) {      // update
+    var DataPost = function (x, index, phoneIndex) {
+        if (x.Id !== "New") {      // update
             $http({
                 method: "Post",
                 url: "/Manage/EditEmergencyContact",
@@ -220,6 +266,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
                 }
             }).then(function SentOk(result) {
+                updateId(result.data.contactToUpdate, index, phoneIndex);
                 console.log(result);
             }, function Error(result) {
                 console.log(result);
@@ -234,7 +281,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
                     'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
                 }
             }).then(function SentOk(result) {
-                //$scope.data[index].Id = result.data.Id;
+                updateId(result.data.newEmergencyContact, index, phoneIndex);
                 console.log(result);
             }, function Error(result) {
                 console.log(result);
@@ -274,11 +321,24 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         });
     };
 
+    var updateId = function (resultData, index, phoneIndex) {
+        $scope.emergencyContactList[index].Id = resultData.Id;
+        $scope.emergencyContactList[index].PhoneList[phoneIndex].Id = resultData.PhoneList[phoneIndex].Id;
+    };
+
     $scope.PhoneList = function (index) {
-        //var s = "collapseMain" + index;
-        //$location.hash(s);
-        //$anchorScroll();
-        $scope.form[index].showList = !$scope.form[index].showList;
+        if (!$scope.form[index].showList) {
+            var s = "collapseMain" + index;
+            $location.hash(s);
+            $anchorScroll();
+            $scope.form[index].showList = true;
+            $scope.form[index].phoneBtn = "Phone <<";
+        }
+        else {
+            $scope.form[index].showList = false;
+            $scope.form[index].phoneBtn = "Phone >>";
+        }
+        
 
     };
 
@@ -298,7 +358,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
         if (!editMode) {
             if (!form.$invalid) {
                 var x = $scope.emergencyContactList[index];
-                DataPost(x);
+                DataPost(x, index, phoneIndex);
                 if (arguments.length === 3) {
                     ToggleShow(index, i);
                 }
@@ -351,6 +411,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
             $scope.form[index].showCancelBtn = false;
             $scope.form[index].showEditBtn = true;
             $scope.form[index].showDelBtn = true;
+            arrayService.ArrayRemove($scope.priorityList, $scope.emergencyContactList[index].Priority);
         }
     };
 
@@ -393,7 +454,20 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $anchorScro
             $scope.form[index].showCancelBtn = true;
             $scope.form[index].showEditBtn = false;
             $scope.form[index].showDelBtn = false;
+            arrayService.ArrayAdd($scope.priorityList, $scope.emergencyContactList[index].Priority);
         }
-
     };
+    var setFormDirty = function (index, form, phoneIndex) {
+        for (var k = 0; k < 6; k++) {
+            eval("form.textBox" + k.toString()).$setDirty();
+        }
+        if (phoneIndex !== undefined) {
+            for (var j = 6; j < 11; j++) {
+                eval("form.textBox" + j.toString() + phoneIndex.toString()).$setDirty();
+            }
+        }
+        
+    };
+
 });
+
