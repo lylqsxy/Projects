@@ -323,7 +323,9 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
 
     var updateId = function (resultData, index, phoneIndex) {
         $scope.emergencyContactList[index].Id = resultData.Id;
-        $scope.emergencyContactList[index].PhoneList[phoneIndex].Id = resultData.PhoneList[phoneIndex].Id;
+        if (phoneIndex !== undefined) {
+            $scope.emergencyContactList[index].PhoneList[phoneIndex].Id = resultData.PhoneList[phoneIndex].Id;
+        }    
     };
 
     $scope.PhoneList = function (index) {
