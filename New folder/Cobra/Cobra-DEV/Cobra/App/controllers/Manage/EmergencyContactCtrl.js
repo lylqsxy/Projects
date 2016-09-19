@@ -73,7 +73,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         dataPhoneTMP = {};
         editMode = false;
         cellLock = false;
-    }
+    };
     
     var EmergencyContactListFn = function () {
         init();
