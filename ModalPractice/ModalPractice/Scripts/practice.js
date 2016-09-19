@@ -145,8 +145,16 @@ app.controller('appCtrl',
             displayName: 'not equal'
         }]
 
-    });
+        ////////////////
 
+        $scope.inputName = 'dynamicName';
+
+        $scope.doStuff = function (formName) {
+             
+            console.log(formName);
+        }
+
+    });
 
 app.controller('testCtrl',
     function ($scope, $http, Test) {

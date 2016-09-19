@@ -504,8 +504,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             for (var j = 6; j < 11; j++) {
                 eval("form.textBox" + j.toString() + phoneIndex.toString()).$setDirty();
             }
-        }
-        
+        }      
     };
 
 });

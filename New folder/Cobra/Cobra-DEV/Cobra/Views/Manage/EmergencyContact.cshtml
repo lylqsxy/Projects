@@ -57,7 +57,7 @@
                     <span class="form-input" name="Lable0" ng-show="form[$index].showLable[0]" ng-dblclick="LableOnClick(0, $index)">{{x.Firstname}}</span>
                     <input type="text" name="textBox0" class="form-input" ng-model="x.Firstname" ng-show="form[$index].showTextBox[0]" 
                            ng-blur="LableOnUnfocus(0, $index, tableForm)" show-focus ="form[$index].showTextBox[0] && form[$index].focusTextBox[0]"
-                           ng-pattern="/^[a-zA-Z]*$/" required />
+                           placeholder="First Name" ng-pattern="/^[a-zA-Z]*$/" required />
                     <span ng-show="tableForm.textBox0.$error.required && tableForm.textBox0.$dirty" class="input-error">Required.</span>
                     <span ng-show="tableForm.textBox0.$error.pattern" class="input-error">Incorrect format.</span>
                 </span>
@@ -66,7 +66,7 @@
                     <span class="form-input" name="Lable1" ng-show="form[$index].showLable[1]" ng-dblclick="LableOnClick(1, $index)">{{x.Middlename}}</span>
                     <input type="text" name="textBox1" class="form-input" ng-model="x.Middlename" ng-show="form[$index].showTextBox[1]" 
                            ng-blur="LableOnUnfocus(1, $index, tableForm)" show-focus ="form[$index].showTextBox[1] && form[$index].focusTextBox[1]"
-                           ng-pattern="/^[a-zA-Z]*$/" />
+                           placeholder="Middle Name" ng-pattern="/^[a-zA-Z]*$/" />
                     <span ng-show="tableForm.textBox1.$error.pattern" class="input-error">Incorrect format.</span>
                 </span>
 
@@ -74,7 +74,7 @@
                     <span class="form-input" name="Lable2" ng-show="form[$index].showLable[2]" ng-dblclick="LableOnClick(2, $index)">{{x.Lastname}}</span>
                     <input type="text" name="textBox2" class="form-input" ng-model="x.Lastname" ng-show="form[$index].showTextBox[2]" 
                            ng-blur="LableOnUnfocus(2, $index, tableForm)" show-focus ="form[$index].showTextBox[2] && form[$index].focusTextBox[2]"
-                           ng-pattern="/^[a-zA-Z]*$/" required />
+                           placeholder="Last Name" ng-pattern="/^[a-zA-Z]*$/" required />
                     <span ng-show="tableForm.textBox2.$error.required && tableForm.textBox2.$dirty" class="input-error">Required.</span>
                     <span ng-show="tableForm.textBox2.$error.pattern" class="input-error">Incorrect format.</span>
                 </span>
@@ -97,7 +97,7 @@
                     <span class="form-input" name="Lable4" ng-show="form[$index].showLable[4]" ng-dblclick="LableOnClick(4, $index)">{{x.Priority}}</span>
                     <select name="textBox4" ng-model="x.Priority" class="form-input" ng-show="form[$index].showTextBox[4]"
                            ng-blur="LableOnUnfocus(4, $index, tableForm)" show-focus ="form[$index].showTextBox[4] && form[$index].focusTextBox[4]" 
-                           convert-to-number required >
+                           placeholder="Priority" convert-to-number required >
                         <option ng-repeat="tt in priorityList" value="{{tt}}" class="list-content" >{{tt}}</option>
                     </select>
                     <span ng-show="tableForm.textBox4.$error.required && tableForm.textBox4.$dirty" class="input-error">Required.</span>
@@ -106,7 +106,8 @@
                 <span class="td heavyline">
                     <span class="form-input" name="Lable5" ng-show="form[$index].showLable[5]" ng-dblclick="LableOnClick(5, $index)">{{x.Reason}}</span>
                     <input type="text" name="textBox5" class="form-input" ng-model="x.Reason" ng-show="form[$index].showTextBox[5]"
-                           ng-blur="LableOnUnfocus(5, $index, tableForm)" show-focus ="form[$index].showTextBox[5] && form[$index].focusTextBox[5]" />
+                           ng-blur="LableOnUnfocus(5, $index, tableForm)" show-focus ="form[$index].showTextBox[5] && form[$index].focusTextBox[5]" 
+                           placeholder="Reason"/>
                 </span>
 
                 <span class="td heavyline">
@@ -166,7 +167,7 @@
                     </span>
 
                     <span class="td heavyline">
-                        PhoneType
+                        Phone Type
                     </span>
 
                     <span class="td heavyline">
@@ -198,7 +199,7 @@
                         <span class="form-input" name="Lable6{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[0]" ng-dblclick="LableOnClick(0, $parent.$index, $index)">{{y.Number}}</span>
                         <input type="text" name="textBox6{{$index}}" class="form-input" ng-model="y.Number" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[0]" 
                                ng-blur="LableOnUnfocus(0, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[0] && form[$parent.$index].phoneForm[$index].focusTextBox[0]" 
-                               ng-pattern="/^[0-9()-+]+$/" required />
+                               placeholder="Number" ng-pattern="/^[0-9()-+]+$/" required />
                         <span ng-show="tableForm.textBox6{{$index}}.$error.required && tableForm.textBox6{{$index}}.$dirty" class="input-error">Required.</span>
                         <span ng-show="tableForm.textBox6{{$index}}.$error.pattern" class="input-error">Incorrect format.</span>
                     </span>
@@ -212,7 +213,7 @@
 
                         <select name="textBox7{{$index}}" ng-model="y.PhoneTypeID" class="form-input" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[1]"
                                 ng-blur="LableOnUnfocus(1, $parent.$index, tableForm, $index)" show-focus="form[$parent.$index].phoneForm[$index].showTextBox[1] && form[$parent.$index].phoneForm[$index].focusTextBox[1]"
-                                convert-to-number required >
+                                placeholder="Phone Type" convert-to-number required >
                             <option class="list-content" value="">&lt; Select &gt;</option>
                             <option ng-repeat="tt in ecaList.PhoneTypes" value="{{tt.ID}}" class="list-content">{{tt.PhoneType}}</option>
                         </select>
@@ -254,7 +255,7 @@
                     
                         <select name="textBox10{{$index}}" ng-model="y.CountryID" class="form-input" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[4]" 
                                ng-blur="LableOnUnfocus(4, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[4] && form[$parent.$index].phoneForm[$index].focusTextBox[4]" 
-                               convert-to-number >
+                               placeholder="Country" convert-to-number >
                             <option class="list-content" value="a">&lt; Select &gt;</option>
                             <option ng-repeat="tt in ecaList.PhoneCountries" value="{{tt.ID}}" class="list-content">{{tt.Name}} | {{tt.PhoneCode}}</option>
                         </select>
