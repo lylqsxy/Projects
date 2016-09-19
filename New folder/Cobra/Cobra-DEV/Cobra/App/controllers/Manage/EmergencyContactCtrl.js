@@ -90,11 +90,10 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     };
                     ToggleShow(i, -1, j);
                 }
-                console.log($scope.form[i]);
                 if ($scope.emergencyContactList[i].PhoneList.length === 1) {
                     $scope.form[i].phoneForm[0].disableDelBtn = true;
                 }
-                else {
+                else if ($scope.emergencyContactList[i].PhoneList.length > 1) {
                     $scope.form[i].phoneForm[0].disableDelBtn = false;
                 }
                 ToggleShow(i, -1);
