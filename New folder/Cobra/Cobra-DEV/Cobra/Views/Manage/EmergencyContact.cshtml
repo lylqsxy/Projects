@@ -47,7 +47,7 @@
         </div>
       
 
-        <form class="tb" ng-repeat="x in emergencyContactList" name="tableForm">
+        <form class="tb" ng-repeat="x in emergencyContactList" name="tableForm" id="form{{$index}}">
             <div class="tr">
                 <span class="td heavyline">
                     <span>{{x.Id}}</span>
@@ -130,7 +130,7 @@
                     </span>
 
                     <span class="td heavyline">
-                        
+
                     </span>
 
                     <span class="td heavyline">
@@ -184,7 +184,7 @@
 
                 </div>
 
-                <div class="tr" ng-repeat="y in x.PhoneList">
+                <div class="tr" ng-repeat="y in x.PhoneList" id="form{{$parent.$index}}phoneForm{{$index}}">
 
                     <span class="td noline">
 
@@ -262,7 +262,7 @@
 
                     <span class="td lightline">
                         <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showEditBtn" ng-click="EditRow($parent.$index, $index)">Edit</button>
-                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showDelBtn" ng-click="DelRow($parent.$index, $index)" ng-disabled="form[$parent.$index].phoneForm[$index].disableDelBtn">Delete</button>
+                        <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showDelBtn" ng-click="DelRow($parent.$index, $index)" ng-disabled="form[$parent.$index].phoneForm[$index].disableDelBtn" >Delete</button>
                         <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showSaveBtn" ng-click="SaveRow($parent.$index, tableForm, $index )">Save</button>
                         <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-show="form[$parent.$index].phoneForm[$index].showCancelBtn" ng-click="CancelRow($parent.$index, $index)" ng-disabled="form[$parent.$index].phoneForm[$index].disableCancelBtn">Cancel</button>
                     </span>
@@ -272,6 +272,9 @@
         </form>   
 
     </div>
+
+    <button type="button" class="btn btn-default btn-sm" ng-click="AddRow()" >Add Contact</button>
+
 </div>
 
 <style>
