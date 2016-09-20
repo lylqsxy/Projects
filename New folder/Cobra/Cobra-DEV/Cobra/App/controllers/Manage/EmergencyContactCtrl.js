@@ -502,10 +502,20 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         }
         if (phoneIndex !== undefined) {
             for (var j = 6; j < 11; j++) {
-                eval("form.textBox" + j.toString() + phoneIndex.toString()).$setDirty();
+                eval("form.textBox" + j.toString() + "At" + phoneIndex.toString()).$setDirty();
             }
         }      
     };
+
+    $scope.phoneListVal = function (phoneIndex, form, textBoxIndex, attr) {
+        if (attr === "required") {
+            return a = eval("form.textBox" + textBoxIndex + "At" + phoneIndex).$error.required &&
+                    eval("form.textBox" + textBoxIndex + "At" + phoneIndex).$dirty;
+        }
+        else if (attr === "pattern") {
+            return a = eval("form.textBox" + textBoxIndex + "At" + phoneIndex).$error.pattern;
+        }     
+    }
 
 });
 

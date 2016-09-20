@@ -18,6 +18,7 @@ app.service('Test', function () {
 app.directive('convertToNumber', function () {
     return {
         require: 'ngModel',
+
         link: function (scope, element, attrs, ngModel) {
             ngModel.$parsers.push(function (val) {
                 return parseInt(val, 10);
@@ -29,6 +30,34 @@ app.directive('convertToNumber', function () {
     };
 });
 
+app.directive('dynamicName', function ($compile, $parse) {
+    return {
+        restrict: 'A',
+        terminal: true,
+        //scope: {
+        //    dynamicName: '=',
+        //},
+        link: function (scope, elem) {
+            //var name = $parse(elem.attr('dynamic-name'))(scope);
+            // $interpolate() will support things like 'skill'+skill.id where parse will not
+            //elem.removeAttr('dynamic-name');
+            //elem.attr('name', elem.attr('static-name') + "-" + name);
+            //$compile(elem)(scope);
+
+            scope.$watch('dynamicName', function (newValue, oldValue) {
+                if (newValue) {
+                    //name = $parse(elem.attr('dynamic-name'))(scope);
+                    //console.log(scope.dynamicName);
+                    //elem.attr('name', elem.attr('static-name') + "-" + name);
+                    //$compile(elem)(scope);
+                }
+                    
+                
+                    
+            })
+        }
+    };
+});
 
 app.controller('appCtrl',
     function ($scope, $http, Test) {
@@ -112,6 +141,7 @@ app.controller('appCtrl',
         /////////////////////////
 
         $scope.t = Test.get();
+        
 
         $scope.Add = function () {
             Test.add(parseInt($scope.num, 10));
@@ -147,18 +177,34 @@ app.controller('appCtrl',
 
         ////////////////
 
-        $scope.inputName = 'dynamicName';
+
+        $scope.inputName = 'dynamicName00';
+        $scope.a = 123;
+        
+
 
         $scope.doStuff = function (formName) {
-             
+            console.log($scope.inputName)
             console.log(formName);
+            
         }
+
+        $scope.dd = function () {
+            $scope.inputName = $scope.inputName + 'Name';
+        }
+
+        $scope.test = function (form) {
+            var a = eval('form.' + $scope.inputName).$error.required;
+            console.log(a)
+            return a;
+        }
+
 
     });
 
 app.controller('testCtrl',
     function ($scope, $http, Test) {
-
+         
         $scope.t = Test.get();
 
         $scope.Add = function () {

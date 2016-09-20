@@ -196,38 +196,38 @@
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable6{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[0]" ng-dblclick="LableOnClick(0, $parent.$index, $index)">{{y.Number}}</span>
-                        <input type="text" name="textBox6{{$index}}" class="form-input" ng-model="y.Number" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[0]" 
+                        <span class="form-input" name="Lable6At{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[0]" ng-dblclick="LableOnClick(0, $parent.$index, $index)">{{y.Number}}</span>
+                        <input type="text" name="textBox6At{{$index}}" class="form-input" ng-model="y.Number" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[0]" 
                                ng-blur="LableOnUnfocus(0, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[0] && form[$parent.$index].phoneForm[$index].focusTextBox[0]" 
                                placeholder="Number" ng-pattern="/^[0-9()-+]+$/" required />
-                        <span ng-show="tableForm.textBox6{{$index}}.$error.required && tableForm.textBox6{{$index}}.$dirty" class="input-error">Required.</span>
-                        <span ng-show="tableForm.textBox6{{$index}}.$error.pattern" class="input-error">Incorrect format.</span>
+                        <span ng-show="phoneListVal($index, tableForm, 6, 'required')" class="input-error">Required.</span>
+                        <span ng-show="phoneListVal($index, tableForm, 6, 'pattern')" class="input-error">Incorrect format.</span>
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable7{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[1]" ng-dblclick="LableOnClick(1, $parent.$index, $index)">
+                        <span class="form-input" name="Lable7At{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[1]" ng-dblclick="LableOnClick(1, $parent.$index, $index)">
                             <span>
                                 <span ng-repeat="pp in ecaList.PhoneTypes | filter: {ID: y.PhoneTypeID}">{{pp.PhoneType}}</span>
                             </span>
                         </span>
 
-                        <select name="textBox7{{$index}}" ng-model="y.PhoneTypeID" class="form-input" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[1]"
+                        <select name="textBox7At{{$index}}" ng-model="y.PhoneTypeID" class="form-input" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[1]"
                                 ng-blur="LableOnUnfocus(1, $parent.$index, tableForm, $index)" show-focus="form[$parent.$index].phoneForm[$index].showTextBox[1] && form[$parent.$index].phoneForm[$index].focusTextBox[1]"
                                 placeholder="Phone Type" convert-to-number required >
                             <option class="list-content" value="">&lt; Select &gt;</option>
                             <option ng-repeat="tt in ecaList.PhoneTypes" value="{{tt.ID}}" class="list-content">{{tt.PhoneType}}</option>
                         </select>
-                        <span ng-show="tableForm.textBox7{{$index}}.$error.required && tableForm.textBox7{{$index}}.$dirty" class="input-error">Required.</span>
+                        <span ng-show="phoneListVal($index, tableForm, 7, 'required')" class="input-error">Required.</span>
 
                     </span>
 
                     <span class="td lightline">
                         
-                        <span name="Lable8{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[2]" ng-dblclick="LableOnClick(2, $parent.$index, $index)">
+                        <span name="Lable8At{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[2]" ng-dblclick="LableOnClick(2, $parent.$index, $index)">
                             <input type="checkbox" ng-model="y.IsMobile" ng-disabled="true"/> 
                             <span class="form-input">{{y.IsMobile}}</span>
                         </span>
-                        <span name="textBox8{{$index}}" ng-model="y.IsMobile" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[2]" 
+                        <span name="textBox8At{{$index}}" ng-model="y.IsMobile" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[2]" 
                                ng-blur="LableOnUnfocus(2, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[2] && form[$parent.$index].phoneForm[$index].focusTextBox[2]" >
                             <input type="checkbox" ng-model="y.IsMobile" />
                             <span class="form-input">{{y.IsMobile}}</span>
@@ -235,11 +235,11 @@
                     </span>
 
                     <span class="td lightline">
-                        <span name="Lable9{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[3]" ng-dblclick="LableOnClick(3, $parent.$index, $index)">
+                        <span name="Lable9At{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[3]" ng-dblclick="LableOnClick(3, $parent.$index, $index)">
                             <input type="checkbox" ng-model="y.IsPrimary" ng-disabled="true" />
                             <span class="form-input">{{y.IsPrimary}}</span>                           
                         </span>
-                        <span name="textBox9{{$index}}" ng-model="y.IsPrimary" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[3]"
+                        <span name="textBox9At{{$index}}" ng-model="y.IsPrimary" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[3]"
                               ng-blur="LableOnUnfocus(3, $parent.$index, tableForm, $index)" show-focus="form[$parent.$index].phoneForm[$index].showTextBox[3] && form[$parent.$index].phoneForm[$index].focusTextBox[3]">
                             <input type="checkbox" ng-model="y.IsPrimary" />
                             <span class="form-input">{{y.IsPrimary}}</span>
@@ -247,13 +247,13 @@
                     </span>
 
                     <span class="td lightline">
-                        <span class="form-input" name="Lable10{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[4]" ng-dblclick="LableOnClick(4, $parent.$index, $index)">
+                        <span class="form-input" name="Lable10At{{$index}}" ng-show="form[$parent.$index].phoneForm[$index].showLable[4]" ng-dblclick="LableOnClick(4, $parent.$index, $index)">
                             <span>
                                 <span ng-repeat="pp in ecaList.PhoneCountries | filter: {ID: y.CountryID}">{{pp.Name}} | {{pp.PhoneCode}}</span>
                             </span>
                         </span>
                     
-                        <select name="textBox10{{$index}}" ng-model="y.CountryID" class="form-input" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[4]" 
+                        <select name="textBox10At{{$index}}" ng-model="y.CountryID" class="form-input" ng-show="form[$parent.$index].phoneForm[$index].showTextBox[4]" 
                                ng-blur="LableOnUnfocus(4, $parent.$index, tableForm, $index)" show-focus ="form[$parent.$index].phoneForm[$index].showTextBox[4] && form[$parent.$index].phoneForm[$index].focusTextBox[4]" 
                                placeholder="Country" convert-to-number >
                             <option class="list-content" value="a">&lt; Select &gt;</option>
