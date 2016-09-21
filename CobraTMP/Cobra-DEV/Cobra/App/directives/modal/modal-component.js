@@ -11,9 +11,9 @@
           $scope.modalOption = {};
           $scope.modalData = [];
 
+          
           // data is a object array
           $scope.$on('showModelEvent', function (event, data) {
-
               $scope.modalData = data[0];
               $scope.modalOption = data[1];
               if ($scope.modalOption.action !== 'index') {

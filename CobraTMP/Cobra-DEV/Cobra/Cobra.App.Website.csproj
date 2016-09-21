@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44369</IISExpressSSLPort>
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -91,6 +91,14 @@
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PayPalCoreSDK, Version=1.7.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPalCoreSDK.1.7.1\lib\net45\PayPalCoreSDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PayPalMerchantSDK, Version=2.16.117.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PayPalMerchantSDK.2.16.117\lib\net20\PayPalMerchantSDK.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -181,13 +189,13 @@
     <Compile Include="Models\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\Manage.cs" />
+    <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\api\AutoCompleteAddress.js" />
-    <Content Include="App\controllers\account\LoginCtrl-1.js" />
     <Content Include="App\controllers\account\SocialMediaCtrl.js" />
     <Content Include="App\controllers\admin\CreateOrganisationCtrl.js" />
     <Content Include="App\controllers\admin\DeleteOrganisationCtrl.js" />
@@ -198,14 +206,12 @@
     <Content Include="App\controllers\EmergencyContact\CreateEmergencyContactCtrl.js" />
     <Content Include="App\controllers\GeoLocation\DisplayFenceCtrl.js" />
     <Content Include="App\controllers\GeoLocation\GeoLocatonCtrl.js" />
-    <Content Include="App\controllers\Manage\EmergencyContactCtrl.js" />
     <Content Include="App\controllers\Manage\ProfileCtrl-1.js" />
     <Content Include="App\controllers\Manage\ProfileCtrl.js" />
     <Content Include="App\controllers\Payment\PaymentCtrl.js" />
     <Content Include="App\directives\account\check-password.js" />
     <Content Include="App\directives\account\match-password.js" />
     <Content Include="App\css\EmergencyContact.css" />
-    <Content Include="App\directives\account\unique-email.js" />
     <Content Include="App\directives\date-time-picker\datetime-picker.js" />
     <Content Include="App\directives\date-time-picker\datetime-picker.min.js" />
     <Content Include="App\directives\date-time-picker\datetime-picker.tpls.js" />
@@ -229,17 +235,28 @@
     <Content Include="App\vendors\ui-bootstrap-tpls-2.1.2.min.js" />
     <Content Include="App\vendors\ui-bootstrap-tpls.js" />
     <Content Include="App\vendors\ui-bootstrap.min.js" />
-    <Content Include="App\views\bob.html" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\icons.css" />
     <Content Include="Content\Images\blue-background.png" />
+    <Content Include="Content\Images\Payment\American_Express_logo.png" />
+    <Content Include="Content\Images\Payment\card_amex_cvv.jpg" />
+    <Content Include="Content\Images\Payment\card_visa_cvv.jpg" />
+    <Content Include="Content\Images\Payment\discover_logo.png" />
+    <Content Include="Content\Images\Payment\MasterCard_logo.png" />
+    <Content Include="Content\Images\Payment\PP_logo.png" />
+    <Content Include="Content\Images\Payment\Visa_Logo.png" />
     <Content Include="Content\Images\thumbnail-placeholder.png" />
     <Content Include="Content\main.css" />
     <Content Include="Content\ng-sortable.min.css" />
     <Content Include="Content\ng-sortable.style.min.css" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\responsive.css" />
+    <Content Include="Content\Site-1.css" />
+    <Content Include="Content\xeditable.css" />
+    <Content Include="Content\xeditable.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -260,17 +277,27 @@
     <Content Include="App\vendors\angular-material\js\svg-assets-cache.js" />
     <Content Include="App\vendors\angular.js" />
     <Content Include="Resource\images\Man.png" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
     <Content Include="Scripts\ng-sortable.min.js" />
     <Content Include="App\views\EmergencyAddDialog.html" />
+    <Content Include="Scripts\xeditable.js" />
+    <Content Include="Scripts\xeditable.min.js" />
     <Content Include="Views\Account\SocialMediaLoginPartial.cshtml" />
     <Content Include="Views\Organisation\OrganisationAdministration.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
     <Content Include="App\vendors\angular-validator.min.js.map">
       <DependentUpon>angular-validator.min.js</DependentUpon>
     </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="App\controllers\account\ForgetPasswordCtrl.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -321,7 +348,7 @@
     <Content Include="Views\Manage\CreateEmergencyContact.cshtml" />
     <Content Include="Views\Geo\DisplayFence.cshtml" />
     <Content Include="Views\Geo\Index.cshtml" />
-    <Content Include="Views\Manage\EmergencyContact-1.cshtml" />
+    <Content Include="Views\Manage\EmergencyContact.cshtml" />
     <Content Include="Views\Manage\UpdateEmergencyContact.cshtml" />
     <Content Include="Views\Manage\UserProfile-1.cshtml" />
     <Content Include="Views\Shared\_LayoutForLogin.cshtml" />
@@ -331,8 +358,6 @@
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\OrganisationAdministration.cshtml" />
-    <Content Include="Views\Manage\UserProfile.cshtml" />
-    <Content Include="Views\Manage\EmergencyContact.cshtml" />
     <Content Include="Views\Payment\PaymentOptions.cshtml" />
     <Content Include="Views\Payment\PaymentOptionsFaliure.cshtml" />
   </ItemGroup>
@@ -340,9 +365,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>

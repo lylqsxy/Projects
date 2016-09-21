@@ -1,7 +1,7 @@
 ﻿
 (function () {
     // Controller: ForgetPassword
-    cobraApp.controller('account/ForgetPasswordCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+    cobraApp.controller('account/ForgetPasswordCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window, utils) {
         $scope.hereLink = $window.location.origin + "/Home/Index";
         // Initializing scope
         $scope.data = {
@@ -45,6 +45,44 @@
 
 
         $scope.serverErrors = [];
+
+        //Prepare one single order value to Modal
+        $scope.toModalObject = function (order) {
+            var orderToModal = [
+                    { title: 'Domain', variableName: 'Domain', value: (order ? order.Domain : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
+                    { title: 'Email', variableName: 'Email', value: (order ? order.Email : ''), type: 'email', validation: { required: true, errorText: '* please input your email' }, regExpVaid: { text: 'Email格式不正确', reg: /^\s*\w*\s*$/ } },
+                    { title: 'Phone', variableName: 'Phone', value: (order ? order.Phone : ''), type: 'tel' },
+                    { title: 'Order Status', variableName: 'OrderStatus', value: (order ? order.OrderStatus : 0), type: 'select', selectEnum: $scope.orderStatus },
+                    { title: 'Order Date', variableName: 'OrderDate', value: (order ? order.OrderDate : new Date()), type: 'date' },
+                    { title: 'Marketing Way', variableName: 'MarketingWay', value: (order ? order.MarketingWay : 0), type: 'select', selectEnum: $scope.marketingWay },
+                    { title: 'Product Name', variableName: 'ProductName', value: (order ? order.ProductName : ''), type: 'text' },
+                    { title: 'Description', variableName: 'Description', value: (order ? order.Description : ''), type: 'textarea' }
+            ];
+
+            return orderToModal;
+        };
+
+        $scope.showModal = function (id) {
+           
+            var modalOption = {
+                modalTitle: 'Order Detail',
+                controller: 'orders', // corrsponding to .net controller
+                action: 'index', // index, edit and create, corrsponding to .net backend action
+                idVariable: 'OrderId', // Id variale 
+                idValue: '12' // the id of the entity, when create new, keep empty
+            };
+
+            $scope.$broadcast('showModelEvent', [$scope.toModalObject(), modalOption]);
+        };
+
+        $scope.$on('modelDone', function (event, data) {
+            if (data) {
+                console.log('Success');
+            } else {
+                console.log('error');
+            }
+        });
+
         // POST Email
         $scope.postData = function (valid) {
             if (!valid) { // Tom add function for valid onSubmit button

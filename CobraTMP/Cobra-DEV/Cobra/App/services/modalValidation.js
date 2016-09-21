@@ -11,6 +11,11 @@
                     }
                     var valParam = angular.fromJson(attrs.formValidation);
                     var error = false;
+
+                    if (!error && valParam.required) {
+                        error = modelValue.length > 0 ? false : true;
+                    }
+
                     if (!error && valParam.minLen) {
                         error = modelValue.length >= valParam.minLen ? false : true;
                     }
