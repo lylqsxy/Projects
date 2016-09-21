@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "CreateEmergencyContact";
+}
+
+<h2>CreateEmergencyContact</h2>
+
+<div ng-controller="CreateECCtrl">
+
+    <form>
+        @Html.AntiForgeryToken()
+        <div layout="row">
+            <md-input-container>
+                <label>First name</label>
+                <input type="text" ng-model="newContact.Firstname">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Middle name </label>
+                <input type="text" ng-model="newContact.Middlename">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Last name </label>
+                <input type="text" ng-model="newContact.Lastname">
+            </md-input-container>
+        </div>
+        <div layout='column'>
+            <md-input-container>
+                <label>Relationship</label>
+                <md-select ng-model="selectedRelationship">
+                    <md-option ng-repeat="aRelationship in relationships"
+                               ng-value="aRelationship">{{aRelationship.Relationship}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+        <div id="phone-section" layout="column" ng-repeat="phone in phoneViewModels">
+            <div layout="row">
+                <md-checkbox ng-checked="phone.IsPrimary" ng-click="tooglePrimaryPhone(phone)" aria-label="Primary"> 
+                    Primary 
+                </md-checkbox>
+                <md-checkbox ng-model="phone.IsMobile" aria-label="Mobile">
+                     Mobile 
+                </md-checkbox>
+            </div>
+            <div layout="row">
+                <!--phone container-->
+                <md-input-container>
+                    <label>Phone</label>
+                    <input type="text" ng-model="phone.Number">
+                </md-input-container>
+              
+                <md-input-container>
+                    <label>Type</label>
+                    <md-select ng-model="phone.PhoneTypeID">
+                        <md-option ng-repeat="phoneOption in phoneTypeOptions" ng-value="phoneOption.ID">
+                            {{phoneOption.PhoneType}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container>
+                    <label>Country</label>
+                    <md-select ng-model="phone.CountryID">
+                        <md-option ng-repeat="country in phoneCountryOptions" ng-value="country.Id">
+                            {{country.Name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+
+        <div>
+            <md-button ng-click="addPhone()">Add phone</md-button>
+        </div>
+    </form>
+
+        <div>
+            <md-button ng-click="add()"> Add </md-button>
+            <md-button ng-click="cancel()">Cancel</md-button>
+        </div>
+
+  
+</div>
+
+
+
+@section scripts {
+    <script src="~/App/controllers/EmergencyContact/CreateEmergencyContactCtrl.js"></script>
+}
