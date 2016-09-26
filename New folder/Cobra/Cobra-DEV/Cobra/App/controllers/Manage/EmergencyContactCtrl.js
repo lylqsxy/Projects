@@ -33,42 +33,40 @@ cobraApp.service('arrayService', function ($filter) {
     return arrayService;
 });
 
-cobraApp.directive('showFocus', function ($timeout) {
-    return function (scope, element, attrs) {
-        scope.$watch(attrs.showFocus,
-          function (newValue) {
-              $timeout(function () {
-                  newValue && element[0].focus();
-              });
-          }, true);
-    };
-});
-
-cobraApp.directive('convertToNumber', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, ngModel) {
-            ngModel.$parsers.push(function (val) {
-                return parseInt(val, 10);
-            });
-            ngModel.$formatters.push(function (val) {
-                return '' + val;
-            });
-        }
-    };
-});
-
 cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $anchorScroll, $location, $window, arrayService) {
 
     var dataTMP;
     var dataPhoneTMP;
     var editMode;
     var cellLock;
+    var relationshipList = [];
+    var phoneTypesList = [];
+    var phoneCodeList = [];
+    var newContact = {
+        "Firstname": null,
+        "Middlename": null,
+        "Lastname": null,
+        "RelationshipID": null,
+        "Priority": null,
+        "Reason": null,
+        "PhoneList": null
+    };
+    var newPhone = {
+        "Number": null,
+        "PhoneTypeID": null,
+        "IsMobile": false,
+        "IsPrimary": false,
+        "CountryID": null
+    };
+    var editedIndex;
+    var editedPhoneIndex;
+    var editingPhone;
+    var newIndex;
+    var newPhoneIndex;
 
     var init = function () {
         $scope.emergencyContactList = [];
         $scope.form = [];
-        $scope.priorityList = [];
         dataTMP = {};
         dataPhoneTMP = {};
         editMode = false;
@@ -79,7 +77,6 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         init();
         $http.get("/Manage/GetEmergencyContacts/").then(function (response) {
             $scope.emergencyContactList = response.data;
-            var priorityArray = [];
             for (var i = 0; i < $scope.emergencyContactList.length; i++) {
                 $scope.form[i] = {
                     showLable: new Array(6),
@@ -104,9 +101,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     $scope.form[i].phoneForm[0].disableDelBtn = false;
                 }
                 ToggleShow(i, -1);
-                priorityArray.push($scope.emergencyContactList[i].Priority);
             }
-            $scope.priorityList = arrayService.PriorityListGenerator(priorityArray);
         });
     };
 
@@ -115,85 +110,66 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
     var EmergencyContactAttributesListFn = function () {
         $http.get("/Manage/GetEmergencyContactAttributes/").then(function (response) {
             $scope.ecaList = response.data;
+            
+            for (var item in $scope.ecaList.Relationships) {
+                var relationship = {
+                    value: $scope.ecaList.Relationships[item].ID,
+                    text: $scope.ecaList.Relationships[item].Relationship
+                };
+                relationshipList.push(relationship);    
+            }
 
+            for (var item2 in $scope.ecaList.PhoneTypes) {
+                var phoneTypes = {
+                    value: $scope.ecaList.PhoneTypes[item2].ID,
+                    text: $scope.ecaList.PhoneTypes[item2].PhoneType
+                };
+                phoneTypesList.push(phoneTypes);
+            }
+
+            for (var item3 in $scope.ecaList.PhoneCountries) {
+                var phoneCode = {
+                    value: $scope.ecaList.PhoneCountries[item3].ID,
+                    text: $scope.ecaList.PhoneCountries[item3].Name + " | " + $scope.ecaList.PhoneCountries[item3].PhoneCode
+                };
+                phoneCodeList.push(phoneCode);
+            }
         });
     };
 
     EmergencyContactAttributesListFn();
 
-    $scope.AddRow = function (index) {
-        if (!editMode) {
-            editMode = true;
-            var newIndex;
-            if (arguments.length === 0) {
-                $scope.emergencyContactList.push({
-                    Id: "New",
-                    RelationshipID: "",
-                    Priority: $scope.priorityList[0]
-                });
-                newIndex = $scope.emergencyContactList.length - 1;
-                $scope.emergencyContactList[newIndex].PhoneList = [];
-                $scope.form[newIndex] = {
-                    showLable: new Array(6),
-                    showTextBox: new Array(6),
-                    focusTextBox: new Array(6),
-                    showList: true,
-                    phoneBtn: "Phone <<",
-                    phoneForm: new Array(1)
-                };
-
-                $scope.form[newIndex].phoneForm[0] = {
-                    showLable: new Array(5),
-                    showTextBox: new Array(5),
-                    focusTextBox: new Array(5)
-                };
-                dataTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[newIndex]));
-                ToggleEdit(newIndex, -1);
-                $scope.form[newIndex].disableSaveBtn = true;
-                $scope.form[newIndex].disableCancelBtn = true;
-                $scope.form[newIndex].disableAddBtn = true;
-                $scope.form[newIndex].disablePhoneBtn = true;
-
-            }
-            else if (arguments.length === 1) {
-                newIndex = index;
-            }
-
-            $scope.emergencyContactList[newIndex].PhoneList.push({
-                Id: "New",
-                PhoneTypeID: "",
-                IsMobile: false,
-                IsPrimary: false,
-                CountryID: "a"
-            });
-            var newPhoneIndex = $scope.emergencyContactList[newIndex].PhoneList.length - 1;
-            $scope.form[newIndex].phoneForm[newPhoneIndex] = {
-                showLable: new Array(5),
-                showTextBox: new Array(5),
-                focusTextBox: new Array(5)
-            };
-            dataPhoneTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[newIndex].PhoneList[newPhoneIndex]));
-            ToggleEdit(newIndex, -1, newPhoneIndex);
-
-            var s = "form" + newIndex + "phoneForm" + newPhoneIndex;
-            $location.hash(s);
-            $anchorScroll();
-            
-        }
+    $scope.AddRow = function () {
+        newIndex = true;
+        newPhoneIndex = false;
+        editedIndex = 0;
+        editingPhone = false;
+        showModal(newContact);
     };
 
-    $scope.EditRow = function (index, phoneIndex) {
-        if (!editMode) {
-            editMode = true;
-            dataTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[index]));
-            if (arguments.length === 1) {
-                ToggleEdit(index, -1);
-            }
-            else if (arguments.length === 2) {
-                dataPhoneTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[index].PhoneList[phoneIndex]));
-                ToggleEdit(index, -1, phoneIndex);
-            }
-        }
+    $scope.AddPhoneRow = function (index) {
+        newIndex = false;
+        newPhoneIndex = true;
+        editedIndex = index;
+        editingPhone = true;
+        showPhoneModal(newPhone);
+    };
+
+    $scope.EditRow = function (index) {
+        newIndex = false;
+        newPhoneIndex = false;
+        editedIndex = index;
+        editingPhone = false;
+        showModal($scope.emergencyContactList[index]);        
+    };
+
+    $scope.EditPhoneRow = function (index, phoneIndex) {
+        newIndex = false;
+        newPhoneIndex = false;
+        editedIndex = index;
+        editedPhoneIndex = phoneIndex;
+        editingPhone = true;
+        showPhoneModal($scope.emergencyContactList[index].PhoneList[phoneIndex]);
     };
 
     $scope.SaveRow = function (index, form, phoneIndex) {
@@ -250,28 +226,6 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         }
     };
 
-    $scope.CancelRow = function (index, phoneIndex) {
-        if (arguments.length === 1) {
-            $scope.emergencyContactList[index] = JSON.parse(JSON.stringify(dataTMP));
-            ToggleShow(index, -1);
-        }
-        else if (arguments.length === 2) {
-            $scope.emergencyContactList[index].PhoneList[phoneIndex] = JSON.parse(JSON.stringify(dataPhoneTMP));
-            if ($scope.emergencyContactList[index].PhoneList[phoneIndex].Id === "New") {
-                $scope.emergencyContactList[index].PhoneList.pop();
-                if ($scope.emergencyContactList[index].Id === "New") {
-                    $scope.emergencyContactList.pop();
-                }
-                var s = "collapseMain" + index;
-                $location.hash(s);
-                $anchorScroll();
-            }
-            ToggleShow(index, -1, phoneIndex);
-        }
-        editMode = false;
-
-    };
-
     var DataPost = function (x, index, phoneIndex) {
         if (x.Id !== "New") {      // update
             $http({
@@ -282,7 +236,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
                 }
             }).then(function SentOk(result) {
-                updateId(result.data.contactToUpdate, index, phoneIndex);
+                updateRow(result.data.contactToUpdate, index);
                 console.log(result);
             }, function Error(result) {
                 if (result.status !== 200) {
@@ -301,7 +255,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
                 }
             }).then(function SentOk(result) {
-                updateId(result.data.newEmergencyContact, index, phoneIndex);
+                updateRow(result.data.newEmergencyContact, -1);
                 console.log(result);
             }, function Error(result) {
                 if (result.status !== 200) {
@@ -353,11 +307,17 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         });
     };
 
-    var updateId = function (resultData, index, phoneIndex) {
-        $scope.emergencyContactList[index].Id = resultData.Id;
-        if (phoneIndex !== undefined) {
-            $scope.emergencyContactList[index].PhoneList[phoneIndex].Id = resultData.PhoneList[phoneIndex].Id;
-        }    
+    var updateRow = function (resultData, index) {
+        if (index !== -1) {
+            $scope.emergencyContactList[index] = resultData;
+        }
+        else {
+            $scope.emergencyContactList.push(resultData);
+            $scope.form.push({
+                showList: false,
+                phoneBtn: "Phone >>"
+            });
+        }
     };
 
     $scope.PhoneList = function (index) {
@@ -377,35 +337,6 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         }
         
 
-    };
-
-    $scope.LableOnClick = function (i, index, phoneIndex) {
-        if (!editMode && !cellLock) {
-            dataTMP = JSON.parse(JSON.stringify($scope.emergencyContactList[index]));
-            if (arguments.length === 2) {
-                ToggleEdit(index, i);
-            }
-            else if (arguments.length === 3) {
-                ToggleEdit(index, i, phoneIndex);
-            }
-            cellLock = true;
-        }
-    };
-
-    $scope.LableOnUnfocus = function (i, index, form, phoneIndex) {
-        if (!editMode) {
-            if (!form.$invalid) {
-                var x = $scope.emergencyContactList[index];
-                DataPost(x, index, phoneIndex);
-                if (arguments.length === 3) {
-                    ToggleShow(index, i);
-                }
-                else if (arguments.length === 4) {
-                    ToggleShow(index, i, phoneIndex);
-                }
-                cellLock = false;
-            }
-        }
     };
 
     var ToggleShow = function (index, i, phoneIndex) {
@@ -449,7 +380,6 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             $scope.form[index].showCancelBtn = false;
             $scope.form[index].showEditBtn = true;
             $scope.form[index].showDelBtn = true;
-            arrayService.ArrayRemove($scope.priorityList, $scope.emergencyContactList[index].Priority);
         }
     };
 
@@ -492,19 +422,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             $scope.form[index].showCancelBtn = true;
             $scope.form[index].showEditBtn = false;
             $scope.form[index].showDelBtn = false;
-            arrayService.ArrayAdd($scope.priorityList, $scope.emergencyContactList[index].Priority);
         }
-    };
-
-    var setFormDirty = function (index, form, phoneIndex) {
-        for (var k = 0; k < 6; k++) {
-            eval("form.textBox" + k.toString()).$setDirty();
-        }
-        if (phoneIndex !== undefined) {
-            for (var j = 6; j < 11; j++) {
-                eval("form.textBox" + j.toString() + "At" + phoneIndex.toString()).$setDirty();
-            }
-        }      
     };
 
     $scope.phoneListVal = function (phoneIndex, form, textBoxIndex, attr) {
@@ -514,8 +432,208 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         }
         else if (attr === "pattern") {
             return a = eval("form.textBox" + textBoxIndex + "At" + phoneIndex).$error.pattern;
-        }     
-    }
+        }
+    };
+            
+    var showModal = function (x) {
+        var dataToModal = [
+            {
+                title: 'First Name',
+                variableName: 'Firstname',
+                value: x.Firstname ? x.Firstname : "",
+                type: 'text',
+                validation: {
+                    required: true,
+                    errorText: '* Required'
+                },
+                regExpVaid: {
+                    text: 'Incorrect Format',
+                    reg: /^[a-zA-Z]*$/
+                }
+            },
 
+            {
+                title: 'Middle Name',
+                variableName: 'Middlename',
+                value: x.Middlename ? x.Middlename : "",
+                type: 'text',
+                regExpVaid: {
+                    text: 'Incorrect Format',
+                    reg: /^[a-zA-Z]*$/
+                }
+            },
+
+            {
+                title: 'Last Name',
+                variableName: 'Lastname',
+                value: x.Lastname ? x.Lastname : "",
+                type: 'text',
+                validation: {
+                    required: true,
+                    errorText: '* Required'
+                },
+                regExpVaid: {
+                    text: 'Incorrect Format',
+                    reg: /^[a-zA-Z]*$/
+                }
+            },
+
+            {
+                title: 'Relationship',
+                variableName: 'RelationshipID',
+                value: x.RelationshipID ? { value: x.RelationshipID } : { value: "" },
+                type: 'select',
+                selectEnum: relationshipList
+            },
+
+            {
+                title: 'Priority',
+                variableName: 'Priority',
+                value: x.Priority ? { value: x.Priority } : { value: "" },
+                type: 'select',
+                selectEnum: arrayListGenerator(x)
+            },
+
+            {
+                title: 'Reason',
+                variableName: 'Reason',
+                value: x.Reason ? x.Reason : "",
+                type: 'text'
+            }
+
+            //title: Title for input, variableName: dababase filed name  , type: input type 
+            //value: setting the initial value if you edit a entity by modal
+            //validation: minLen:2,maxLen:20,required: true
+            //regulation expression vaidation, regExpVaid: { text: 'Email format is not correct', reg: /^\s*\w*\s*$/ }, see the example
+        ];
+        
+        var modalOption = {
+            modalTitle: newIndex === true? 'Add Contact' : 'Edit Contact',  // Modal tilte
+            controller: '', //Contorll name 
+            action: '', //Action Name (Post)
+            idVariable: '', // ID of a table
+            idvalue:'' //nuallable, Route domain/controller/action/idValue
+        };
+
+        $scope.$broadcast('showModelEvent', [dataToModal, modalOption]);
+    };
+    
+    var showPhoneModal = function (x) {
+        
+        var dataToModal = [
+            {
+                title: 'Number',
+                variableName: 'Number',
+                value: x.Number ? x.Number : "",
+                type: 'text',
+                validation: {
+                    required: true,
+                    errorText: '* Required'
+                },
+                regExpVaid: {
+                    text: 'Incorrect Format',
+                    reg: /^[0-9()-+]+$/
+                }
+            },
+
+            {
+                title: 'Phone Type',
+                variableName: 'PhoneTypeID',
+                value: x.PhoneTypeID ? { value: x.PhoneTypeID } : { value: "" },
+                type: 'select',
+                selectEnum: phoneTypesList
+            },
+
+            {
+                title: 'IsMobile',
+                variableName: 'IsMobile',
+                value: x.IsMobile ? x.IsMobile : "",
+                type: 'checkbox'
+            },
+
+            {
+                title: 'IsPrimary',
+                variableName: 'IsPrimary',
+                value: x.IsPrimary ? x.IsPrimary : "",
+                type: 'checkbox'
+            },
+
+            {
+                title: 'Country',
+                variableName: 'CountryID',
+                value: x.CountryID ? { value: x.CountryID, text: "eee" } : { value: "" },
+                type: 'select',
+                selectEnum: phoneCodeList
+            }
+
+            //title: Title for input, variableName: dababase filed name  , type: input type 
+            //value: setting the initial value if you edit a entity by modal
+            //validation: minLen:2,maxLen:20,required: true
+            //regulation expression vaidation, regExpVaid: { text: 'Email format is not correct', reg: /^\s*\w*\s*$/ }, see the example
+        ];
+
+        var modalOption = {
+            modalTitle: newPhoneIndex === true ? 'Add Phone' : 'Edit Phone',  // Modal tilte
+            controller: '', //Contorll name 
+            action: '', //Action Name (Post)
+            idVariable: '', // ID of a table
+            idvalue: '' //nuallable, Route domain/controller/action/idValue
+        };
+
+        $scope.$broadcast('showModelEvent', [dataToModal, modalOption]);
+    };
+
+    $scope.$on('modelDone', function (event, data) {
+        if (data) {
+            if (editingPhone === false) {
+                if (!newIndex) {
+                    data.PhoneList = $scope.emergencyContactList[editedIndex].PhoneList;
+                    data.Id = $scope.emergencyContactList[editedIndex].Id;
+                }
+                else {
+                    console.log(data);
+                    data.Id = "New";
+                }
+                
+                DataPost(data, editedIndex);     
+            }
+            else if (editingPhone === true) {
+                var tmp = $scope.emergencyContactList[editedIndex];
+                if (!newPhoneIndex) {
+                    data.Id = $scope.emergencyContactList[editedIndex].PhoneList[editedPhoneIndex].Id;
+                    tmp.PhoneList[editedPhoneIndex] = data;
+                }
+                else {
+                    tmp.PhoneList.push(data);
+                }              
+                DataPost(tmp, editedIndex);
+            }
+        }
+        else {
+            console.log(data);
+        }
+    });
+
+    var arrayListGenerator = function (x) {
+        var priorityArray = [];
+        for (var i = 0; i < $scope.emergencyContactList.length; i++) {
+            priorityArray.push($scope.emergencyContactList[i].Priority);
+        }
+        var priorityList = arrayService.PriorityListGenerator(priorityArray);
+        if (!newIndex) {
+            arrayService.ArrayAdd(priorityList, x.Priority);
+        }
+        var pList = [];
+        for (var item in priorityList) {
+            var p = {
+                value: priorityList[item],
+                text: priorityList[item]
+            };
+            pList.push(p);
+        }
+        return pList;
+    };
 });
+
+
 

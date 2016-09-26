@@ -18,6 +18,7 @@
               $scope.modalOption = data[1];
               if ($scope.modalOption.action !== 'index') {
                   $timeout(function () {
+                      $('#modalForm').modal('show'); //
                       angular.element('#show-form-button').triggerHandler('click');
                       $scope.formShown = true;
                   });
@@ -41,7 +42,7 @@
               }
 
               utils.postApiData(uri, data).then(function (respone) {
-                  $scope.$emit('modelDone', respone);
+                  $scope.$emit('modelDone', data);
               });
           }
          

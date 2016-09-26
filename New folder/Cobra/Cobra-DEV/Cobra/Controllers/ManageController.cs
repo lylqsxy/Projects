@@ -514,28 +514,29 @@ namespace Cobra.Controllers
 
             ////PHONE(S)
             List<Phone> phoneModel = new List<Phone>();
-            try
-            {
-                foreach (var ecPhone in newEmergencyContact.PhoneList)
-                {
-                    Phone phone = new Phone
-                    {
-                        //  Profile = ecProfile,
-                        PhoneTypeId = ecPhone.PhoneTypeID,
-                        Number = ecPhone.Number,
-                        CountryId = ecPhone.CountryID,
-                        IsMobile = ecPhone.IsMobile,
-                        IsPrimary = ecPhone.IsPrimary,
-                    };
-                    phoneModel.Add(phone);
-                }
-                //TODO: add emails, Adresses... 
-            }catch(Exception ex)
-            {
-                _logService.Error(ex.Message);
-                HttpStatusCodeResult error = new HttpStatusCodeResult(HttpStatusCode.Forbidden, "exeption when in phoneList"); //Nicky
-                return Json(error, JsonRequestBehavior.AllowGet);                               //Nicky
-            }
+            //try
+            //{
+            //    foreach (var ecPhone in newEmergencyContact.PhoneList)
+            //    {
+            //        Phone phone = new Phone
+            //        {
+            //            //  Profile = ecProfile,
+            //            PhoneTypeId = ecPhone.PhoneTypeID,
+            //            Number = ecPhone.Number,
+            //            CountryId = ecPhone.CountryID,
+            //            IsMobile = ecPhone.IsMobile,
+            //            IsPrimary = ecPhone.IsPrimary,
+            //        };
+            //        phoneModel.Add(phone);
+            //    }
+            //    //TODO: add emails, Adresses... 
+            //}catch(Exception ex)
+            //{
+            //    _logService.Error(ex.Message);
+            //    HttpStatusCodeResult error = new HttpStatusCodeResult(HttpStatusCode.Forbidden, "exeption when in phoneList"); //Nicky
+            //    return Json(error, JsonRequestBehavior.AllowGet);                               //Nicky
+            //}
+
             //Create new emergency contact mode
             //Emergency contact profile
             Profile ecProfile = new Profile

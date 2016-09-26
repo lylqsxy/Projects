@@ -97,7 +97,7 @@
                 $http(req).then(
                     function (response) {
                         $scope.data.msg = response.data.MsgText;
-                        $scope.data.hideForm = response.data.Success ==true ;
+                        $scope.data.hideForm = response.data.Success ===true ;
                         $scope.data.userData.email = response.data.Email;
                         if (response.data.Success) {
                             //$scope.data.hideForm = true;

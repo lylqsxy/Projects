@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>44300</IISExpressSSLPort>
+    <IISExpressSSLPort>44369</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -196,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\api\AutoCompleteAddress.js" />
+    <Content Include="App\controllers\account\LoginCtrl-1.js" />
     <Content Include="App\controllers\account\SocialMediaCtrl.js" />
     <Content Include="App\controllers\admin\CreateOrganisationCtrl.js" />
     <Content Include="App\controllers\admin\DeleteOrganisationCtrl.js" />
@@ -206,12 +207,14 @@
     <Content Include="App\controllers\EmergencyContact\CreateEmergencyContactCtrl.js" />
     <Content Include="App\controllers\GeoLocation\DisplayFenceCtrl.js" />
     <Content Include="App\controllers\GeoLocation\GeoLocatonCtrl.js" />
+    <Content Include="App\controllers\Manage\EmergencyContactCtrl.js" />
     <Content Include="App\controllers\Manage\ProfileCtrl-1.js" />
     <Content Include="App\controllers\Manage\ProfileCtrl.js" />
     <Content Include="App\controllers\Payment\PaymentCtrl.js" />
     <Content Include="App\directives\account\check-password.js" />
     <Content Include="App\directives\account\match-password.js" />
     <Content Include="App\css\EmergencyContact.css" />
+    <Content Include="App\directives\account\unique-email.js" />
     <Content Include="App\directives\date-time-picker\datetime-picker.js" />
     <Content Include="App\directives\date-time-picker\datetime-picker.min.js" />
     <Content Include="App\directives\date-time-picker\datetime-picker.tpls.js" />
@@ -360,6 +363,12 @@
     <Content Include="Views\Admin\OrganisationAdministration.cshtml" />
     <Content Include="Views\Payment\PaymentOptions.cshtml" />
     <Content Include="Views\Payment\PaymentOptionsFaliure.cshtml" />
+    <Content Include="Views\Manage\EmergencyContact-1.cshtml" />
+    <Content Include="Views\Account\Login-1.cshtml" />
+    <Content Include="Views\Account\Register-1.cshtml" />
+    <Content Include="Views\Manage\UserProfile.cshtml" />
+    <Content Include="Views\Shared\_Layout-1.cshtml" />
+    <Content Include="Views\Geo\Index - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
