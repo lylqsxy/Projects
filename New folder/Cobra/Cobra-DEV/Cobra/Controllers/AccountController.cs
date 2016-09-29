@@ -258,7 +258,8 @@ namespace Cobra.Controllers
             {
                 Success = false,
                 MsgText = "Something went wrong.",
-                Errors = errorList
+                Errors = errorList,
+                
             });
         }
 
@@ -268,7 +269,7 @@ namespace Cobra.Controllers
         public ActionResult ResetPassword(string token)
         {
 
-            return token == null ? View("Error") : View();
+            return token == null ? View("error") : View();
         }
 
         // POST: /Account/ResetPassword
@@ -322,6 +323,7 @@ namespace Cobra.Controllers
                 Success = false,
                 MsgText = "Something went wrong.",
                 Errors = errorList
+                
             });
         }
 
@@ -369,6 +371,8 @@ namespace Cobra.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        //01
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {

@@ -1,4 +1,4 @@
-﻿//helen and now Lavesh and now Craig
+﻿//helen and now Lavesh and now Craig; Resolved by Tom
 // 
 //angular.module('angularTable', ['angularUtils.directives.dirPagination']);
 
@@ -7,8 +7,7 @@
     cobraApp.controller('admin/UserManagementCtrl', function ($scope, $http) {
         $scope.users = [];
         $scope.curPage = 1;
-        $scope.pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        $scope.displaySize = 10;
+        $scope.pages = [];        
         $scope.userCount = 0;
         $scope.User = "";
         $scope.totalUsers = 0;
@@ -23,43 +22,43 @@
             field: "ALL",
             searchValue: ""
         };
-       // $scope.DisplaySize = 25;
+        // $scope.DisplaySize = 25;
         $scope.maxPages = 0;
 
         //Lavesh 
-        
+
         $scope.PopulateDB = function () {
             $http({
                 method: 'POST',
-                url: '/Admin/PopulateDB',
+                url: '/Admin/PopulateDB'
 
             }).then(function successCallback(response) {
-                console.log(response)
+                console.log(response);
             }, function errorCallback(response) {
-                console.log('error')
-            })
-        }
+                console.log('error');
+            });
+        };
         $scope.ToggleActive = function (user) {
-            var message = (!user.IsActive ? " Activate User?" : " Deactivate User?");
-            var proceed = confirm("Please Confirm. " + message)
-            if (proceed == true) {
-                user.IsActive = !user.IsActive
+            var message = !user.IsActive ? " Activate User?" : " Deactivate User?";
+            var proceed = confirm("Please Confirm. " + message);
+            if (proceed === true) {
+                user.IsActive = !user.IsActive;
                 $http({
                     method: 'POST',
                     url: '/Admin/ToggleActive',
                     data: user
                 }).then(function successCallback(response) {
-                    console.log(response)
+                    console.log(response);
                 }, function errorCallback(response) {
-                    console.log('error')
-                })
+                    console.log('error');
+                });
 
             }
-        }
+        };
 
         $scope.applySort = function (sort, filter) {
             // var displaySize=20;
-            var startRec = (($scope.curPage * $scope.displaySize) - $scope.displaySize);
+            var startRec = $scope.curPage * $scope.displaySize - $scope.displaySize;
             var sf = $scope.sort.field;
             var rs = $scope.sort.reverseSort;
             console.log("FromSort");
@@ -85,22 +84,22 @@
             }, function errorCallback(response) {
                 console.log('error');
             });
-        }
-        
+        };
+
         $scope.ToggleLockout = function (user) {
             //alert("ToggleLockout Called");
             //console.log(user.IsActive)
-            user.LockoutEnabled = !user.LockoutEnabled
+            user.LockoutEnabled = !user.LockoutEnabled;
             $http({
                 method: 'POST',
                 url: '/Admin/ToggleUserLockout',
                 data: user
             }).then(function successCallback(response) {
-                console.log(response)
+                console.log(response);
             }, function errorCallback(response) {
-                console.log('error')
-            })
-        }
+                console.log('error');
+            });
+        };
         $scope.ToggleEmailConfirmed = function (user) {
 
             user.EmailConfirmed = !user.EmailConfirmed;
@@ -170,51 +169,78 @@
             $scope.users.sort(compare);
         }
 
-        // Craig
+        // Craig pagination Resolved by Tom
+        $scope.displaySize = 30;
         $scope.PageSelected = function (page, search, sort) {
-            sort = sort || "";
-            
+            sort = sort || ""; // sort is a optional parm
+
             var recordOffSet = 0;
 
-            if ( page > 1 )
-            {
+            if (page > 1) {
                 recordOffSet = page * $scope.displaySize;
             }
-             
+
             $scope.curPage = page;
-            
+            console.log("page", page)
+            console.log("recordOffSet", recordOffSet)
+
+
             $http({
                 method: 'GET',
                 url: '/Admin/GetUserManagement',
                 params: { startRec: recordOffSet, displaySize: $scope.displaySize, sortBy: sort.field, reverseSort: sort.reverseSort, sort: "", filterBy: search }
             }).then(function successCallback(response) {
-                
+                console.log("Pagination", response);
                 $scope.users = response.data.users;
-                $scope.userCount = $scope.users.length; // number of records returned from server
+                $scope.userCount = $scope.users.length; // number of records returned from server                
                 $scope.totalUsers = response.data.totalUsers;
-                $scope.maxPages = $scope.totalUsers / $scope.displaySize;
+                $scope.maxPages = Math.floor($scope.totalUsers / $scope.displaySize);
 
-                $scope.maxPages = 27;
+                // page navigator
+                $scope.startPage = $scope.maxPages - $scope.maxPages + 1;
+                $scope.endPage = $scope.maxPages;
+
                 $scope.pages.length = 0;
-                    if (page > 4) {
-                        var pageid = page - 4;
-                    }
-                    else {
-                        var pageid = 1;
-                    };
+                if (page > 4) {
+                    var pageid = page - 4;
+                }
+                else {
+                    pageid = 1;
+                };
 
-                    if (pageid == 0) {
-                        pageid = 1;
-                    }
+                if (pageid === 0) {
+                    pageid = 1;
+                }
 
-                    for (var p = 0; p <= 9 ; p++) {
-                        if (pageid <= $scope.maxPages) {
-                             $scope.pages[p] = pageid;
-                        }                      
-                        pageid++;
+                for (var p = 0; p <= 9 ; p++) {
+                    if (pageid <= $scope.maxPages) {
+                        $scope.pages[p] = pageid;
                     }
-                
-                
+                    pageid++;
+                }
+
+                //dots ... and steps  system
+                $scope.dotsPre = false;
+                if (page >= 6) {
+                    $scope.dotsPre = true;
+                }
+                $scope.dotsAft = false;
+                if (page < $scope.maxPages - 5) {
+                    $scope.dotsAft = true;
+                }
+                $scope.curPage = page;
+                $scope.previous = false;
+                if (page > 1) {
+                    $scope.previous = true;
+                    $scope.prePage = $scope.curPage - 1;
+                }
+                $scope.next = false;
+                if (page < $scope.endPage - 1) {
+                    $scope.next = true;
+                    $scope.nextPage = $scope.curPage + 1;
+                }
+
+
             }, function errorCallback(response) {
                 console.log('error');
                 console.log(response);

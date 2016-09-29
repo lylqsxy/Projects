@@ -6,7 +6,7 @@
 }
 
 
-<div >
+<div>
     <div class="breadcrumbs">
         <ul>
             <li><a href="#/" title="">Home</a></li>
@@ -16,7 +16,7 @@
     <form>
         <div ng-controller="admin/UserManagementCtrl">
 
-            <table class="table table-striped" style="width:100%;">
+            <table class="table" style="width:100%;">
                 <tr class="row-header">
                     <th>
                         <a href="#" ng-click="sort.field='Username'; sort.reverseSort = !sort.reverseSort; PageSelected(1,search,sort)" title="Click to sort by">
@@ -75,7 +75,7 @@
                         </span>
                     </th>
                     <th>
-                        <label> Exact Match <input type="checkbox" ng-model="strict" title="Serach by exact text in TextBox"></label>
+                        <label> Exact Match <input type="checkbox" ng-model="search.ExactMatch" title="Serach by exact text in TextBox"></label>
                     </th>
 
                     <th style="text-align:center">
@@ -126,33 +126,40 @@
                     <td>{{user.PhoneNumber}}</td>
                     <td align="center">{{user.AccessFailedCount}}</td>
                     <td ng-dblclick="ToggleEmailConfirmed(user)" Title="Double-Click to Toggle" align="center">{{user.EmailConfirmed == true ? "Yes" : "No"}}</td>
-                    <td ng-dblclick="TogglePhoneNumberConfirmed(user)" align="center">{{user.PhoneNumberConfirmed == true ? "Yes" : "No"}}</td>
+                    <td ng-dblclick="TogglePhoneNumberConfirmed(user)" Title="Double-Click to Toggle" align="center">{{user.PhoneNumberConfirmed == true ? "Yes" : "No"}}</td>
                     <td ng-dblclick="ToggleLockout(user)" Title="Double-Click to Toggle" align="center">{{user.LockoutEnabled == true ? "Yes" : "No"}}</td>
                     <td ng-dblclick="ToggleActive(user)" Title="Double-Click to Toggle" align="center">{{user.IsActive == true ? 'Yes' : 'No'}}</td>
                     <td align="center"><input type="button" class="btn btn-danger" value="{{user.IsActive == true ? 'Deactivate' : 'Activate'}}" ng-click="ToggleActive(user)" /></td>
                 </tr>
             </table>
-
-            <table class="table table-condensed table-bordered" style="width: 160px;" ng-hide="totalUsers <= displaySize">
-                <tr>
-                    <td ng-repeat="pbutton in pages" style="padding: 0px 0px 0px 0px">
-                        <a href="#" ng-click="PageSelected(pbutton,search)" class="btn btn-toolbar">{{pbutton}}</a>
-                    </td>
-                </tr>
-
-            </table>
-
-            <br /><br />
-
+            <div class="text-center" style="padding-bottom: 5%; padding-top: 1%">
+                <ul class="pagination">
+                    <li ng-if="previous"> <a href="#" ng-click="PageSelected(pbutton = prePage)">Previous</a></li>
+                    <li ng-if="dotsPre">
+                        <a href="#" ng-click="PageSelected(pbuton = 1)">First page : {{startPage}}</a>
+                        <span ng-if="dotsPre" class="introjs-disabled">....</span>
+                    </li>
+                    <li ng-repeat="pbutton in pages">
+                        <a href="#" ng-click="PageSelected(pbutton,search)">{{pbutton}}</a>
+                    </li>
+                    <li ng-if="dotsAft">
+                        <span class="introjs-disabled">....</span>
+                        <a href="#" ng-click="PageSelected(maxPages)">Last Page : {{maxPages}}</a>
+                    </li>
+                    <li ng-if="next">
+                        <a href="#" ng-click="PageSelected(pbutton = nextPage)">Next</a>
+                    </li>
+                </ul>
+            </div>
             @*<button ng-click="PopulateDB()">populate DB</button>*@
         </div>
     </form>
 </div>
-    @section scripts{
+@section scripts{
 
 
-        <script src="~/App/controllers/admin/UserManagementCtrl.js"></script>
+    <script src="~/App/controllers/admin/UserManagementCtrl.js"></script>
 
 
 
-    }
+}

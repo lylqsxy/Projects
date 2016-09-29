@@ -5,7 +5,7 @@
   }).
   component('cModal', {
       templateUrl: '/App/directives/modal/modal.html',
-      controller: function CModalController($scope, $rootScope,$timeout, utils) {
+      controller: function CModalController($scope, $rootScope,$timeout,$q, utils) {
           var ws = this;
           $scope.formShown=false;
           $scope.modalOption = {};
@@ -18,7 +18,6 @@
               $scope.modalOption = data[1];
               if ($scope.modalOption.action !== 'index') {
                   $timeout(function () {
-                      $('#modalForm').modal('show'); //
                       angular.element('#show-form-button').triggerHandler('click');
                       $scope.formShown = true;
                   });
@@ -34,16 +33,29 @@
               $scope.formShown = true;
           };
 
-          $scope.saveModal = function (data) {
-              var uri = $scope.modalOption.controller + '/' + $scope.modalOption.action;
-              if ($scope.modalOption.idValue) {
-                  uri += '/' + $scope.modalOption.idValue;
-                  data[$scope.modalOption.idVariable] = $scope.modalOption.idValue;
+          // Save modal data to remote database
+          $scope.saveModal = function (data, isvalid) {
+              var d = $q.defer();
+
+              if (isvalid) {
+                  d.resolve()
+              } else {
+                  d.resolve('Error')
+                  return d.promise;
               }
 
-              utils.postApiData(uri, data).then(function (respone) {
+              if (isvalid) {
                   $scope.$emit('modelDone', data);
-              });
+                  //var uri = '/' + $scope.modalOption.controller + '/' + $scope.modalOption.action;
+                  //if ($scope.modalOption.idValue) {
+                  //    uri += '/' + $scope.modalOption.idValue;
+                  //    data[$scope.modalOption.idVariable] = $scope.modalOption.idValue;
+                  //}
+
+                  //utils.postApiData(uri, data).then(function (respone) {
+                  //    $scope.$emit('modelDone', respone); //通知上层component, 已经完成保存，请刷新数据
+                  //});
+              }
           }
          
       },

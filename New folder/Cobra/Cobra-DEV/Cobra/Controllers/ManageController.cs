@@ -618,34 +618,38 @@ namespace Cobra.Controllers
             ecModel.Profile.LastName = contactToUpdate.Lastname;
 
             //**update profile phones
-            foreach (PhoneViewModel phoneView in contactToUpdate.PhoneList)
+            if(contactToUpdate.PhoneList != null)
             {
-                Phone phoneToUpdate = _profileService.GetPhoneById(phoneView.Id);
+                foreach (PhoneViewModel phoneView in contactToUpdate.PhoneList)
+                {
+                    Phone phoneToUpdate = _profileService.GetPhoneById(phoneView.Id);
 
-                if (phoneToUpdate != null)
-                {
-                    //update phone
-                    phoneToUpdate.PhoneTypeId = phoneView.PhoneTypeID;
-                    phoneToUpdate.Number = phoneView.Number;
-                    phoneToUpdate.IsMobile = phoneView.IsMobile;
-                    phoneToUpdate.IsPrimary = phoneView.IsPrimary;
-                    phoneToUpdate.CountryId = phoneView.CountryID;
-                }
-                else
-                {
-                    //add new phone 
-                    Phone newPhone = new Phone
+                    if (phoneToUpdate != null)
                     {
-                       Id = phoneView.Id,
-                       Number = phoneView.Number,
-                       IsPrimary = phoneView.IsPrimary,
-                       IsMobile = phoneView.IsMobile,
-                       PhoneTypeId = phoneView.PhoneTypeID,
-                       CountryId = phoneView.CountryID
-                    };
-                    ecModel.Profile.Phones.Add(newPhone); 
+                        //update phone
+                        phoneToUpdate.PhoneTypeId = phoneView.PhoneTypeID;
+                        phoneToUpdate.Number = phoneView.Number;
+                        phoneToUpdate.IsMobile = phoneView.IsMobile;
+                        phoneToUpdate.IsPrimary = phoneView.IsPrimary;
+                        phoneToUpdate.CountryId = phoneView.CountryID;
+                    }
+                    else
+                    {
+                        //add new phone 
+                        Phone newPhone = new Phone
+                        {
+                            Id = phoneView.Id,
+                            Number = phoneView.Number,
+                            IsPrimary = phoneView.IsPrimary,
+                            IsMobile = phoneView.IsMobile,
+                            PhoneTypeId = phoneView.PhoneTypeID,
+                            CountryId = phoneView.CountryID
+                        };
+                        ecModel.Profile.Phones.Add(newPhone);
+                    }
                 }
             }
+            
 
             _profileService.UpdateEmergencyContact(ecModel);
 

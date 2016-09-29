@@ -2,6 +2,8 @@
 
 */
 
+
+
 cobraApp.service('arrayService', function ($filter) {
     var arrayService = {};
     arrayService.PriorityListGenerator = function (inputArray) {
@@ -43,6 +45,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
     var phoneTypesList = [];
     var phoneCodeList = [];
     var newContact = {
+        "Id": "New",
         "Firstname": null,
         "Middlename": null,
         "Lastname": null,
@@ -52,6 +55,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         "PhoneList": null
     };
     var newPhone = {
+        "Id": "New",
         "Number": null,
         "PhoneTypeID": null,
         "IsMobile": false,
@@ -200,30 +204,21 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
     };
 
     $scope.DelRow = function (index, phoneIndex) {
-        if (!editMode) {
-            if (arguments.length === 1) {
-                if (confirm("All the phone data will be deleted!")) {
-                    var x = $scope.emergencyContactList[index];
-                    DataDelPost(x, index, phoneIndex);
-                    $scope.emergencyContactList.splice(index, 1);
-                }
+        var msgboxData = {
+            title: 'Delete Confirmation',
+            data: {
+                index: index,
+                phoneIndex: phoneIndex
             }
-            else if (arguments.length === 2) {
-                if (confirm("Are you sure?")) {
-                    var y = {
-                        id: $scope.emergencyContactList[index].PhoneList[phoneIndex].Id
-                    };
-                    PhoneDataDelPost(y, index, phoneIndex);
-                    $scope.emergencyContactList[index].PhoneList.splice(phoneIndex, 1);
-                    if ($scope.emergencyContactList[index].PhoneList.length === 1) {
-                        $scope.form[index].phoneForm[0].disableDelBtn = true;
-                    }
-                    else {
-                        $scope.form[index].phoneForm[0].disableDelBtn = false;
-                    }
-                }
-            }
+        };
+        if (phoneIndex === undefined) {
+            msgboxData.msg = 'All the phone data will be deleted! Id: ' + $scope.emergencyContactList[index].Id;
         }
+        else {
+            msgboxData.msg = 'One phone data will be deleted! Id: ' + $scope.emergencyContactList[index].Id +
+                ', PhoneId: ' + $scope.emergencyContactList[index].PhoneList[phoneIndex].Id;
+        } 
+        $scope.$broadcast('showMsgBox', msgboxData);
     };
 
     var DataPost = function (x, index, phoneIndex) {
@@ -481,7 +476,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             {
                 title: 'Relationship',
                 variableName: 'RelationshipID',
-                value: x.RelationshipID ? { value: x.RelationshipID } : { value: "" },
+                value: x.RelationshipID ? x.RelationshipID : relationshipList[0].value,
                 type: 'select',
                 selectEnum: relationshipList
             },
@@ -489,7 +484,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             {
                 title: 'Priority',
                 variableName: 'Priority',
-                value: x.Priority ? { value: x.Priority } : { value: "" },
+                value: x.Priority ? x.Priority : arrayListGenerator(x)[0].value,
                 type: 'select',
                 selectEnum: arrayListGenerator(x)
             },
@@ -539,7 +534,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             {
                 title: 'Phone Type',
                 variableName: 'PhoneTypeID',
-                value: x.PhoneTypeID ? { value: x.PhoneTypeID } : { value: "" },
+                value: x.PhoneTypeID ? x.PhoneTypeID : phoneTypesList[0].value,
                 type: 'select',
                 selectEnum: phoneTypesList
             },
@@ -547,21 +542,23 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             {
                 title: 'IsMobile',
                 variableName: 'IsMobile',
-                value: x.IsMobile ? x.IsMobile : "",
-                type: 'checkbox'
+                value: x.IsMobile ? x.IsMobile : false,
+                type: 'checkbox',
+                etitle: 'Mobile Phone'
             },
 
             {
                 title: 'IsPrimary',
                 variableName: 'IsPrimary',
-                value: x.IsPrimary ? x.IsPrimary : "",
-                type: 'checkbox'
+                value: x.IsPrimary ? x.IsPrimary : false,
+                type: 'checkbox',
+                etitle: 'Primary Phone'
             },
 
             {
                 title: 'Country',
                 variableName: 'CountryID',
-                value: x.CountryID ? { value: x.CountryID, text: "eee" } : { value: "" },
+                value: x.CountryID ? x.CountryID : "",
                 type: 'select',
                 selectEnum: phoneCodeList
             }
@@ -591,7 +588,6 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     data.Id = $scope.emergencyContactList[editedIndex].Id;
                 }
                 else {
-                    console.log(data);
                     data.Id = "New";
                 }
                 
@@ -604,6 +600,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                     tmp.PhoneList[editedPhoneIndex] = data;
                 }
                 else {
+                    data.Id = "New";
                     tmp.PhoneList.push(data);
                 }              
                 DataPost(tmp, editedIndex);
@@ -633,6 +630,25 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         }
         return pList;
     };
+
+    $scope.$on('msgboxDone', function (event, data) {
+        if (data[1]) {
+            if (data[0].data.phoneIndex === undefined) {
+                var x = $scope.emergencyContactList[data[0].data.index];
+                DataDelPost(x, data[0].data.index, data[0].data.phoneIndex);
+                $scope.emergencyContactList.splice(data[0].data.index, 1);
+            }
+            else {
+                var y = {
+                    id: $scope.emergencyContactList[data[0].data.index].PhoneList[data[0].data.phoneIndex].Id
+                };
+                PhoneDataDelPost(y, data[0].data.index, data[0].data.phoneIndex);
+                $scope.emergencyContactList[data[0].data.index].PhoneList.splice(data[0].data.phoneIndex, 1);
+            }
+        }
+        $('#msgbox').modal('hide');
+    });
+
 });
 
 

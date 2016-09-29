@@ -54,7 +54,7 @@ namespace Cobra.Controllers
         // Author: Aaron Bhardwaj
         // GET: Admin/OrganisationAdministrationData
         [HttpGet]
-        public ActionResult OrganisationAdministrationData()
+        public ActionResult OrganisationAdministrationData(int startRec = 0, int displaySize = 10)
         {
             // by craig
             // disabled this version as it filters inactive organisations. wuth the activate button in view not required currently.
@@ -62,13 +62,23 @@ namespace Cobra.Controllers
             //    .Where(x => x.IsActive)
             //    .Select(x => new Admin.OrganisationViewModel { Id = x.Id, OrgName = x.OrgName, WebsiteUrl = x.WebsiteUrl, lastUpdate = x.UpdatedOn.ToString("yyyy-MM-dd HH:mm:ss"), isActive = x.IsActive })
             //    .ToList();
+            //IEnumerable<Organisation> allPeople = _organisationService.GetAllOrganisation();
 
-            var model = _organisationService.GetAllOrganisation()
+            var modelOrgs = _organisationService.GetAllOrganisation()
                 .Select(x => new Admin.OrganisationViewModel { Id = x.Id, OrgName = x.OrgName, WebsiteUrl = x.WebsiteUrl, lastUpdate = x.UpdatedOn.ToString("yyyy-MM-dd HH:mm:ss"), isActive = x.IsActive })
                 .ToList();
 
+            if (modelOrgs.Count() < displaySize)
+            {
+                startRec = 0;
+            };
 
-            return Json(model, JsonRequestBehavior.AllowGet);
+            var retOrgs = modelOrgs.AsEnumerable().Skip(startRec).Take(displaySize);
+            var totalOrgs = modelOrgs.ToList().Count();
+
+
+
+            return Json(new { Orgs = retOrgs.ToList(), totalOrgs = totalOrgs }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Admin/CreateOrganisation
@@ -122,7 +132,7 @@ namespace Cobra.Controllers
                 if (orgViewModel.Id > 0)
                 {
 
-                    
+
                     var model = _organisationService.GetById(orgViewModel.Id);
                     if (!ReferenceEquals(model, null))
                     {
@@ -142,7 +152,7 @@ namespace Cobra.Controllers
 
                     }
                 }
-               
+
             }
 
             return Json(new
@@ -275,19 +285,41 @@ namespace Cobra.Controllers
                 if (filters.Count > 0)
                 {
                     // cycle through filters list(if any) and apply to allUsers
+                    // craig
+                    // exactMatch is used to determin how username and email input boxes are filtered
+                    // if exactmatch is true use equals, else use contains. see below at ***
+                    var exactMatch = false;
 
+                    if (filters.Any(x => x.Key.Equals("ExactMatch") && x.Value.Equals("true")))
+                    {
+                        exactMatch = true;
+                    }
+                    else
+                    {
+                        exactMatch = false;
+                    }
 
                     foreach (var fieldToFilter in filters)
                     {
 
                         switch (fieldToFilter.Key)
                         {
+
                             case "$":
                                 if (fieldToFilter.Value != "")
                                 {
-                                    var searchValue = fieldToFilter.Value;
-                                    var searchResult = allUsers.Where(x => x.UserName.Contains(searchValue) || x.Email.Contains(searchValue) || x.PhoneNumber.Contains(searchValue));
-                                    allUsers = searchResult;
+                                    if (exactMatch)   // if exactmatch is ticked use this to filter else use else statement
+                                    {
+                                        var searchValue = fieldToFilter.Value;
+                                        var searchResult = allUsers.Where(x => x.UserName.Equals(searchValue) || x.Email.Equals(searchValue) || x.PhoneNumber.Equals(searchValue));
+                                        allUsers = searchResult;
+                                    }
+                                    else
+                                    {
+                                        var searchValue = fieldToFilter.Value;
+                                        var searchResult = allUsers.Where(x => x.UserName.Contains(searchValue) || x.Email.Contains(searchValue) || x.PhoneNumber.Contains(searchValue));
+                                        allUsers = searchResult;
+                                    }
                                 }
                                 break;
 

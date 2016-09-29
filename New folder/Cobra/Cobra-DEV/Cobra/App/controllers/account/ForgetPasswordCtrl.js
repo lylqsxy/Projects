@@ -50,12 +50,12 @@
         $scope.toModalObject = function (order) {
             var orderToModal = [
                     { title: 'Domain', variableName: 'Domain', value: (order ? order.Domain : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
-                    { title: 'Email', variableName: 'Email', value: (order ? order.Email : ''), type: 'email', validation: { required: true, errorText: '* please input your email' }, regExpVaid: { text: 'Email格式不正确', reg: /^\s*\w*\s*$/ } },
+                    { title: 'Email', variableName: 'Email', value: (order ? order.Email : ''), type: 'email', validation: { required: true, errorText: '* please input your email' }},
                     { title: 'Phone', variableName: 'Phone', value: (order ? order.Phone : ''), type: 'tel' },
-                    { title: 'Order Status', variableName: 'OrderStatus', value: (order ? order.OrderStatus : 0), type: 'select', selectEnum: $scope.orderStatus },
+                   // { title: 'Order Status', variableName: 'OrderStatus', value: (order ? order.OrderStatus : 0), type: 'select', selectEnum: $scope.orderStatus },
                     { title: 'Order Date', variableName: 'OrderDate', value: (order ? order.OrderDate : new Date()), type: 'date' },
-                    { title: 'Marketing Way', variableName: 'MarketingWay', value: (order ? order.MarketingWay : 0), type: 'select', selectEnum: $scope.marketingWay },
-                    { title: 'Product Name', variableName: 'ProductName', value: (order ? order.ProductName : ''), type: 'text' },
+                   // { title: 'Marketing Way', variableName: 'MarketingWay', value: (order ? order.MarketingWay : 0), type: 'select', selectEnum: $scope.marketingWay },
+                    { title: 'Product Name', variableName: 'ProductName', value: (order ? order.ProductName : ''), type: 'text', regExpVaid: { text: 'Email格式不正确', reg: /^\s*\w*\s*$/ }  },
                     { title: 'Description', variableName: 'Description', value: (order ? order.Description : ''), type: 'textarea' }
             ];
 

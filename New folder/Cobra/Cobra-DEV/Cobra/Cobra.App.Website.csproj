@@ -221,8 +221,11 @@
     <Content Include="App\directives\modal\modal-component.js" />
     <Content Include="App\directives\modal\modal.html" />
     <Content Include="App\directives\modal\modal.js" />
+    <Content Include="App\directives\msgbox\msgbox.html" />
+    <Content Include="App\directives\msgbox\msgbox.js" />
     <Content Include="App\directives\Payment\allow-numbers.js" />
     <Content Include="App\directives\Payment\cvv-tooltip.js" />
+    <Content Include="App\directives\Shared\cobra-pop-over.js" />
     <Content Include="App\services\CommonService.js" />
     <Content Include="App\services\dirPagination.js" />
     <Content Include="App\services\modalService.js" />
@@ -371,6 +374,8 @@
     <Content Include="Views\Geo\Index - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App\directives\datetime\moment\" />
+    <Folder Include="App\directives\datetime\sc-date-time\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

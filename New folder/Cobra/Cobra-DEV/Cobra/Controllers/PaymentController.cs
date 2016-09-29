@@ -479,7 +479,7 @@ namespace Cobra.Controllers
         public ActionResult DoReferenceTransaction(TransactionViewModel transactionViewModel)
         {
             string currencyCode = "USD";    // Get currencyCode from DB
-            string taxTotal = "0.00";       // Get tax details from DB
+            string taxTotal = "0.00";       // Get tax details from DBa
             //string itemName = "Item 1";
             //string itemAmount = "1.00";
             //string itemDescription = "127 single-byte alphanumeric characters ONLY";

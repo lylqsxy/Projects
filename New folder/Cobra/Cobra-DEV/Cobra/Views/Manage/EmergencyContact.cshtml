@@ -8,9 +8,10 @@
 
 <div ng-controller="EmergencyContactCtrl" class="container body-content" style="background-color:white">
     <c-modal></c-modal>
+    <c-msgbox></c-msgbox>
     <h2 >EmergencyContact</h2>
     <br />
-    <button type="button" class="btn btn-default btn-sm" ng-click="AddRow()">Add Contact</button>
+    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modalForm" ng-click="AddRow()">Add Contact</button>
     <br />
     <br />
     <table class="table">
@@ -43,9 +44,7 @@
                 <td>{{x.Lastname}}</td>
 
                 <td>
-                    <span ng-repeat="r in ecaList.Relationships | filter: {ID: x.RelationshipID}">
-                        {{r.Relationship}}
-                    </span>
+                    {{ (ecaList.Relationships | filter: {ID: x.RelationshipID})[0].Relationship }}
                 </td>
 
                 <td>{{x.Priority}}</td>
@@ -53,8 +52,8 @@
                 <td>{{x.Reason}}</td>
 
                 <td>
-                    <button type="button" style="width:60px" class="btn btn-default btn-sm" ng-click="EditRow($index)">Edit</button>
-                    <button type="button" style="width:60px" class="btn btn-default btn-sm" ng-click="DelRow($index)">Delete</button>
+                    <button type="button" style="width:60px" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modalForm" ng-click="EditRow($index)">Edit</button>
+                    <button type="button" style="width:60px" class="btn btn-default btn-sm" data-toggle="modal" data-target="#msgbox" ng-click="DelRow($index)">Delete</button>
                     <button type="button" style="width:80px" class="btn btn-default btn-sm" ng-click="PhoneList($index)" ng-disabled="form[$index].disablePhoneBtn">{{form[$index].phoneBtn}}</button>
                 </td>
             </tr>
@@ -63,7 +62,7 @@
                 <td></td>
 
                 <td>
-                    <button type="button" class="btn btn-default btn-sm" ng-click="AddPhoneRow($index)" ng-disabled="form[$index].disableAddBtn">Add Phone</button>
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modalForm" ng-click="AddPhoneRow($index)" ng-disabled="form[$index].disableAddBtn">Add Phone</button>
                 </td>
 
                 <td></td>
@@ -107,9 +106,7 @@
                 <td>{{y.Number}}</td>
 
                 <td>
-                    <span ng-repeat="pt in ecaList.PhoneTypes | filter: {ID: y.PhoneTypeID}">
-                        {{pt.PhoneType}}
-                    </span>
+                    {{ (ecaList.PhoneTypes | filter: {ID: y.PhoneTypeID})[0].PhoneType }}
                 </td>
 
                 <td>{{y.IsMobile}}</td>
@@ -117,14 +114,13 @@
                 <td>{{y.IsPrimary}}</td>
 
                 <td>
-                    <span ng-repeat="pc in ecaList.PhoneCountries | filter: {ID: y.CountryID}">
-                        {{pc.Name}} | {{pc.PhoneCode}}
-                    </span>
+                    {{ (ecaList.PhoneCountries | filter: {ID: y.CountryID})[0].Name }} | 
+                    {{ (ecaList.PhoneCountries | filter: {ID: y.CountryID})[0].PhoneCode }}
                 </td>
 
                 <td>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-click="EditPhoneRow($parent.$index, $index)">Edit</button>
-                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" ng-click="DelRow($parent.$index, $index)">Delete</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" data-toggle="modal" data-target="#modalForm" ng-click="EditPhoneRow($parent.$index, $index)">Edit</button>
+                    <button type="button" class="btn btn-default btn-sm" style="width: 60px" data-toggle="modal" data-target="#msgbox" ng-click="DelRow($parent.$index, $index)">Delete</button>
                 </td>
             </tr>
 
@@ -133,5 +129,6 @@
 
 </div>
 
+<script src="~/App/directives/msgbox/msgbox.js"></script>
 <script src="~/App/controllers/manage/EmergencyContactCtrl.js"></script>
 
