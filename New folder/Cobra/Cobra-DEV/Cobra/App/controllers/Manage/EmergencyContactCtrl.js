@@ -3,6 +3,7 @@
 */
 
 
+
 cobraApp.service('arrayService', function ($filter) {
     var arrayService = {};
     arrayService.PriorityListGenerator = function (inputArray) {
@@ -246,7 +247,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
                 url: "/Manage/CreateEmergencyContact",
                 data: x,
                 headers: {
-                    'X-XSRF-Token': angular.element('input[name="__RequestVerificationToken"]').attr('value')
+                    'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
                 }
             }).then(function SentOk(result) {
                 updateRow(result.data.newEmergencyContact, -1);
