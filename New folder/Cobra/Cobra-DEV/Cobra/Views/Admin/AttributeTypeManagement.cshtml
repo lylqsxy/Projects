@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "AttributeTypeManagement";
+}
+
+<h2>AttributeTypeManagement</h2>
+<div ng-controller="admin/ManageAttributesTypeCtrl" ng-cloak style="background-color:white">
+    <h3>Address Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showAddressModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Address Type Name
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="AddressType in AddressTypes">
+            <td>
+                {{AddressType.Name}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showAddressModal(AddressType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Email Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showEmailModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Email Type Name
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="EmailType in EmailTypes">
+            <td>
+                {{EmailType.Name}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showEmailModal(EmailType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Country Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showCountryModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Country Name
+            </th>
+            <th>
+                Country Code
+            </th>
+            <th>
+                Phone Code
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="CountryType in CountryTypes">
+            <td>{{CountryType.Name}}</td>
+            <td>{{CountryType.CountryCode}}</td>
+            <td>
+                {{CountryType.PhoneCode}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showCountryModal(CountryType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Phone Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showPhoneModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Phone Type Name
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="PhoneType in PhoneTypes">
+            <td>
+            {{PhoneType.Name}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showPhoneModal(PhoneType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Social Media Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showSocialMediaModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Social Media Name
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="SocialMediaType in SocialMediaTypes">
+            <td>
+            {{SocialMediaType.Name}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showSocialMediaModal(SocialMediaType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>RelationShip Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showRelationshipModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                RelationShip To You
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="RelationShipType in RelationshipTypes">
+            <td>
+            {{RelationShipType.RelationshipToYou}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showRelationshipModal(RelationShipType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Event Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showEventModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Event Name
+            </th>
+            <th>
+                Event Description
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="EventType in EventTypes">
+            <td>{{EventType.Name}}</td>
+            <td>
+            {{EventType.Description}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showEventModal(EventType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Alert Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showAlertModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Alert Name
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="AlertType in AlertTypes">
+            <td>
+            {{AlertType.Name}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showAlertModal(AlertType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <hr />
+    <h3>Resource Type</h3>
+    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showResourceModal()">
+        Create
+    </button>
+    <table class="table">
+        <tr>
+            <th>
+                Resource Name
+            </th>
+            <th></th>
+        </tr>
+        <tr ng-repeat="ResourceType in ResourceTypes">
+            <td>
+                {{ResourceType.Name}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#modalForm" ng-click="showResourceModal(ResourceType.Id)">
+                    Edit
+                </button>
+            </td>
+        </tr>
+    </table>
+    <c-modal></c-modal>
+</div>
+
+
+
+@section scripts
+{
+    <script type="text/javascript" src="~/App/controllers/admin/AttributeTypeManagementCtrl.js"></script>
+}

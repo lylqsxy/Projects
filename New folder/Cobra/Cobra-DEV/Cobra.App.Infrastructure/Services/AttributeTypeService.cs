@@ -59,6 +59,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateAddressType(AddressType addressType)
         {
             _addressTypeRepository.Update(addressType, true);
+            _addressTypeRepository.Save();
         }
         public void DeleteAddressType(int id)
         {
@@ -84,6 +85,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateEmailType(EmailType emailType)
         {
             _emailTypeRepository.Update(emailType, true);
+            _emailTypeRepository.Save();
         }
         public void DeleteEmailType(int id)
         {
@@ -109,6 +111,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateCountry(Country country)
         {
             _countryRepository.Update(country, true);
+            _countryRepository.Save();
         }
         public void DeleteCountry(int id)
         {
@@ -134,6 +137,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateSocialMediaType(SocialMediaType socialMediaType)
         {
             _socialMediaTypeRepository.Update(socialMediaType, true);
+            _socialMediaTypeRepository.Save();
         }
         public void DeleteSocialMediaType(int id)
         {
@@ -159,6 +163,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdatePhoneType(PhoneType phoneType)
         {
             _phoneTypeRepository.Update(phoneType, true);
+            _phoneTypeRepository.Save();
         }
         public void DeletePhoneType(int id)
         {
@@ -184,6 +189,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateRelationship(Relationship relationship)
         {
             _relationshipRepository.Update(relationship, true);
+            _relationshipRepository.Save();
         }
         public void DeleteRelationship(int id)
         {
@@ -209,6 +215,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateEventType(EventType eventType)
         {
             _eventTypeRepository.Update(eventType, true);
+            _eventTypeRepository.Save();
         }
         public void DeleteEventType(int id)
         {
@@ -234,6 +241,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateAlertType(AlertType alertType)
         {
             _alertTypeRepository.Update(alertType, true);
+            _alertTypeRepository.Save();
         }
         public void DeleteAlertType(int id)
         {
@@ -259,6 +267,7 @@ namespace Cobra.App.Infrastructure.Services
         public void UpdateResourceType(ResourceType resourceType)
         {
             _resourceTypeRepository.Update(resourceType, true);
+            _resourceTypeRepository.Save();
         }
         public void DeleteResourceType(int id)
         {

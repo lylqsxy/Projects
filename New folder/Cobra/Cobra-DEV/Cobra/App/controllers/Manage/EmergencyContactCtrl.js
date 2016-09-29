@@ -503,10 +503,15 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         
         var modalOption = {
             modalTitle: newIndex === true? 'Add Contact' : 'Edit Contact',  // Modal tilte
-            controller: '', //Contorll name 
-            action: '', //Action Name (Post)
-            idVariable: '', // ID of a table
-            idvalue:'' //nuallable, Route domain/controller/action/idValue
+            controller: 'Manage', //Contorll name 
+            action: 'EditEmergencyContact', //Action Name (Post)
+            idVariable: 'Id', // ID of a table
+            idvalue: x.Id, //nuallable, Route domain/controller/action/idValue
+            httpPostConfig: {
+                headers: {
+                    'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
+                }
+            }
         };
 
         $scope.$broadcast('showModelEvent', [dataToModal, modalOption]);

@@ -1,2 +1,2 @@
-﻿angular.module('cobraModal', ['xeditable']);
+﻿angular.module('crmModal', ['xeditable']);
 

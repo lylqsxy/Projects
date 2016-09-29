@@ -25,15 +25,17 @@ namespace Cobra.Controllers
         private ILogService _logService;
         private IAccountService _accountService;
         private IUserManagementService _userManagementService;
+        private IAttributeTypeService _attributeTypeService;
         #endregion
         public AdminController(IOrganisationService organisationService,
-            IProfileService profileService, ILogService logService, IAccountService accountService, IUserManagementService userManagementService)
+            IProfileService profileService, ILogService logService, IAccountService accountService, IUserManagementService userManagementService, IAttributeTypeService attributeTypeService)
         {
             _organisationService = organisationService;
             _profileService = profileService;
             _logService = logService;
             _accountService = accountService;
             _userManagementService = userManagementService;
+            _attributeTypeService = attributeTypeService;
         }
 
         // GET: Admin
@@ -257,6 +259,12 @@ namespace Cobra.Controllers
             return View();
         }
 
+        //Show Attribute Type list ,and Create/Edit the types 
+        public ActionResult AttributeTypeManagement()
+        {
+            return View();
+        }
+
         //helen
         //Lavesh
         public ActionResult PopulateDB()
@@ -473,6 +481,343 @@ namespace Cobra.Controllers
 
             return Json(new { users = retUsers.ToList(), totalUsers = totalUsers }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        //get all the attributes type lists
+        public JsonResult GetAllType()
+        {
+            IEnumerable<AddressType> allAddressType = _attributeTypeService.GetAllAddressType();
+            IEnumerable<EmailType> allEmailType = _attributeTypeService.GetAllEmailType();
+            IEnumerable<Country> allCountryType = _attributeTypeService.GetAllCountry();
+            IEnumerable<PhoneType> allPhoneType = _attributeTypeService.GetAllPhoneType();
+            IEnumerable<SocialMediaType> allSocialMediaType = _attributeTypeService.GetAllSocialMediaType();
+            IEnumerable<Relationship> allRelationshipType = _attributeTypeService.GetAllRelationship();
+            IEnumerable<EventType> allEventType = _attributeTypeService.GetAllEventType();
+            IEnumerable<AlertType> allAlertType = _attributeTypeService.GetAllAlertType();
+            IEnumerable<ResourceType> allResourceType = _attributeTypeService.GetAllResourceType();
+            var AllType = new {allAddressType = allAddressType,
+                               allEmailType = allEmailType,
+                               allCountryType = allCountryType,
+                               allPhoneType = allPhoneType,
+                               allSocialMediaType = allSocialMediaType,
+                               allRelationshipType = allRelationshipType,
+                               allEventType = allEventType,
+                               allAlertType = allAlertType,
+                               allResourceType = allResourceType
+                               };
+            return Json(AllType, JsonRequestBehavior.AllowGet);
+        }
+
+        //// get attribute type list
+        //public JsonResult GetAllAddressType()
+        //{
+        //    IEnumerable<AddressType> allAddressType = _attributeTypeService.GetAllAddressType();
+        //    return Json(allAddressType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllEmailType()
+        //{
+        //    IEnumerable<EmailType> allEmailType = _attributeTypeService.GetAllEmailType();
+        //    return Json(allEmailType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllCountryType()
+        //{
+        //    IEnumerable<Country> allCountryType = _attributeTypeService.GetAllCountry();
+        //    return Json(allCountryType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllPhoneType()
+        //{
+        //    IEnumerable<PhoneType> allPhoneType = _attributeTypeService.GetAllPhoneType();
+        //    return Json(allPhoneType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllSocialMediaType()
+        //{
+        //    IEnumerable<SocialMediaType> allSocialMediaType = _attributeTypeService.GetAllSocialMediaType();
+        //    return Json(allSocialMediaType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllRelationshipType()
+        //{
+        //    IEnumerable<Relationship> allRelationshipType = _attributeTypeService.GetAllRelationship();
+        //    return Json(allRelationshipType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllEventType()
+        //{
+        //    IEnumerable<EventType> allEventType = _attributeTypeService.GetAllEventType();
+        //    return Json(allEventType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllAlertType()
+        //{
+        //    IEnumerable<AlertType> allAlertType = _attributeTypeService.GetAllAlertType();
+        //    return Json(allAlertType, JsonRequestBehavior.AllowGet);
+        //}
+
+        //public JsonResult GetAllResourceType()
+        //{
+        //    IEnumerable<ResourceType> allResourceType = _attributeTypeService.GetAllResourceType();
+        //    return Json(allResourceType, JsonRequestBehavior.AllowGet);
+        //}
+        //update attributes type
+        [HttpPost]
+        public JsonResult UpdateAddressType(AddressType addresstype)
+        {
+            var status = false;
+            if (addresstype != null)
+            {
+                var atype = _attributeTypeService.GetAddressTypeById(addresstype.Id);
+                atype.Name = addresstype.Name;
+                _attributeTypeService.UpdateAddressType(atype);
+                status = true;
+                return Json(new { success = status, addresstype = atype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateEmailType(EmailType emailtype)
+        {
+            var status = false;
+            if (emailtype != null)
+            {
+                var etype = _attributeTypeService.GetEmailTypeById(emailtype.Id);
+                etype.Name = emailtype.Name;
+                _attributeTypeService.UpdateEmailType(etype);
+                status = true;
+                return Json(new { success = status, emailtype = etype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCountryType(Country countrytype)
+        {
+            var status = false;
+            if (countrytype != null)
+            {
+                var ctype = _attributeTypeService.GetCountryById(countrytype.Id);
+                ctype.Name = countrytype.Name;
+                ctype.CountryCode = countrytype.CountryCode;
+                ctype.PhoneCode = countrytype.PhoneCode;
+                _attributeTypeService.UpdateCountry(ctype);
+                status = true;
+                return Json(new { success = status, countrytype = ctype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdatePhoneType(PhoneType phonetype)
+        {
+            var status = false;
+            if (phonetype != null)
+            {
+                var ptype = _attributeTypeService.GetPhoneTypeById(phonetype.Id);
+                ptype.Name = phonetype.Name;
+                _attributeTypeService.UpdatePhoneType(ptype);
+                status = true;
+                return Json(new { success = status, phonetype = ptype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateSocialMediaType(SocialMediaType socialmediatype)
+        {
+            var status = false;
+            if (socialmediatype != null)
+            {
+                var stype = _attributeTypeService.GetSocialMediaTypeById(socialmediatype.Id);
+                stype.Name = socialmediatype.Name;
+                _attributeTypeService.UpdateSocialMediaType(stype);
+                status = true;
+                return Json(new { success = status, socialmediatype = stype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateRelationshipType(Relationship relationshiptype)
+        {
+            var status = false;
+            if (relationshiptype != null)
+            {
+                var rtype = _attributeTypeService.GetRelationshipById(relationshiptype.Id);
+                rtype.RelationshipToYou = relationshiptype.RelationshipToYou;
+                _attributeTypeService.UpdateRelationship(rtype);
+                status = true;
+                return Json(new { success = status, relationshiptype = rtype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateEventType(EventType eventtype)
+        {
+            var status = false;
+            if (eventtype != null)
+            {
+                var etype = _attributeTypeService.GetEventTypeById(eventtype.Id);
+                etype.Name = eventtype.Name;
+                etype.Description = eventtype.Description;
+                _attributeTypeService.UpdateEventType(etype);
+                status = true;
+                return Json(new { success = status, eventtype = etype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateAlertType(AlertType alerttype)
+        {
+            var status = false;
+            if (alerttype != null)
+            {
+                var atype = _attributeTypeService.GetAlertTypeById(alerttype.Id);
+                atype.Name = alerttype.Name;
+                _attributeTypeService.UpdateAlertType(atype);
+                status = true;
+                return Json(new { success = status, alerttype = atype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateResourceType(ResourceType resourcetype)
+        {
+            var status = false;
+            if (resourcetype != null)
+            {
+                var rtype = _attributeTypeService.GetResourceTypeById(resourcetype.Id);
+                rtype.Name = resourcetype.Name;
+                _attributeTypeService.UpdateResourceType(rtype);
+                status = true;
+                return Json(new { success = status, resourcetype = rtype });
+            }
+            return Json(new { success = status });
+        }
+
+        //Create attributes type
+        [HttpPost]
+        public JsonResult CreateAddressType(AddressType addresstype)
+        {
+            var status = false;
+            if (addresstype != null)
+            {
+                _attributeTypeService.CreateAddressType(addresstype);
+                status = true;
+                //return Json(new { success = status, Id = addresstype.Id});
+                return Json(new { success = status, addresstype = addresstype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateEmailType(EmailType emailtype)
+        {
+            var status = false;
+            if (emailtype != null)
+            {
+                _attributeTypeService.CreateEmailType(emailtype);
+                status = true;
+                return Json(new { success = status, emailtype = emailtype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateCountryType(Country countrytype)
+        {
+            var status = false;
+            if (countrytype != null)
+            {
+                _attributeTypeService.CreateCountry(countrytype);
+                status = true;
+                return Json(new { success = status, countrytype = countrytype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreatePhoneType(PhoneType phonetype)
+        {
+            var status = false;
+            if (phonetype != null)
+            {
+                _attributeTypeService.CreatePhoneType(phonetype);
+                status = true;
+                return Json(new { success = status, phonetype = phonetype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateSocialMediaType(SocialMediaType socialmediatype)
+        {
+            var status = false;
+            if (socialmediatype != null)
+            {
+                _attributeTypeService.CreateSocialMediaType(socialmediatype);
+                status = true;
+                return Json(new { success = status, socialmediatype = socialmediatype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateRelationshipType(Relationship relationshiptype)
+        {
+            var status = false;
+            if (relationshiptype != null)
+            {
+                _attributeTypeService.CreateRelationship(relationshiptype);
+                status = true;
+                return Json(new { success = status, relationshiptype = relationshiptype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateEventType(EventType eventtype)
+        {
+            var status = false;
+            if (eventtype != null)
+            {
+                _attributeTypeService.CreateEventType(eventtype);
+                status = true;
+                return Json(new { success = status, eventtype = eventtype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateAlertType(AlertType alerttype)
+        {
+            var status = false;
+            if (alerttype != null)
+            {
+                _attributeTypeService.CreateAlertType(alerttype);
+                status = true;
+                return Json(new { success = status, alerttype = alerttype });
+            }
+            return Json(new { success = status });
+        }
+
+        [HttpPost]
+        public JsonResult CreateResourceType(ResourceType resourcetype)
+        {
+            var status = false;
+            if (resourcetype != null)
+            {
+                _attributeTypeService.CreateResourceType(resourcetype);
+                status = true;
+                return Json(new { success = status, resourcetype = resourcetype });
+            }
+            return Json(new { success = status });
         }
         //Lavesh - 
 

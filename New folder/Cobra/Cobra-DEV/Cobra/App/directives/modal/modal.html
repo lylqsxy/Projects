@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="createEditLabel">
+﻿<div class="modal fade" id="createEdit" tabindex="-1" role="dialog" aria-labelledby="createEditLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,13 +11,13 @@
                         <div ng-repeat="item in modalData" class="form-group">
                             <label for="products" class="col-md-3 col-sm-3">{{item.title}}</label>
                             <div class="col-md-9 col-sm-9">
-                                <span ng-if="item.type=='textarea'" editable-textarea="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" e-class="form-control">{{ item.value || 'empty' }}</span>
-                                <span ng-if="item.type=='text'" editable-text="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" e-class="form-control">{{ item.value || 'empty' }}</span>
-                                <span ng-if="item.type=='number'" editable-number="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" onbeforesave="checkName($data)">{{ item.value || 'empty' }}</span>
-                                <span ng-if="item.type=='email'" editable-email="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}">{{ item.value || 'empty' }}</span>
-                                <span ng-if="item.type=='tel'" editable-tel="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}">{{ item.value || 'empty' }}</span>
-                                <span ng-if="item.type=='url'" editable-url="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}">{{ item.value || 'empty' }}</span>
-                                <span ng-if="item.type=='date'" editable-date="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}">{{ item.value || 'empty' | date:"dd/MM/yyyy" }}</span>
+                                <span ng-if="item.type=='textarea'" editable-textarea="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" e-class="form-control" >{{ item.value || 'empty' }}</span>
+                                <span ng-if="item.type=='text'" editable-text="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}"  e-class="form-control" >{{ item.value || 'empty' }}</span>
+                                <span ng-if="item.type=='number'" editable-number="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" onbeforesave="checkName($data)" >{{ item.value || 'empty' }}</span>
+                                <span ng-if="item.type=='email'" editable-email="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" >{{ item.value || 'empty' }}</span>
+                                <span ng-if="item.type=='tel'" editable-tel="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" >{{ item.value || 'empty' }}</span>
+                                <span ng-if="item.type=='url'" editable-url="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" >{{ item.value || 'empty' }}</span>
+                                <span ng-if="item.type=='date'" editable-date="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" >{{ item.value || 'empty' | date:"dd/MM/yyyy" }}</span>
                                 <span ng-if="item.type=='select'" editable-select="item.value" e-name="{{item.variableName}}" e-ng-pattern="item.regExpVaid.reg" e-form-validation="{{item.validation}}" e-ng-options="s.value as s.text for s in item.selectEnum">
                                     {{ (item.selectEnum | filter: {value: item.value} : true)[0].text || 'empty' }}
                                 </span>

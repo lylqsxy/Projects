@@ -1,7 +1,17 @@
 ﻿//Author: Craig Rabbitt
 'use strict';
 (function () {
-   
+
+    // Service for pagination by Tom
+    cobraApp.service('orgServiceGet', ['$http', function ($http) {
+        return {
+            getData: function (val) {
+                var req = {
+                    method: 'Get',
+                    url: '/Admin/OrganisationAdministrationData',
+                    params: val
+                };
+                return $http(req);
 
             }
         };
@@ -15,7 +25,6 @@
         }]);
 
         $scope.data = [];   // contains page data
-        $scope.rollBack = [];
 
         $scope.rowSelected;   // contains current row being edited/created
         $scope.editOrg = { Id: 0, OrgName: "", WebsiteUrl: "", isActive: "false" };  // used to post row to controller
@@ -24,8 +33,6 @@
 
         $scope.editing = false;    // set to true when editing a row and prevents user editing another row before closing or saving current row
 
-        $http.get('/Admin/OrganisationAdministrationData').then(
-                function (response) {
 
         //pagination By Tom
         //Load item per page request
@@ -136,8 +143,7 @@
                 $scope.rowSelected = result;
                 // set to true so no other row can now be edited until editing is completed
                 $scope.editing = true;
-                // make a copy of the current data incase sql update fails to rollback
-                $scope.rollBack = angular.copy($scope.data[result]);
+
             }
         };
 
@@ -186,8 +192,7 @@
 
                     console.log(result);
                 }, function Error(result) {
-                    // update failed so roll back data
-                    $scope.data[$scope.rowSelected] = angular.copy($scope.rollBack);
+                    console.log(result);
                 });
             } // create
             else {
@@ -211,8 +216,8 @@
             $scope.data[index].showTextOnly = true;
             $scope.data[index].showEditButton = true;
             $scope.data[index].showSaveButton = false;
-            $scope.data[index].closeEditButton = false;
-            $scope.data[index].showCancelButton = false;
+            $scope.data[result].closeEditButton = false;
+            $scope.data[result].showCancelButton = false;
             $scope.editing = false;
         };
 
@@ -246,4 +251,3 @@
 
     }]);
 })(angular);
-
