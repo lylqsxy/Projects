@@ -46,6 +46,7 @@ namespace Cobra.App.Infrastructure.Contracts
         void UpdateSocialMediaType(SocialMediaType socialMediaType);
         void DeleteSocialMediaType(int id);
         IEnumerable<SocialMediaType> GetAllSocialMediaType();
+        int GetIdByProvider(string provider);
 
         #endregion
 

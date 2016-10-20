@@ -22,7 +22,7 @@ namespace Cobra.Identity.IdentityModel
         }
 
         public static ApplicationDbContext Create()
-        {
+       {
             return new ApplicationDbContext();
         }
 

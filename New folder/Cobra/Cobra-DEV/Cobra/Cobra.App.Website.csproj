@@ -291,6 +291,7 @@
     <Content Include="Scripts\xeditable.js" />
     <Content Include="Scripts\xeditable.min.js" />
     <Content Include="Views\Account\SocialMediaLoginPartial.cshtml" />
+    <Content Include="Views\Manage\Template.html" />
     <Content Include="Views\Organisation\OrganisationAdministration.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
     <Content Include="App\vendors\angular-validator.min.js.map">
@@ -366,17 +367,15 @@
     <Content Include="Views\Admin\OrganisationAdministration.cshtml" />
     <Content Include="Views\Payment\PaymentOptions.cshtml" />
     <Content Include="Views\Payment\PaymentOptionsFaliure.cshtml" />
-    <Content Include="Views\Manage\EmergencyContact-1.cshtml" />
-    <Content Include="Views\Account\Login-1.cshtml" />
-    <Content Include="Views\Account\Register-1.cshtml" />
     <Content Include="Views\Manage\UserProfile.cshtml" />
-    <Content Include="Views\Shared\_Layout-1.cshtml" />
-    <Content Include="Views\Geo\Index - Copy.cshtml" />
+    <Content Include="Views\Admin\AttributeTypeManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\directives\datetime\moment\" />
     <Folder Include="App\directives\datetime\sc-date-time\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Upload\Admin\" />
+    <Folder Include="Upload\User\12\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

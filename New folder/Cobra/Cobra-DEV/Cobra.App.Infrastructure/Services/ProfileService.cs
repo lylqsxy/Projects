@@ -19,9 +19,10 @@ namespace Cobra.App.Infrastructure.Services
         private IRepository<Address> _addressRepository;
         private IRepository<Email> _emailRepository;
         private IRepository<EmergencyContact> _emergencyContactRepository;
+        private IRepository<SocialMedia> _socialMediaRepository;
 
         // Author: Aaron Bhardwaj
-        public ProfileService(IRepository<Profile> profileRepository, IRepository<Person> personRepository, IRepository<Phone> phoneRepository, IRepository<Address> addressRepository, IRepository<Email> emailRepository, IRepository<EmergencyContact> emergencyContactRepository)
+        public ProfileService(IRepository<Profile> profileRepository, IRepository<SocialMedia> socialMediaRepository, IRepository<Person> personRepository, IRepository<Phone> phoneRepository, IRepository<Address> addressRepository, IRepository<Email> emailRepository, IRepository<EmergencyContact> emergencyContactRepository)
         {
             _profileRepository = profileRepository;
             _personRepository = personRepository;
@@ -29,6 +30,7 @@ namespace Cobra.App.Infrastructure.Services
             _addressRepository = addressRepository;
             _emailRepository = emailRepository;
             _emergencyContactRepository = emergencyContactRepository;
+            _socialMediaRepository = socialMediaRepository;
         }
 
         #region ProfileService Members
@@ -213,6 +215,34 @@ namespace Cobra.App.Infrastructure.Services
         public IEnumerable<EmergencyContact> GetEmergencyContactByPersonId(int id)
         {
             return _emergencyContactRepository.Get(x => x.PersonId == id);
+        }
+
+        #endregion
+
+        #region SocialMediaRepository Members
+
+        public bool CreateSocialMedia(SocialMedia socialMedia)
+        {
+            return _socialMediaRepository.Add(socialMedia, true) == null ? false : true;
+        }
+        public SocialMedia GetSocialMediaById(int id)
+        {
+            return _socialMediaRepository.GetById(id);
+        }
+        public IEnumerable<SocialMedia> GetSocialMediaByProfileId(int id)
+        {
+            return _socialMediaRepository.Get(x => x.ProfileId==id);
+        }
+   
+        public void UpdateSocialMedia(SocialMedia socialMedia)
+        {
+            _socialMediaRepository.Update(socialMedia, true);
+            _socialMediaRepository.Save();
+        }
+
+        public void DeleteSocialMedia(int id)
+        {
+            _socialMediaRepository.Remove(GetSocialMediaById(id), true);
         }
 
         #endregion

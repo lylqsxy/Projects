@@ -3,11 +3,13 @@
 */
 
 
-
 cobraApp.service('arrayService', function ($filter) {
     var arrayService = {};
     arrayService.PriorityListGenerator = function (inputArray) {
         var max = Math.max.apply(Math, inputArray);
+        if (max < 0) {
+            max = 0;
+        }
         var array = [];
         for (var i = 1; i < max+5; i++) {
             if ($filter('filter')(inputArray, i).length < 1) {
@@ -484,7 +486,7 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
             {
                 title: 'Priority',
                 variableName: 'Priority',
-                value: x.Priority ? x.Priority : arrayListGenerator(x)[0].value,
+                value: x.Priority ? x.Priority : arrayListGenerator(x),//[0].value,
                 type: 'select',
                 selectEnum: arrayListGenerator(x)
             },
@@ -504,15 +506,10 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
         
         var modalOption = {
             modalTitle: newIndex === true? 'Add Contact' : 'Edit Contact',  // Modal tilte
-            controller: 'Manage', //Contorll name 
-            action: 'EditEmergencyContact', //Action Name (Post)
-            idVariable: 'Id', // ID of a table
-            idvalue: x.Id, //nuallable, Route domain/controller/action/idValue
-            httpPostConfig: {
-                headers: {
-                    'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
-                }
-            }
+            controller: false, //Contorll name 
+            action: false, //Action Name (Post)
+            idVariable: '', // ID of a table
+            idvalue: '' //nuallable, Route domain/controller/action/idValue
         };
 
         $scope.$broadcast('showModelEvent', [dataToModal, modalOption]);
@@ -576,8 +573,8 @@ cobraApp.controller('EmergencyContactCtrl', function ($scope, $http, $filter, $a
 
         var modalOption = {
             modalTitle: newPhoneIndex === true ? 'Add Phone' : 'Edit Phone',  // Modal tilte
-            controller: '', //Contorll name 
-            action: '', //Action Name (Post)
+            controller: false, //Contorll name 
+            action: false, //Action Name (Post)
             idVariable: '', // ID of a table
             idvalue: '' //nuallable, Route domain/controller/action/idValue
         };

@@ -156,6 +156,7 @@ namespace Cobra.Controllers
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await _authService.CustomGetExternalLoginInfo();
+            
             if (loginInfo == null)
             {
                 return RedirectToAction("Login");

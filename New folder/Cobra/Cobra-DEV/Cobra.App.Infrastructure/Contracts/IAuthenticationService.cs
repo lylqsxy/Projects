@@ -11,6 +11,7 @@ namespace Cobra.App.Infrastructure.Contracts
         void ExternalLoginChallenge(string provider, string returnUri, int userId, IOwinContext currentContext);
         bool IsAuthenticated();
         Task<CustomSignInStatus> CustomPasswordSignIn(string email, string password, bool rememberMe = false, bool twoFactorRememberBrowser = false);
+        
         //Use "IAuthenticationService" Extend "ApplicationSignInManager" when needed
     }
 }

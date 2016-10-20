@@ -147,6 +147,10 @@ namespace Cobra.App.Infrastructure.Services
         {
             return _socialMediaTypeRepository.GetAll();
         }
+        public int GetIdByProvider(string provider)
+        {
+            return GetAllSocialMediaType().Where(x => x.Name == provider).FirstOrDefault().Id;
+        }
 
         #endregion
 

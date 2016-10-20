@@ -17,7 +17,7 @@
         };
     }]);
 
-    cobraApp.controller('OrganisationAdministrationCtrl', ['$scope', '$http', '$window', 'orgServiceGet', function ($scope, $http, $window, orgServiceGet) {
+    cobraApp.controller('OrganisationAdministrationCtrl', ['$scope', '$http', '$window', 'orgServiceGet', '$rootScope', function ($scope, $http, $window, orgServiceGet, $rootScope) {
         // Initializing scope
         cobraApp.run(['$http', function ($http) {
             $http.defaults.headers.common['X-XSRF-Token'] =
@@ -30,10 +30,6 @@
         $scope.editOrg = { Id: 0, OrgName: "", WebsiteUrl: "", isActive: "false" };  // used to post row to controller
         //$scope.org = { Id: 0, orgName: '', WebsiteUrl: '', isActive: true, lastUpdate: '' };
 
-
-        $scope.editing = false;    // set to true when editing a row and prevents user editing another row before closing or saving current row
-
-
         //pagination By Tom
         //Load item per page request
         $scope.pageSizePicker = 25; // items per page
@@ -42,7 +38,7 @@
         $scope.activePages = [];
         //click function on pagination
         $scope.PageSelected = function (index) {
-            console.log("clicked index", index);
+            //console.log("clicked index", index);
             $scope.pageSkip = index * $scope.pageSizePicker;
             //param to server get method
             $scope.params = {
@@ -52,7 +48,7 @@
             };
             // pull data from service
             orgServiceGet.getData($scope.params).then(function (response) {
-                console.log(response);
+                //console.log(response);
 
                 //calculate total page
                 $scope.totalOrgs = response.data.totalOrgs;
@@ -76,7 +72,6 @@
                     }
                     pageid++;
                 }
-
 
                 $scope.data = response.data.Orgs;
                 //console.log(response.data.Orgs);
@@ -103,122 +98,37 @@
                 }
 
             }).catch(function (response, status) {
-                console.log(response.status);
+                //   console.log(response.status);
             });
 
         };
         $scope.PageSelected(0);// init default page
 
         $scope.CreateOrganisation = function () {
-            // make a copy of first row to use as a template as the new row, then reset properties as required
-            var temp = angular.copy($scope.data[0]);
-            temp.OrgName = "New";
-            temp.Id = -1;
-            temp.WebsiteUrl = "";
-            temp.lastUpdate = "";
-            // add new row
-            $scope.data.push(temp);
-            $scope.editing = true;
-            var result = $scope.data.length - 1;
-            console.log(result);
-            $scope.data[result].showEditBox = true;         // shows editing boxs on true
-            $scope.data[result].showTextOnly = false;       // shows textonly on true
-            $scope.data[result].showEditButton = false;     // shows edit button on true
-            $scope.data[result].showSaveButton = true;      // shows save button on true
-            $scope.data[result].closeEditButton = false;    // shows close button on true
-            $scope.data[result].showCancelButton = true;    // shows cancel button on true
-            $scope.rowSelected = result;
-
-        };
-
-        $scope.EditOrg = function (result) {
-            // if no row being edeited already show input boxs and buttons to allow editing
-            if ($scope.editing === false) {
-
-                $scope.data[result].showEditBox = true;
-                $scope.data[result].showTextOnly = false;
-                $scope.data[result].showEditButton = false;
-                $scope.data[result].showSaveButton = true;
-                $scope.data[result].closeEditButton = true;
-                $scope.rowSelected = result;
-                // set to true so no other row can now be edited until editing is completed
-                $scope.editing = true;
+            // create object required for modal component to create input fields in modal
+            var orgRowData = {
+                orgName: '',
+                webSite: '',
+                isActive: true,
+                lastUpdate: ''
 
             }
-        };
-
-        $scope.CloseEdit = function () {
-            // if close edit button is pressed hide and show elements as required. note nothinig is updated in sql database
-            var result = $scope.rowSelected;
-            $scope.data[result].showEditBox = false;
-            $scope.data[result].showTextOnly = true;
-            $scope.data[result].showEditButton = true;
-            $scope.data[result].showSaveButton = false;
-            $scope.data[result].closeEditButton = false;
-            $scope.data[result].showCancelButton = false;
-            $scope.editing = false;
-        };
-
-        $scope.CancelEdit = function () {
-            // user canceled row add so remove row and hide elements as required
-            var result = $scope.rowSelected;
-            $scope.data[result].showEditBox = false;
-            $scope.data[result].showTextOnly = true;
-            $scope.data[result].showEditButton = true;
-            $scope.data[result].showSaveButton = false;
-            $scope.data[result].closeEditButton = false;
-            $scope.data[result].showCancelButton = false;
-            $scope.editing = false;
-            $scope.data.splice($scope.rowSelected, 1);  // remove from array
-            console.log($scope.data);
-
-        };
-        $scope.EditOkButton = function () {
-            // save button has been pressed, update sql database and hide and show elements as required
-            $scope.editOrg.WebsiteUrl = $scope.data[$scope.rowSelected].WebsiteUrl;
-            $scope.editOrg.OrgName = $scope.data[$scope.rowSelected].OrgName;
-            $scope.editOrg.Id = $scope.data[$scope.rowSelected].Id;
-            $scope.editOrg.isActive = $scope.data[$scope.rowSelected].isActive;
-            // if id is -1 the a new row is being added else update row as per id
-            if ($scope.editOrg.Id !== -1) {      // update
-                $http({
-                    method: "Post",
-                    url: "/Admin/EditOrganisation",
-                    data: $scope.editOrg,
+            // define options for modal component
+            var modalOption = {
+                modalTitle: 'Create Organisation',  // Modal tilte
+                controller: 'admin', //Controller name 
+                action: 'CreateOrganisation', //Action Name (Post)
+                idVariable: 'Id', // ID of a table
+                idValue: '', //nuallable, Route domain/controller/action/idValue
+                httpPostConfig: {
                     headers: {
                         'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
                     }
-                }).then(function SentOk(result) {
+                }
+            };
 
-                    console.log(result);
-                }, function Error(result) {
-                    console.log(result);
-                });
-            } // create
-            else {
-                $http({
-                    method: "Post",
-                    url: "/Admin/CreateOrganisation",
-                    data: $scope.editOrg,
-                    headers: {
-                        'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
-                    }
-                }).then(function SentOk(result) {
-                    $scope.data[index].Id = result.data.Id;
+            $scope.$broadcast('showModelEvent', [$scope.toModalObject(orgRowData), modalOption]);
 
-                }, function Error(result) {
-                    console.log(result);
-                });
-            }
-
-            var index = $scope.rowSelected;
-            $scope.data[index].showEditBox = false;
-            $scope.data[index].showTextOnly = true;
-            $scope.data[index].showEditButton = true;
-            $scope.data[index].showSaveButton = false;
-            $scope.data[result].closeEditButton = false;
-            $scope.data[result].showCancelButton = false;
-            $scope.editing = false;
         };
 
         $scope.OrgActive = function (result) {
@@ -249,5 +159,66 @@
             });
         };
 
+        $scope.toModalObject = function (table) {
+            var orderToModal = [
+                    { title: 'Organisation', variableName: 'OrgName', value: table.orgName, type: 'text', validation: { required: true } },
+                    { title: 'Website', variableName: 'WebsiteUrl', value: table.webSite, type: 'text', validation: { required: true }, regExpVaid: { text: 'Url Must contain http or https', reg: /http/ } },
+                    { title: 'Active', variableName: 'isActive', value: table.isActive, type: 'text', hide: true}]; // this is hidden as it is just needed to valid model sent to controller
+            return orderToModal;
+        };
+
+        $scope.showModal = function (index) {
+
+            // create object for modal component
+            var orgRowData = {
+                orgName: $scope.data[index].OrgName,
+                webSite: $scope.data[index].WebsiteUrl,
+                isActive: $scope.data[index].isActive
+            }
+            // define options for modal component
+            var modalOption = {
+                modalTitle: 'Edit Organisation',  // Modal tilte
+                controller: 'admin', //Controller name 
+                action: 'EditOrganisation', //Action Name (Post)
+                idVariable: 'Id', // ID of a table
+                idValue: $scope.data[index].Id, //nuallable, Route domain/controller/action/idValue
+                httpPostConfig: {
+                    headers: {
+                        'X-XSRF-Token': angular.element(document.querySelector('input[name="__RequestVerificationToken"]')).attr('value')
+                    }
+                }
+            };
+            $scope.$broadcast('showModelEvent', [$scope.toModalObject(orgRowData), modalOption]);
+        };
+
+        $scope.$on('modelDone', function (event, data) {
+            if (data[1]) {
+                // if CreateOrg property set to create then new org was created so add to angularjs modal
+                if (data[0].data.CreateOrg) {
+                    var newRow = {
+                        Id: data[0].data.Id,
+                        OrgName: data[0].data.ModalData.OrgName,
+                        WebsiteUrl: data[0].data.ModalData.WebsiteUrl,
+                        lastUpdate: data[0].data.ModalData.lastUpdate,
+                        isActive: true
+                    }
+                    $scope.data.push(newRow);  // add org to angular modal array
+                } else {            // CreateOrg property is set to false so modal was used to edit org so update angular modal with changes
+                    for (var i = 0; i < $scope.data.length; i++) {
+                        if (data[0].data.ModalData.Id == $scope.data[i].Id) {
+
+                            $scope.data[i].OrgName = data[0].data.ModalData.OrgName;
+                            $scope.data[i].WebsiteUrl = data[0].data.ModalData.WebsiteUrl;
+                            $scope.data[i].lastUpdate = data[0].data.ModalData.lastUpdate
+                           
+                        }
+
+                    }
+                }
+
+            } else {
+                console.log('error');
+            }
+        });
     }]);
 })(angular);

@@ -111,12 +111,16 @@ namespace Cobra.Controllers
                 );
                 if (created != 0)
                 {
+                    
+                    model.lastUpdate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     return Json(new
                     {
                         Success = true,
                         MsgText = "New organisation created.",
                         RedirectUrl = "OrganisationAdministration",
-                        Id = created
+                        Id = created,
+                        ModalData = model,
+                        CreateOrg = true
                     });
                 }
             }
@@ -144,12 +148,14 @@ namespace Cobra.Controllers
                         model.UpdatedOn = DateTime.Now;
                         model.IsActive = orgViewModel.isActive;
                         _organisationService.Update(model);
-
+                        orgViewModel.lastUpdate = model.UpdatedOn.ToString("yyyy-MM-dd HH:mm:ss");
                         return Json(new
                         {
                             Success = true,
                             MsgText = "Organisation edited.",
-                            RedirectUrl = "OrganisationAdministration"
+                            RedirectUrl = "OrganisationAdministration",
+                            ModalData = orgViewModel,
+                            CreateOrg = false
                         });
 
                     }

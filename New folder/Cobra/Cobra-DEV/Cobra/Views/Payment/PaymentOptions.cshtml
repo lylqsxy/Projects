@@ -39,12 +39,14 @@
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="First Name" aria-label="First Name" ng-model="data.userData.CreditCard.FirstName" required name="First_Name" autocomplete="off" required-message="First Name is required.">
+                                    <span class="text-danger" ng-show="!cCForm.First_Name.$valid && cCForm.First_Name.$dirty">First name is required!</span>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="Last Name" aria-label="Last Name" ng-model="data.userData.CreditCard.LastName" required name="Last_Name" autocomplete="off">
-                                </div>
+                                    <span class="text-danger" ng-show="!cCForm.Last_Name.$valid && cCForm.Last_Name.$dirty">Last name is required!</span>
+                                 </div>
                             </div>
                         </div>
 
@@ -57,33 +59,36 @@
                                     <img src="~/Content/Images/Payment/American_Express_logo.png" role="img" ng-hide="data.userData.CreditCard.CardType === 'VISA' || data.userData.CreditCard.CardType === 'MASTERCARD' || data.userData.CreditCard.CardType === 'DISCOVER'" />
                                     <img src="~/Content/Images/Payment/discover_logo.png" role="img" ng-hide="data.userData.CreditCard.CardType === 'AMEX' || data.userData.CreditCard.CardType === 'MASTERCARD' || data.userData.CreditCard.CardType === 'VISA'" />
                                 </span>
+
                             </div>
+                            <span class="text-danger" ng-show="!cCForm.Card_Number.$valid && cCForm.Card_Number.$dirty">Please input your card number!</span>
+
                         </div>
 
 
                         <div class="row">
                             <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="MM" aria-label="Month" ng-model="month" allow-numbers="2" ng-change="checkDate()" ng-trim="false" required name="Month" autocomplete="off">
-
-                                    <div ng-show="invalidMonth">Expiry Month must be between 1 and 12!</div>
+                                    <input type="text" class="form-control" placeholder="MM"  aria-label="Month" ng-model="month" allow-numbers="2" ng-change="checkDate()" ng-trim="false" required name="Month" autocomplete="off">
+                                    <span class="text-danger" ng-show="!cCForm.Month.$valid && cCForm.Month.$dirty">Month is required!</span>
+                                    <span ng-show="invalidDate" class="text-danger">The expire month should be larger than this month.</span>
+                                    <span ng-show="invalidMonth" class="text-danger">Expiry Month must be between 1 and 12!</span>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <input type="text" class="form-control" placeholder="YY" aria-label="Year" ng-model="year" allow-numbers="2" ng-change="checkDate()" ng-trim="false" required name="Year" autocomplete="off">
-
-                                    <div ng-show="invalidYear">Please enter the correct year.</div>
+                                    <span class="text-danger" ng-show="!cCForm.Year.$valid && cCForm.Year.$dirty">Year is required!</span>
+                                    <div ng-show="invalidYear" class="text-danger">Please enter the correct year.</div>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-group has-feedback">
                                     <input type="text" class="form-control" placeholder="CVV" aria-label="Security Code CVV" ng-model="data.userData.CreditCard.CVV2" allow-numbers="{{cardCVVLength}}" required name="CVV" ng-minlength="cvvMinLength" ng-maxlength="cvvMaxLength" autocomplete="off">
+                                    <span class="text-danger" ng-show="!cCForm.CVV.$valid && cCForm.CVV.$dirty">CVV is required!</span>
                                     <i class="glyphicon glyphicon-question-sign form-control-feedback pay-cvv-tooltip" cvv-tooltip></i>
                                 </div>
                             </div>
-
-                            <div ng-show="invalidDate">Please enter a valid date.</div>
                         </div>
                         <div>
                             <p class="pay-disclaimer">

@@ -61,6 +61,7 @@ namespace Cobra.Configuration
             Bind<IRepository<AlertType>>().To<Repository<AlertType>>();
             Bind<IRepository<ResourceType>>().To<Repository<ResourceType>>();
             Bind<IRepository<PaymentMethod>>().To<Repository<PaymentMethod>>();
+            Bind<IRepository<SocialMedia>>().To<Repository<SocialMedia>>();
 
             Bind<ILogService>().To<LogService>();
 

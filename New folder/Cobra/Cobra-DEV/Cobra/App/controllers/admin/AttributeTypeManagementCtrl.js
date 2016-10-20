@@ -2,40 +2,14 @@
     // Controller: ManageAttributesType
     cobraApp.controller('admin/ManageAttributesTypeCtrl', ['$scope', '$http', '$window','utils', function ($scope, $http, $window, utils) {
         $scope.AddressTypes = [];
-        $scope.AddressType = "";
-        $scope.AddressFlag = false;
-
         $scope.EmailTypes = [];
-        $scope.EmailType = "";
-        $scope.EmailFlag = false;
-
         $scope.CountryTypes = [];
-        $scope.CountryType = "";
-        $scope.CountryFlag = false;
-
         $scope.PhoneTypes = [];
-        $scope.PhoneType = "";
-        $scope.PhoneFlag = false;
-
         $scope.SocialMediaTypes = [];
-        $scope.SocialMediaType = "";
-        $scope.SocialMediaFlag = false;
-
         $scope.RelationshipTypes = [];
-        $scope.RelationshipType = "";
-        $scope.RelationshipFlag = false;
-
         $scope.EventTypes = [];
-        $scope.EventType = "";
-        $scope.EventFlag = false;
-
         $scope.AlertTypes = [];
-        $scope.AlertType = "";
-        $scope.AlertTFlag = false;
-
         $scope.ResourceTypes = [];
-        $scope.ResourceType = "";
-        $scope.ResourceFlag = false;
 
         //GetAddressTypeList();
         //GetEmailTypeList();
@@ -179,6 +153,7 @@
         //}
 
         //Prepare one single order value to Modal
+        //Address
         $scope.toAddressModalObject = function (Address) {
             var AddressToModal = [
                     { title: 'Address Type Name', variableName: 'Name', value: (Address ? Address.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -187,6 +162,7 @@
             return AddressToModal;
         };
 
+        //Email
         $scope.toEmailModalObject = function (Email) {
             var EmailToModal = [
                     { title: 'Email Type Name', variableName: 'Name', value: (Email ? Email.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -195,6 +171,7 @@
             return EmailToModal;
         };
 
+        //Country
         $scope.toCountryModalObject = function (Country) {
             var CountryToModal = [
                     { title: 'Country Name', variableName: 'Name', value: (Country ? Country.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -205,6 +182,7 @@
             return CountryToModal;
         };
 
+        //Phone
         $scope.toPhoneModalObject = function (Phone) {
             var PhoneToModal = [
                     { title: 'Phone Type', variableName: 'Name', value: (Phone ? Phone.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -214,6 +192,7 @@
             return PhoneToModal;
         };
 
+        //Social Media
         $scope.toSocialMediaModalObject = function (SocialMedia) {
             var SocialMediaToModal = [
                     { title: 'SocialMedia Name', variableName: 'Name', value: (SocialMedia ? SocialMedia.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -223,6 +202,7 @@
             return SocialMediaToModal;
         };
 
+        //Relationship
         $scope.toRelationshipModalObject = function (RelationShip) {
             var RelationshipToModal = [
                     { title: 'Relationship To You', variableName: 'RelationshipToYou', value: (RelationShip ? RelationShip.RelationshipToYou : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -232,6 +212,7 @@
             return RelationshipToModal;
         };
 
+        //Event
         $scope.toEventModalObject = function (Event) {
             var EventToModal = [
                     { title: 'Event Name', variableName: 'Name', value: (Event ? Event.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -242,6 +223,7 @@
             return EventToModal;
         };
 
+        //Alert
         $scope.toAlertModalObject = function (Alert) {
             var AlertToModal = [
                     { title: 'Alert Name', variableName: 'Name', value: (Alert ? Alert.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -251,6 +233,7 @@
             return AlertToModal;
         };
 
+        //Resource
         $scope.toResourceModalObject = function (Resource) {
             var ResourceToModal = [
                     { title: 'Resource Name', variableName: 'Name', value: (Resource ? Resource.Name : ''), type: 'text', validation: { minLen: 2, errorText: '* required' } },
@@ -260,11 +243,16 @@
             return ResourceToModal;
         };
 
+        //prepare the modal options, including the back-end controller name, action name, for each attribute
+        //showAddressModal is a on-click function for a button in view, using showAddressModal() means create new
+        //while using showAddressModal('Id') means edit a existing item
+
+        //Address
         $scope.showAddressModal = function (Id) {
 
             var modalOption = {
-                modalTitle: 'Edit Address Type',
-                controller: '/Admin', // corrsponding to .net controller
+                modalTitle: Id ? 'Edit Address Type' : 'Create New Address Type',
+                controller: 'Admin', // corrsponding to .net controller
                 action: Id ? 'UpdateAddressType' : 'CreateAddressType', // index, edit and create, corrsponding to .net backend action
                 idVariable: 'Id', // Id variale 
                 idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -279,11 +267,12 @@
             }
         };
 
+        //Email
         $scope.showEmailModal = function (Id) {
 
             var modalOption = {
-                modalTitle: 'Edit Email Type',
-                controller: '/Admin', // corrsponding to .net controller
+                modalTitle: Id ? 'Edit Email Type': 'Create New Email Type',
+                controller: 'Admin', // corrsponding to .net controller
                 action: Id ? 'UpdateEmailType' : 'CreateEmailType', // index, edit and create, corrsponding to .net backend action
                 idVariable: 'Id', // Id variale 
                 idValue: Id ? Id:'' // the id of the entity, when create new, keep empty
@@ -297,12 +286,12 @@
             }
         };
 
-
+        //Country
         $scope.showCountryModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit Country Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit Country Type': 'Create New Country Type',
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdateCountryType' : 'CreateCountryType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -316,11 +305,12 @@
         }
     };
 
+        //Phone
         $scope.showPhoneModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit Phone Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit Phone Type' : 'Create New Phone Type',
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdatePhoneType' : 'CreatePhoneType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -334,11 +324,12 @@
         }
     };
 
+        //Social Media
         $scope.showSocialMediaModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit SocialMedia Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit SocialMedia Type': 'Create New SocialMedia Type',
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdateSocialMediaType' : 'CreateSocialMediaType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -350,12 +341,14 @@
         else {
             $scope.$broadcast('showModelEvent', [$scope.toSocialMediaModalObject(), modalOption]);
         }
-    };
+        };
+
+        //Relationship
         $scope.showRelationshipModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit Relationship Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit Relationship Type' : 'Create New Relationship Type', 
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdateRelationshipType' : 'CreateRelationshipType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -369,11 +362,12 @@
         }
     };
 
+        //Event
         $scope.showEventModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit Event Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit Event Type': 'Create New Event Type',
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdateEventType' : 'CreateEventType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : '' // the id of the entity, when create new, keep empty
@@ -387,11 +381,12 @@
         }
     };
 
+        //Alert
         $scope.showAlertModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit Alert Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit Alert Type': 'Create New Alert Type',
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdateAlertType' : 'CreateAlertType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -405,11 +400,12 @@
         }
     };
 
+        //Resource
         $scope.showResourceModal = function (Id) {
 
         var modalOption = {
-            modalTitle: 'Edit Resource Type',
-            controller: '/Admin', // corrsponding to .net controller
+            modalTitle: Id ? 'Edit Resource Type': 'Create New Resource Type',
+            controller: 'Admin', // corrsponding to .net controller
             action: Id ? 'UpdateResourceType' : 'CreateResourceType', // index, edit and create, corrsponding to .net backend action
             idVariable: 'Id', // Id variale 
             idValue: Id ? Id : ''  // the id of the entity, when create new, keep empty
@@ -423,6 +419,7 @@
         }
         };
 
+        //This function is used to update the display list
         $scope.FreshList = function (data)
         {
             //Address Type
@@ -560,7 +557,7 @@
         $scope.$on('modelDone', function (event, data) {
             if (data) {
                 //fresh the diaplay list
-                $scope.FreshList(data);
+                $scope.FreshList(data[0].data);
                 console.log('Success');
             } else {
                 console.log('error');

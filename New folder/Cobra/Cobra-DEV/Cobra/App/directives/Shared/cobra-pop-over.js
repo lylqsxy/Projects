@@ -1,36 +1,48 @@
 ﻿(function () {
     'use strict';
-    cobraApp.directive('cobraPopOver', function ($compile, $http) {
+    cobraApp.directive('cobraPopOver', function ($compile) {
         return {
 
             link: function (scope, element, attrs) {
 
-                var partialViewObject = { partialView: attrs.partialview }
-                var url = "/" + attrs.mcontrol + "/CobraPopOver"
-                
-                $http({
-                    method: "Post",
-                    url: url,
-                    data: partialViewObject,
-                }).then(function SentOk(result) {
+                element.on('mousedown', function () {
+                    var parentId = '#' + attrs.parentid;
 
-                    var options = {
-                        content: $compile(result.data)(scope),
-                        html: true, container: 'body', trigger: 'manual'
-                    };
+                    if ($(parentId).attr('value') == 'false') {
 
-                    $(element).popover(options);
-                    element.on('mousedown', function () {
-                        var parentId = '#' + attrs.parentid
+                        // the popoverbody and popoverfooter allow you to use one body template with differnt buttons. you can skip the footer and just use the popoverbodyid to create the body
+                        var popOverBodyId = attrs.popoverbody;    // get popoverbodyid from popoverbody attrs
+                        var popOverFooterId;
+                        popOverFooterId = attrs.popoverfootover;  // get popoverfooterid from popoverbody attrs
 
-                        if ($(parentId).attr('value') == 'false') {
-                            $(element).popover('show');
-                            $(parentId).attr('value', 'true');
+                        if (popOverBodyId.indexOf('#') < 0) {   // if you have not added a # to your popoverbodyid attr add one for you
+                            popOverBodyId = "#" + popOverBodyId;
                         }
-                    });
 
-                }, function Error(result) {
+                        if (popOverFooterId) {
+                            if (popOverFooterId.indexOf('#') < 0) {     // if you have not added a # to your popoverfooterid attr add one for you
+                                popOverFooterId = "#" + popOverFooterId;
+                            }
+                        }
 
+                        var popOverBody = $(popOverBodyId).html()           // get html from hidden popoverbodyid div
+                        var popOverFooter = $(popOverFooterId).html()       // get html from hidden popoverfooterid div
+
+                        if (popOverFooter) {       // if there is a footer add the body and footer together                            
+                            var popOverHtml = popOverBody + popOverFooter;
+                        } else {                // if no footer just add the body
+                            var popOverHtml = popOverBody;
+                        }
+
+                        var options = {             // compile popover into the dom
+                            content: $compile(popOverHtml)(scope),
+                            html: true, container: 'body', trigger: 'manual'
+                        };
+
+                        $(element).popover(options);            // load options into popover
+                        $(element).popover('show');             // show popover
+                        $(parentId).attr('value', 'true');      // set value in parent div container to true so no other popovers can be shown until current one is closed
+                    }
 
                 });
 

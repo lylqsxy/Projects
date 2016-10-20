@@ -15,6 +15,7 @@ namespace Cobra.Models
         public List<PhoneModel> PhoneModel { get; set; }
         public List<EmailModel> EmailModel { get; set; }
         public List<AddressModel> AddressModel { get; set; }
+        public List<SocialMediaViewModel> SocialMediaModel { get; set; }
     }
 
     #endregion
@@ -206,4 +207,23 @@ namespace Cobra.Models
         public string Relationship { get; set; }
     }
     #endregion
+
+    #region Social Media
+    public class SocialMediaViewModel
+    {
+        public int Id { get; set; }
+        public int ProfileId { get; set; }
+        public string SocialMediaTypeId { get; set; }
+        public string AuthenticationToken { get; set; }
+    }
+    #endregion
+
+    //#region  Social Media type
+    //public class SocialMediaTypeViewModel
+    //{
+    //    public int Id { get; set; }
+    //    public string Name { get; set; }
+
+    //}
+    //#endregion
 }

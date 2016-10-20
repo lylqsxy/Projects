@@ -9,6 +9,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Net;
+using System.Threading.Tasks;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
+using System.Threading;
+using static Cobra.Controllers.AccountController;
 
 namespace Cobra.Controllers
 {
@@ -17,17 +22,21 @@ namespace Cobra.Controllers
     public class ManageController : Controller
     {
         private IProfileService _profileService;
+        private IOrganisationService _organisationService;
         private ILogService _logService;
         private IAccountService _accountService; //Required to GetCurrentUser-Id & Email
         private IAttributeTypeService _attributeTypeService;
+        private IAuthenticationService _authenticationService;// Required to get Login provider and providerkey from External login
 
         // Author: Aaron Bhardwaj
-        public ManageController(IProfileService profileService, ILogService logService, IAccountService accountService, IAttributeTypeService attributeTypeService)
+        public ManageController(IProfileService profileService, IOrganisationService organisationService, IAuthenticationService authenticationService, ILogService logService, IAccountService accountService, IAttributeTypeService attributeTypeService)
         {
             _profileService = profileService;
+            _organisationService = organisationService;
             _logService = logService;
             _accountService = accountService;
             _attributeTypeService = attributeTypeService;
+            _authenticationService = authenticationService;
         }
 
         // GET: Manage
@@ -65,7 +74,7 @@ namespace Cobra.Controllers
                     new Person
                     {
                         Id = user.Id,
-                        OrgId = 3,                  //This needs to be updated from Organisation Table
+                        OrgId = _organisationService.GetAllOrganisation().FirstOrDefault().Id,
                         ProfileId = newProfile,
                         CreatedOn = DateTime.Now,
                         CreatedBy = 0,
@@ -352,7 +361,7 @@ namespace Cobra.Controllers
             foreach (var item in eContact)
             {
                 item.IsActive = false;
-                
+
                 var eProfile = _profileService.GetProfileById(item.ProfileId);
                 profile.IsActive = false;
 
@@ -378,7 +387,7 @@ namespace Cobra.Controllers
                 //}
 
                 _profileService.UpdateProfile(eProfile);
-                _profileService.UpdateEmergencyContact(item);                
+                _profileService.UpdateEmergencyContact(item);
             }
 
             return RedirectToAction("Account", "LogOff");
@@ -444,7 +453,7 @@ namespace Cobra.Controllers
                 });
             }
             return Json(new
-        {
+            {
                 Success = false,
                 MsgText = "No address was deleted."
             });
@@ -457,15 +466,14 @@ namespace Cobra.Controllers
         [HttpGet]
         public ActionResult EmergencyContact()
         {
-            return View(); 
+            return View();
         }
-     
+
         [HttpGet]
         public JsonResult GetEmergencyContacts()
         {
             int loginUserId = _accountService.GetCurrentUserId();
             Person loginPerson = _profileService.GetPersonById(loginUserId);
-
             List<EmergencyContactViewModel> ecViewList = _profileService.GetEmergencyContactByPersonId(loginPerson.Id)
                                                         .Where(p => p.Profile.IsActive == true)
                                                         .Select(ec => new EmergencyContactViewModel
@@ -488,15 +496,13 @@ namespace Cobra.Controllers
                                                                             CountryID = p.CountryId
                                                                         }).ToList()
                                                         }).ToList();
-
-
             return Json(ecViewList, JsonRequestBehavior.AllowGet);
         }
-         
+
         [HttpGet]
         public ActionResult CreateEmergencyContact()
         {
-            return View(); 
+            return View();
         }
 
         [HttpPost]
@@ -584,10 +590,10 @@ namespace Cobra.Controllers
             //return new HttpStatusCodeResult(HttpStatusCode.OK); 
         }
 
-        [HttpGet] 
+        [HttpGet]
         public ViewResult UpdateEmergencyContact()
         {
-            return View(); 
+            return View();
         }
 
         [HttpPost]
@@ -601,7 +607,8 @@ namespace Cobra.Controllers
             try
             {
                 ecModel.RelationshipId = contactToUpdate.RelationshipID;
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 //todo log exception 
                 HttpStatusCodeResult error = new HttpStatusCodeResult(HttpStatusCode.Forbidden);        //Nicky
@@ -679,9 +686,9 @@ namespace Cobra.Controllers
             EmergencyContact ecModel = _profileService.GetEmergencyContactById(contactToDelete.Id);
             //deactive profile and the emergency record itself 
             ecModel.Profile.IsActive = false;
-            _profileService.UpdateEmergencyContact(ecModel); 
+            _profileService.UpdateEmergencyContact(ecModel);
 
-            return Json(new { Success = true, Msg = "pass" }); 
+            return Json(new { Success = true, Msg = "pass" });
         }
 
         #endregion
@@ -708,7 +715,7 @@ namespace Cobra.Controllers
             var model = _attributeTypeService.GetAllCountry().Select(x => new { Id = x.Id, Name = x.Name, CountryCode = x.CountryCode, PhoneCode = x.PhoneCode }).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-       
+
         /// <summary>
         /// Get all predefined dropdown list for CreateEmergencyContact view
         /// </summary>
@@ -717,9 +724,9 @@ namespace Cobra.Controllers
         public ActionResult GetEmergencyContactAttributes()
         {
             ECDropdownViewModel dropdown = new ECDropdownViewModel();
-             dropdown.PhoneTypes = _attributeTypeService.GetAllPhoneType().
-                Select(p => new PhoneTypeViewModel { ID = p.Id, PhoneType = p.Name }).
-                ToList(); 
+            dropdown.PhoneTypes = _attributeTypeService.GetAllPhoneType().
+               Select(p => new PhoneTypeViewModel { ID = p.Id, PhoneType = p.Name }).
+               ToList();
 
             dropdown.Relationships = _attributeTypeService.GetAllRelationship().
                 Select(r => new RelationshipViewModel { ID = r.Id, Relationship = r.RelationshipToYou }).
@@ -732,8 +739,8 @@ namespace Cobra.Controllers
                    Name = p.Name,
                    CountryCode = p.CountryCode,
                    PhoneCode = p.PhoneCode
-               }).ToList(); 
-            return Json(dropdown, JsonRequestBehavior.AllowGet); 
+               }).ToList();
+            return Json(dropdown, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -751,5 +758,72 @@ namespace Cobra.Controllers
         }
 
         #endregion
+
+        #region socialmedia
+
+        //to populate social media table
+        //Author Aakash
+
+        //[HttpGet]
+        public JsonResult SocialMediaProvider()
+        {
+            var user = _accountService.GetCurrentUser();
+            var person = _profileService.GetPersonById(user.Id);
+            var profileId = _profileService.GetPersonById(user.Id).ProfileId;
+            var modelSocialmedia = _profileService.GetSocialMediaByProfileId(user.Id).Select(x => new SocialMedia
+            {              
+                SocialMediaTypeId = x.SocialMediaTypeId,                
+            })
+            .ToList();
+
+            return Json(modelSocialmedia, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        public ActionResult CreateSocialMedia(string provider)
+
+        {
+          // string provider = "Google";
+            string returnUrl = "";
+
+            return new ChallengeResult(provider, Url.Action("CreateSocialMediaa", "Manage", new { loginProvider = provider, ReturnUrl = returnUrl }));
+        }
+        [HttpGet]
+        public async Task<ActionResult> CreateSocialMediaa()
+        {
+            var loginInfo = await _authenticationService.CustomGetExternalLoginInfo();
+
+            if (loginInfo == null)
+            {
+                return Json(new { success = false, redirectUrl = "/Home/About" }, JsonRequestBehavior.AllowGet);
+            }
+
+
+            var user = _accountService.GetCurrentUser();
+        
+            var profileId = _profileService.GetPersonById(user.Id).ProfileId;
+            
+            var latestProfile = _profileService.GetProfileById(profileId);
+            var loginProvider = loginInfo.Login.LoginProvider;
+            var providerKey = loginInfo.Login.ProviderKey;
+            var socialMediaTypeId = _attributeTypeService.GetIdByProvider(loginProvider);
+           
+            SocialMedia socialMedia = new SocialMedia() {
+                ProfileId = profileId,
+                SocialMediaTypeId = socialMediaTypeId,
+                AuthenticationToken = providerKey
+            };
+            var result= _profileService.CreateSocialMedia(socialMedia);
+           
+
+            return Redirect("/Manage/UserProfile") ;
+           
+
+        }     
+     
+        #endregion
+
     }
+
 }

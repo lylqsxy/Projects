@@ -5,23 +5,25 @@
             link: function (scope, elm, attrs, ctrl) {
 
                 ctrl.$validators.formValidation = function (modelValue, viewValue) {
-                    //未设置validation的默认值
+                    // the defalut value is form-validation when the validation is not set
                     if (attrs.formValidation === 'form-validation') {
                         return true;
                     }
                     var valParam = angular.fromJson(attrs.formValidation);
-                    var error = false;
 
+                    var modalValueLen = modelValue === null ? 0 : modelValue.toString().length;
+                    var error = false;
                     if (!error && valParam.required) {
-                        error = modelValue.length > 0 ? false : true;
+
+                        error = modalValueLen > 0 ? false : true;
                     }
 
                     if (!error && valParam.minLen) {
-                        error = modelValue.length >= valParam.minLen ? false : true;
+                        error = modalValueLen >= valParam.minLen ? false : true;
                     }
 
                     if (!error && valParam.maxLen) {
-                        error = modelValue.length <= valParam.maxLen ? false : true;
+                        error = modalValueLen <= valParam.maxLen ? false : true;
                     }
 
                     return error ? false : true;

@@ -53,9 +53,13 @@ namespace Cobra.Identity
             //   consumerKey: "",
             //   consumerSecret: "");
 
+
+            // Author Aakash
+            // changed appId and appsecret from my developer account and make social media login public for time being
             app.UseFacebookAuthentication(
-               appId: "695663587238249",
-               appSecret: "dba5c13222f7b39aa8f118062ac82fce");
+               appId:/* "1081339558581169"*/"1081339558581169",
+               appSecret:/* "dba5c13222f7b39aa8f118062ac82fce"*/"f584f8e27ef6ca2df565145bb1aefd81"
+               );
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {

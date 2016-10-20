@@ -7,142 +7,76 @@
 <div ng-controller="OrganisationAdministrationCtrl">
     @Html.AntiForgeryToken()
     
-    
-
-    
-
-    <style>
-        .edittable {
-            float:left;
-            width: 10%;
-             padding-top: 2px;
-        }
-        .edittable-width{
-            float:left;
-            width: 25%;
-            padding-left: 10px;
-           
-        }
-        .edittable-width-text {
-            float:left;
-            width: 20%;
-            text-align:left;                    
-        }
-        .edittable-verywidth {
-            float:left;
-            width: 30%;    
-            text-align:left;        
-        }
-        .edittable-inputverywidth {
-            float: left;
-            width: 95%;          
-        }
-        .edittable-button {
-            float: left;
-            width: 5%;
-        }
-        .stripwhite {
-            background-color: white;
-            vertical-align: middle;
-            
-        }
-        .stripstandard {
-            vertical-align: middle;
-        }
-        .colheader {
-            text-align: left;
-            font-weight: bold
-                
-        }
-
-    </style>
-
+     
     <div >
-        <table width="100%">
+        
+        <table style="width:100%;">
             <tr>
                 <td>
-                    <div>
-                        
+                    <div>                      
                             <center><h4>Organisation Administration</h4></center>
-
-
                         </div>
                     </td>
                     <td>
-                        <button ng-click="CreateOrganisation()" class="btn btn-primary" ng-disabled="editing != false">Create Organisation</button>
+                        <button data-toggle="modal" data-target="#modalForm" ng-click="CreateOrganisation()" class="btn btn-primary" >Create Organisation</button>
                     </td>
                 </tr>
             </table>
         </div>
         @*//Table and pagination resolved by Tom*@
+    <div ng-controller="OrganisationAdministrationCtrl">
         <form>
-            <div ng-controller="OrganisationAdministrationCtrl">
-                @Html.AntiForgeryToken()
-                <table class="table" style="width:100%;">
-                    <tr class="">
-                        <th>#</th>
-                        <th>
-                            Organization
-                        </th>
-                        <th>
-                            WebSite
-                        </th>
-                        <th>
-                            Last Update
-                        </th>
-                        <th>
-                            Is Active
-                        </th>
-                        <th>
-                            &nbsp
-                        </th>
-                    </tr>
-                    <tr class="" ng-repeat="org in data">
-                        <td>{{ org.Id }}</td>
-                        <td>{{ org.OrgName }}</td>
-                        <td>{{ org.WebsiteUrl }}</td>
-                        <td>{{ org.lastUpdate | date:"shortDate"}}</td>
-                        <td><input type="button" value="{{org.isActive == true ? 'Deactivate' : 'Activate'}}" class="btn btn-primary" ng-click="OrgActive($index)" /></td>
-                    </tr>
-                </table>
-                <div class="text-center" style="padding-bottom: 5%; padding-top: 1%" ng-if="activePages.length">
-                    <ul class="pagination">
-                        <li ng-if="previous"> <a href="#" ng-click="PageSelected(index = prePage)">Previous</a></li>
-                        <li ng-if="dotsPre"><a href="#" ng-click="PageSelected(index = 0)">First page : {{startPage}}</a><span ng-if="dotsPre" class="introjs-disabled">....</span></li>
-                        <li ng-repeat="index in (activePages)"><a href="#" ng-click="PageSelected(index-1)">{{index}}</a></li>
-                        <li ng-if="dotsAft"><span class="introjs-disabled">....</span> <a href="#" class="btn btn-default" ng-click="PageSelected(totalPage -1)">Last Page : {{totalPage}}</a></li>
-                        <li ng-if="next"> <a href="#" ng-click="PageSelected(index = nextPage)">Next</a></li>
-                    </ul>
-                </div>
+
+            @Html.AntiForgeryToken()
+            <center>
+            <table class="table table-bordered" style="width:95%;">
+                <tr class="">
+                    
+                    <th>
+                        Organization
+                    </th>
+                    <th>
+                        WebSite
+                    </th>
+                    <th>
+                        Last Update
+                    </th>
+                    <th>
+                        Is Active
+                    </th>
+                    <th>
+                        &nbsp
+                    </th>
+                </tr>
+                <tr class="" ng-repeat="org in data">
+                   
+                    <td  data-toggle="modal" data-target="#modalForm" ng-click="showModal($index)">{{ org.OrgName }}</td>
+                    <td  data-toggle="modal" data-target="#modalForm" ng-click="showModal($index)">{{ org.WebsiteUrl }}</td>
+                    <td  data-toggle="modal" data-target="#modalForm" ng-click="showModal($index)">{{ org.lastUpdate | date:"shortDate"}}</td>
+                    <td><input type="button" value="{{org.isActive == true ? 'Deactivate' : 'Activate'}}" class="btn btn-primary" ng-click="OrgActive($index)" /></td>
+                </tr>
+            </table>
+                </center>
+            <div class="text-center" style="padding-bottom: 5%; padding-top: 1%" ng-if="activePages.length">
+                <ul class="pagination">
+                    <li ng-if="previous"> <a href="#" ng-click="PageSelected(index = prePage)">Previous</a></li>
+                    <li ng-if="dotsPre"><a href="#" ng-click="PageSelected(index = 0)">First page : {{startPage}}</a><span ng-if="dotsPre" class="introjs-disabled">....</span></li>
+                    <li ng-repeat="index in (activePages)"><a href="#" ng-click="PageSelected(index-1)">{{index}}</a></li>
+                    <li ng-if="dotsAft"><span class="introjs-disabled">....</span> <a href="#" class="btn btn-default" ng-click="PageSelected(totalPage -1)">Last Page : {{totalPage}}</a></li>
+                    <li ng-if="next"> <a href="#" ng-click="PageSelected(index = nextPage)">Next</a></li>
+                </ul>
             </div>
+
+           
         </form>
+        <c-modal></c-modal>
     </div>
-</div>
+    </div>
+
 
 @section scripts{
     <script src="~/App/controllers/admin/OrganisationAdministrationCtrl.js"></script>
 
 
 }
-
-
-        </div>
-    </center>
-     
-
-                                   
-</div>
-
-
-<script>
-    $("#orgList").ready(function () {
-
-        $("#orgList").show();
-    })
-    
-</script>
-
-
-
-
 

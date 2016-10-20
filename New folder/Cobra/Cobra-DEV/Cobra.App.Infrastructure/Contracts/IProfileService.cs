@@ -44,6 +44,18 @@ namespace Cobra.App.Infrastructure.Contracts
         void DeleteEmergencyContact(int id);
         IEnumerable<EmergencyContact> GetEmergencyContactByPersonId(int id);
 
+        // service for social media type
+        //bool CreateSocialMediaType(SocialMediaType socialMediaType);
+
+
+        // service for social media 
+        bool CreateSocialMedia(SocialMedia socialMedia);
+        SocialMedia GetSocialMediaById(int id);
+        IEnumerable<SocialMedia> GetSocialMediaByProfileId(int id);
+        void DeleteSocialMedia(int id);
+       // IEnumerable<SocialMedia> GetAllSocialMedia();
+     //   SocialMedia GetSocialMediaByProfileId() 
+
         #endregion
 
         #region Other Method
