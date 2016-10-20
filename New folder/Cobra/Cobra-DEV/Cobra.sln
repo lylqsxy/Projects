@@ -62,28 +62,4 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://mvpstudio.cloudapp.net:8080/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Cobra.Infrastructure\\Cobra.Infrastructure.csproj
-		SccProjectName1 = Cobra.Infrastructure
-		SccLocalPath1 = Cobra.Infrastructure
-		SccProjectUniqueName2 = Cobra.Model\\Cobra.Model.csproj
-		SccProjectName2 = Cobra.Model
-		SccLocalPath2 = Cobra.Model
-		SccProjectUniqueName3 = Cobra.Tests\\Cobra.Tests.csproj
-		SccProjectName3 = Cobra.Tests
-		SccLocalPath3 = Cobra.Tests
-		SccProjectUniqueName4 = Cobra\\Cobra.App.Website.csproj
-		SccProjectName4 = Cobra
-		SccLocalPath4 = Cobra
-		SccProjectUniqueName5 = Cobra.App.Infrastructure\\Cobra.App.Infrastructure.csproj
-		SccProjectName5 = Cobra.App.Infrastructure
-		SccLocalPath5 = Cobra.App.Infrastructure
-		SccProjectUniqueName6 = Cobra.Identity\\Cobra.Identity.csproj
-		SccProjectName6 = Cobra.Identity
-		SccLocalPath6 = Cobra.Identity
-	EndGlobalSection
 EndGlobal
