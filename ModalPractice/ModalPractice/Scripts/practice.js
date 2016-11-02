@@ -62,6 +62,10 @@ app.directive('dynamicName', function ($compile, $parse) {
 app.controller('appCtrl',
     function ($scope, $http, Test) {
 
+        $scope.ttt = function () {
+            $(".overlay.overlay--app-download").remove();
+        }
+
         ////////////////////////
         $scope.showModal = function (response) {
             $('#commonModal').modal('show');
@@ -195,7 +199,6 @@ app.controller('appCtrl',
 
         $scope.test = function (form) {
             var a = eval('form.' + $scope.inputName).$error.required;
-            console.log(a)
             return a;
         }
 
