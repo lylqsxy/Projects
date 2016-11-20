@@ -12,25 +12,81 @@
 
 @Html.ActionLink("Test2", "Test2", null, new { @class = "btn btn-default btn-lg" })
 
+<table class="table table-hover">
+    <tr>  
+        <td>
+            <div style="display:inline-block; padding-top:10px" >
+                <span class="glyphicon glyphicon-headphones" style="color:rgba(78, 36, 12, 0.4); font-size:30px; margin-right:20px"></span>
+                <div style="display:inline-block">
+                    <div class="pageTitle">
+                        <a class="pageLink" href="#">说话算话</a>
+                    </div>
+                    <div class="pageTitleEng">
+                        Keep Your Word
+                    </div>
+                </div>
+            </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+            <div style="display:inline-block; float:right; padding-top:20px; margin-right:100px; width:140px">
+                <span class="glyphicon glyphicon-user" style="color:rgba(78, 36, 12, 0.4); font-size:30px; margin-right:10px"></span>
+                <div style="display:inline-block">
+                    <div class="pageSpeaker">
+                        <a href="#">Ps Dixon</a>
+                    </div>
+                    <div class="pageDate">
+                        28 Aug 2016
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="pageReading">
+                马太福音 Matthew 5: 33-37
+            </div>
+        </td>  
+    </tr>
+</table>
+
+<style>
+    body {
+        font-family: 微软雅黑, "Open Sans", sans-serif;
+    }
+
+    .pageTitle {
+        font-weight: bold;
+        font-size: 16px;
+        color: #4E240C;
+    }
+
+    .pageTitleEng {
+        font-size: 13px;
+        color: #4E240C;
+    }
+
+    .pageDate {
+        font-size: x-small;
+        font-style: italic;
+    }
+
+    .pageReading{
+        text-indent: 50px;
+        margin-top:-10px
+    }
+
+    .pageLink:link, .pageLink:visited {
+        color: #4E240C;
+        text-align: center;
+        text-decoration:none;
+        display: inline-block;
+}
+
+    .pageLink:hover, .pageLink:active {
+        color: rgba(78, 36, 12, 0.6);
+}
+
+    .pageMonthTitle {
+		color: rgba(78, 36, 12, 0.6);
+		font-size: 20px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+</style>
