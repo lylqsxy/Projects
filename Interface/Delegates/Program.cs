@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace Delegates
 {
@@ -8,11 +7,10 @@ namespace Delegates
         static void Main(string[] args)
         {
             var processor = new PhotoProcessor();
-            var filters = new PhotoFilters();
-            PhotoProcessor.PhotoFilterHandler photoFilter = filters.ApplyBrightness;
-            photoFilter += filters.RemoveRedEye;
-            photoFilter += MyCustomFilter;
-            processor.Process("photo.jpg", photoFilter);
+            var ab = new ApplyBrightness();
+            var ac = new ApplyContrast();
+            processor.Process("photo.jpg", ab);
+            processor.Process("photo.jpg", ac);
             Console.ReadKey();
         }
 
