@@ -1,0 +1,115 @@
+﻿@model AucklandHighSchool.Models.SubjectEditViewModel
+
+@if (Model.Id == 0)
+{
+    <h1>Create a new subject</h1>
+}
+else
+{
+    <h1>Edit subject</h1>
+}
+<br>
+<br>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="subjectName" class="col-md-2 col-lg-2 control-label">Subject Name</label>
+        <div class="col-md-10 col-lg-10 ">
+            <input class="form-control" id="subjectName">
+        </div>
+    </div>
+    <div class="form-group">
+        <text id="subjectNameValidation" class="col-md-10 col-lg-10 col-md-offset-2 col-lg-offset-2"></text>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10 col-md-offset-2 col-md-10">
+            <button class="btn btn-success " id="SubjectSubmitBtn"><span style="margin-right: 5px" class="glyphicon glyphicon-ok"></span>Ok</button>
+            <button type="button" class="btn btn-danger " onclick="location.href='@Url.Action("Index", "Subject", null)'"><span style="margin-right: 5px" class="glyphicon glyphicon-remove"></span>Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //Any thing inside in block will be executed only when the page successful loaded
+    $(document).ready(function () {
+
+        //Initialized variable
+        var validation = $("#subjectNameValidation");
+
+        // Hide the validation text at the beginning
+        validation.hide();
+
+        //Set value for subject name in case this is an edit command
+        $("#subjectName").val('@Model.Name');
+
+        //Perform action click of submit button
+        $("#SubjectSubmitBtn").click(function () {
+
+            // Reset value of validation text
+            validation.hide();
+            validation.text("");
+
+            //If user does not enter subject name
+            if($("#subjectName").val() == ""){
+                validation.show();
+                validation.text("Subject name is required");
+            }else{
+
+                //Check whether subject name is already existed or not
+                $.ajax({
+                    url: '/Subject/SubjectNameCheck?Name=' + $("#subjectName").val(),
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+
+                        // if name is already in database --> pop up error msg
+                        if(data.length > 0){
+                            validation.show();
+                            validation.text(data);
+                        } else {
+
+                            //if not add new subject by using ajax post
+                            $.ajax({
+                                url: '/Subject/Edit',
+                                type: 'POST',
+                                data: {
+                                    Id: @Model.Id,
+                                    Name: $("#subjectName").val().trim() //make sure no white space at the beginning and at the end
+                                },
+                                success: function (data) {
+                                    // redirect to subject index page
+                                    window.location.href = '@Url.Action("Index", "Subject")';
+                                },
+                                error: function () {
+                                    alert("There is an error, please try again later!!!");
+                                     window.location.href = '@Url.Action("Index", "Subject")';
+                                }
+                            });
+                        }
+
+                    },
+                    error: function () {
+                        alert("There is an error, please try again later!!!");
+                        window.location.href = '@Url.Action("Index", "Subject")';
+                    }
+                });
+
+
+
+            }
+
+
+        });
+
+    });
+
+
+</script>
+
+<style>
+    #subjectNameValidation {
+        color: red;
+    }
+</style>
+

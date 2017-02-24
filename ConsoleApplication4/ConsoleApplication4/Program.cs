@@ -10,12 +10,23 @@ namespace ConsoleApplication4
     {
         static void Main(string[] args)
         {
-            string a = "asdfg";
-            string b = new string(a.ToCharArray().Reverse().ToArray());
+            LinkedList<int> linkedList = new LinkedList<int>();
+            linkedList.AddLast(1);
+            linkedList.AddLast(2);
+            linkedList.AddLast(3);
+            LinkedListNode<int> thirdNode = linkedList.Last;
+            linkedList.AddLast(4);
+            DeleteNode(thirdNode);
+            foreach (var value in linkedList)
+            {
+                Console.WriteLine(value);
+            }
+            Console.Read();
+        }
 
-            Console.WriteLine(b);
-
-            Console.ReadLine();
+        private static void DeleteNode(LinkedListNode<int> nodeToDelete)
+        {
+            nodeToDelete.List.Remove(nodeToDelete); 
         }
     }
 }

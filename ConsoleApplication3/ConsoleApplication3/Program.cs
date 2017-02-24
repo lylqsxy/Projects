@@ -10,34 +10,42 @@ namespace ConsoleApplication3
     {
         static void Main(string[] args)
         {
-            Cat cat1 = new Cat
+            const int doorNumber = 100;
+            List<Door> doors = new List<Door>();
+            for (int i = 0; i < doorNumber; i++)
             {
-                Id = 1,
-                Name = "aaa",
-                Color = "blue"
-            };
-            Cat cat2 = new Cat
-            {
-                Id = 2,
-                Name = "bbb",
-                Color = "blue"
-            };
-            Cat cat3 = new Cat
-            {
-                Id = 3,
-                Name = "ccc",
-                Color = "yellow"
-            };
-            List<Cat> cats = new List<Cat>();
-            cats.Add(cat1);
-            cats.Add(cat2);
-            cats.Add(cat3);
-            var catGroup = cats.GroupBy(x => x.Color).Select(x => new {Name = x.Key, Total = x.Count()});
-            foreach(var c in catGroup)
-            {
-                Console.WriteLine(c.Name + " " + c.Total.ToString());
+                doors.Add(new Door(false));
             }
-            Console.Read();
+            for (int i = 1; i <= doorNumber; i++)
+            {
+                for(int j = i - 1; j < doorNumber; j += i)
+                {
+                    doors[j].Toggle();
+                }
+            }
+            while(true)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("Please input door number: ");
+                int doorIndex = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Number {0} is {1}.", doorIndex, doors[doorIndex - 1].Status == true ? "Open" : "Close");
+            }         
         }
+
+    }
+
+    class Door
+    {
+        public bool Status { get; set; }
+
+        public Door(bool initStatus)
+        {
+            Status = initStatus;
+        }
+
+        public void Toggle()
+        {
+            Status = !Status;
+        } 
     }
 }

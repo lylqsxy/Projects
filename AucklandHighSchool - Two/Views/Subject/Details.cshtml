@@ -1,0 +1,55 @@
+﻿@model AucklandHighSchool.Models.SubjectDetailsViewModel
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin:auto; width:auto">
+    <h1>@Model.Name</h1>
+
+    @if (Model.TeacherList.Count > 0)
+    {
+        <h3>Teacher List: </h3>
+        foreach (var item in Model.TeacherList)
+        {
+            <a onclick="location.href='@Url.Action("Details", "Teacher", new { id = item.Id}, null)'"><span>@item.FirstName @item.LastName</span></a>
+            <br />
+        }
+    }
+    else
+    {
+        <h3>There are no teacher teaching this subject</h3>
+    }
+
+    @if (Model.ClassList.Count > 0)
+    {
+        <h3>Class List: </h3>
+        foreach (var item in Model.ClassList)
+        {
+            <a onclick="location.href='@Url.Action("Details", "Class", new { id = item.Id}, null)'"><span>@item.Name</span></a>
+            <br />
+        }
+    }
+    else
+    {
+        <h3>There are no class for this subject</h3>
+    }
+
+    @if (Model.StudentList.Count > 0)
+    {
+        <h3>Enrolment List: </h3>
+        foreach (var item in Model.StudentList)
+        {
+            <a onclick="location.href='@Url.Action("Details", "Student", new { id = item.Id}, null)'"><span>@item.FirstName @item.LastName</span></a>
+            <br />
+        }
+    }
+    else
+    {
+        <h3>There are no enrolment for this subject</h3>
+    }
+
+    <br />
+
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Subject", null)'">
+        Go Back
+    </button>
+</div>
+
+
+
