@@ -22,13 +22,13 @@ namespace ConsoleApplication2
                 dictionaryString.Add(outputWord);
             }
             string[] dictionary = dictionaryString.ToArray();
-            string[] ouput = Test.fourLettersInCommon(input, dictionary);
-            for (int i = 0; i < ouput.Length; i++)
+            string[] output = Test.fourLettersInCommon(input, dictionary);
+            for (int i = 0; i < output.Length; i++)
             {
-                System.Console.WriteLine(ouput[i]);
+                System.Console.WriteLine(output[i]);
             }
             System.Console.WriteLine("=================");
-            System.Console.WriteLine(ouput.Length);
+            System.Console.WriteLine(output.Length);
             System.Console.ReadLine();
         }
     }
