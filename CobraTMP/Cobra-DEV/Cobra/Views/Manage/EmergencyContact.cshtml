@@ -97,7 +97,7 @@
                     <span class="form-input" name="Lable4" ng-show="form[$index].showLable[4]" ng-dblclick="LableOnClick(4, $index)">{{x.Priority}}</span>
                     <select name="textBox4" ng-model="x.Priority" class="form-input" ng-show="form[$index].showTextBox[4]"
                            ng-blur="LableOnUnfocus(4, $index, tableForm)" show-focus ="form[$index].showTextBox[4] && form[$index].focusTextBox[4]" 
-                           placeholder="Priority" convert-to-number required >
+                           placeholder="Priority" convert-to-number>
                         <option ng-repeat="tt in priorityList" value="{{tt}}" class="list-content" >{{tt}}</option>
                     </select>
                     <span ng-show="tableForm.textBox4.$error.required && tableForm.textBox4.$dirty" class="input-error">Required.</span>

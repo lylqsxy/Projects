@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SjtuNZApp.WebPageDetail" >
+    <StackLayout Padding="10">
+        <Label Text="请输入Url并保存."/>
+        <Entry x:Name="url_Txt"></Entry>
+        <Button Text="保存" x:Name="save_Btn"></Button>
+        <Button Text="重置" x:Name="reset_Btn"></Button>
+    </StackLayout>
+
+</ContentPage>

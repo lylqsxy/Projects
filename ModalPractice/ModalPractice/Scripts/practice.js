@@ -163,6 +163,8 @@ app.controller('appCtrl',
         { Id: 3, value: 'enhancement' }
         ];
 
+        console.log($scope.typeOptions)
+
         $scope.filterCondition = {
             operator: 'neq'
         }
@@ -216,5 +218,27 @@ app.controller('testCtrl',
             Test.minus(1);
             $scope.t = Test.get();
         }
+
+        function Person(first, last, age, gender, interests) {
+            this.name = {
+                first,
+                last
+            };
+            this.age = age;
+            this.gender = gender;
+            this.interests = interests;
+            this.bio = function () {
+                alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+            };
+        };
+
+        var person1 = new Person('Bob', 'Smith', 32, 'male', ['music', 'skiing']);
+
+        Person.prototype.greeting = function () {
+            alert('Hi! I\'m ' + this.name.first + '.');
+        };
+
+        console.log(person1, Person)
+
 
     })

@@ -169,7 +169,6 @@
     <Compile Include="Controllers\GeoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Filters\CustomFilters.cs" />
     <Compile Include="Filters\FilterConfig.cs" />
     <Compile Include="Global.asax.cs">

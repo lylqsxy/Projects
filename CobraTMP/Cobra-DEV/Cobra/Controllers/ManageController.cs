@@ -466,7 +466,7 @@ namespace Cobra.Controllers
             int loginUserId = _accountService.GetCurrentUserId();
             Person loginPerson = _profileService.GetPersonById(loginUserId);
 
-            List<EmergencyContactViewModel> ecViewList = _profileService.GetEmergencyContactByPersonId(loginPerson.Id)
+            List<EmergencyContactViewModel> ecViewList = _profileService.GetEmergencyContactByPersonId(loginUserId)
                                                         .Where(p => p.Profile.IsActive == true)
                                                         .Select(ec => new EmergencyContactViewModel
                                                         {
