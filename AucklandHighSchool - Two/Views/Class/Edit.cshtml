@@ -1,0 +1,111 @@
+﻿@model AucklandHighSchool.Models.ClassEditViewModel
+
+@if (Model.Id == 0)
+    {
+<h1>Create a new class</h1>
+    }
+    else
+    {
+<h1>Edit class</h1>
+    }
+<br>
+<br>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <label for="className" class="col-md-2 col-lg-2 control-label">Class Name</label>
+        <div class="col-md-10 col-lg-10 ">
+            <input class="form-control" id="className">
+        </div>
+    </div>
+    <div class="form-group">
+        <text id="classNameValidation" class="col-md-10 col-lg-10 col-md-offset-2 col-lg-offset-2"></text>
+    </div>
+
+    <div class="form-group">
+        <label for="subjectList" class="col-md-2 col-lg-2 control-label">Subject Name</label>
+        <div class="col-md-10 col-lg-10 ">
+            @Html.DropDownListFor(m => m.SelectedSubject, Model.SubjectList, new { @class = "form-control" , @id="subjectList"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="teacherList" class="col-md-2 col-lg-2 control-label">Teacher Name</label>
+        <div class="col-md-10 col-lg-10 ">
+            @Html.DropDownListFor(m => m.SelectedTeacher, Model.TeacherList, new { @class = "form-control", @id = "teacherList" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10 col-md-offset-2 col-md-10">
+            <button class="btn btn-success " id="ClassSubmitBtn"><span style="margin-right: 5px" class="glyphicon glyphicon-ok"></span>Ok</button>
+            <button type="button" class="btn btn-danger " onclick="location.href='@Url.Action("Index", "Class", null)'"><span style="margin-right: 5px" class="glyphicon glyphicon-remove"></span>Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //Any thing inside in block will be executed only when the page successful loaded
+    $(document).ready(function () {
+
+
+        //Initialized variable
+        var validation = $("#classNameValidation");
+
+        // Hide the validation text at the beginning
+        validation.hide();
+
+        //Set value for class name in case this is an edit command
+        $("#className").val('@Model.Name');
+
+       //Perform action click of submit button
+        $("#ClassSubmitBtn").click(function () {
+
+            // Reset value of validation text
+            validation.hide();
+            validation.text("");
+
+            console.log($("#teacherList option:selected").val());
+
+            $.ajax({
+                    url: '/Class/Edit',
+                    type: 'POST',
+                    data: {
+                        Id: @Model.Id,
+                        Name: $("#className").val().trim(), //make sure no white space at the beginning and at the end
+                        SelectedSubject: $("#subjectList option:selected").val(),
+                        SelectedTeacher: $("#teacherList option:selected").val(),
+                        TeacherList: null,
+                        SubjectList: null
+                    },
+                success: function (data) {
+                        // if there is an error --> pop up error msg
+                        if(data.length > 0){
+                            validation.show();
+                            validation.text(data);
+                        }else{
+                            // redirect to subject index page
+                            window.location.href = '@Url.Action("Index", "Class")';
+                        }
+                        
+                    },
+                    error: function () {
+                        alert("There is an error, please try again later!!!");
+                            window.location.href = '@Url.Action("Index", "Class")';
+                    }
+                });
+
+            
+        });
+
+    });
+
+
+</script>
+
+<style>
+    #classNameValidation {
+        color: red;
+    }
+</style>

@@ -1,0 +1,38 @@
+﻿@model AucklandHighSchool.Models.EnrolmentDetailsViewModel
+
+@using (Html.BeginForm("EnrolmentAdd", "Student", FormMethod.Post, new { @class = "form-horizontal col-lg-12 col-md-12 col-sm-12 col-xs-12", role = "form" }))
+{
+    <h1>Add/Remove Enrolment</h1>
+    <br>
+    <br>
+
+    if (Model.ClassList.Count > 0)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.SelectedClass, new { @class = "col-md-2 col-lg-2 control-label" })
+            <div class="col-md-4 col-lg-4">
+                @Html.DropDownListFor(m => m.SelectedClass, Model.ClassList, new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-success "><span style="margin-right: 5px" class="glyphicon glyphicon-ok"></span>Add</button>
+        </div>
+    }
+
+    if (Model.SelectedClasses.Count > 0)
+    {
+        foreach (var item in Model.SelectedClasses)
+        {
+             <div class="form-group">
+            <div class="col-lg-offset-2 col-md-offset-2 col-md-2 col-lg-2">
+                <a onclick="location.href='@Url.Action("Details", "Class", new { id = item.Id}, null)'"><span>@item.Name</span></a>
+            </div>
+                 <button type="button" class="btn btn-danger " onclick="location.href='@Url.Action("DeleteEnrolment", "Student", new { @classId = item.Id, @studentId = Model.Id }, null)'"><span style="margin-right: 5px" class="glyphicon glyphicon-remove"></span>Remove</button>
+            </div>
+        }
+       
+    }
+    
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Details", "Student",new { @id = Model.Id }, null)'">
+        Go Back
+    </button>
+    
+}

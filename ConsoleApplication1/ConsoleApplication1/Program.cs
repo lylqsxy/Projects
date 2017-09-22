@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Text.RegularExpressions;
 
 namespace ConsoleApplication1
 {
@@ -12,46 +10,58 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            const int length = 4;  //4 consecutive char
-            List<string> candidatePattern = new List<string>();
-            List<string> output = new List<string>();
-            System.Console.WriteLine("Please Input the Word: ");
-            string inputWord = System.Console.ReadLine();
-            System.Console.WriteLine("====================");
-            if (inputWord.Length >= length)
+            while(true)
             {
-                for (int i = 0; i <= inputWord.Length - length; i++)
+                string a = "dsfdsfs";
+                string b = new string(a.ToCharArray().Reverse().ToArray());
+                Console.WriteLine(b);
+                Console.WriteLine("Please input door number: ");
+                var doorNumber = Convert.ToInt32(Console.ReadLine());
+                var result = DoorQuiz.isOpen(DoorQuiz.CalculateDoorActiveNumbers(), doorNumber) ? "Open" : "Closed";
+                Console.WriteLine("Number {0} door is {1}.", doorNumber, result);
+                
+
+            }   
+        }
+    }
+
+
+    public class DoorQuiz
+    {
+        public static bool isOpen(List<int> doorActiveInts, int doorNumber)
+        {
+            var activeNumber = doorActiveInts[doorNumber - 1];
+            if ((activeNumber % 2) != 0 || activeNumber == 1)
+                return true;
+            return false;
+        }
+
+        public static List<int> CalculateDoorActiveNumbers()
+        {
+            int[,] doorMatrix = new int[10, 10];
+
+            for (int iterTime = 0; iterTime < 10; iterTime++)
+            {
+                for (int doorNumber = iterTime; doorNumber < 10; doorNumber += iterTime + 1)
                 {
-                    //Prep for the regular expression for each candidate
-                    char[] c = inputWord.ToCharArray(i, length);
-                    string pattern = @"[a-zA-Z]*";
-                    for (int j = 0; j < length; j++)
-                    {
-                        pattern += "[" + c[j] + "]";
-                    }
-                    pattern += @"[a-zA-Z]*";  
-                    candidatePattern.Add(pattern);
+                    doorMatrix[doorNumber, iterTime] = 1;
                 }
             }
-            //Read the Dictionary
-            StreamReader streamReader = new StreamReader(@"C:\Users\Administrator\Desktop\dic.txt");
-            while (!streamReader.EndOfStream)
+
+            var doorActiveNumber = new List<int>();
+
+            for (int i = 0; i < doorMatrix.GetLength(0); i++)
             {
-                string outputWord = streamReader.ReadLine();
-                foreach (string pattern in candidatePattern)
+                var sum = 0;
+                for (int j = 0; j < doorMatrix.GetLength(1); j++)
                 {
-                    //If is match, jump out of the loop
-                    if (Regex.IsMatch(outputWord.Trim(), pattern))
-                    {
-                        System.Console.WriteLine(outputWord);
-                        output.Add(outputWord);
-                        break;
-                    }
+                    sum += doorMatrix[i, j];
                 }
+                doorActiveNumber.Add(sum);
             }
-            System.Console.WriteLine("====================");
-            System.Console.WriteLine(output.Count);
-            System.Console.Read();
+            return doorActiveNumber;
         }
     }
 }
+
+

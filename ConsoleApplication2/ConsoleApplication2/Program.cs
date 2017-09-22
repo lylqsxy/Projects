@@ -3,33 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace ConsoleApplication2
 {
+    class Base : IDisposable
+    {
+        public Base()
+        {
+            Console.WriteLine(" Base Constructor");
+        }
+        static Base()
+        {
+            Console.WriteLine(" Base Static Constructor");
+        }
+        public void Dispose()
+        {
+            Console.WriteLine(" Base Dispose");
+        }
+        ~Base()
+        {
+            Console.WriteLine(" Base Destructor");
+        }
+    }
+    class Derived : Base, IDisposable
+    {
+        public Derived()
+        {
+            Console.WriteLine(" Derived Constructor");
+        }
+        static Derived()
+        {
+            Console.WriteLine(" Derived Static Constructor");
+        }
+        ~Derived()
+        {
+            Console.WriteLine(" Derived Destructor");
+        }
+        void IDisposable.Dispose()
+        {
+            Console.WriteLine(" Derived Dispose");
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            List<string> dictionaryString = new List<string>();
-            System.Console.WriteLine("Please Input the Word: ");
-            string input = System.Console.ReadLine();
-            System.Console.WriteLine("=================");
-            StreamReader streamReader = new StreamReader(@"C:\dic.txt");
-            while (!streamReader.EndOfStream)
+            Console.WriteLine("Start");
+            using (Base test = new Derived())
             {
-                string outputWord = streamReader.ReadLine();
-                dictionaryString.Add(outputWord);
+                Console.WriteLine(" Using test");
             }
-            string[] dictionary = dictionaryString.ToArray();
-            string[] ouput = Test.fourLettersInCommon(input, dictionary);
-            for (int i = 0; i < ouput.Length; i++)
-            {
-                System.Console.WriteLine(ouput[i]);
-            }
-            System.Console.WriteLine("=================");
-            System.Console.WriteLine(ouput.Length);
-            System.Console.ReadLine();
+            Console.WriteLine("End");
         }
     }
 }

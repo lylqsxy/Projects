@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Auckland School</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <input type="button" value="Subjects" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Subject", null)'" />
+        <input type="button" value="Teachers" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Teacher", null)'" />
+        <input type="button" value="Students" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Student", null)'" />
+        <input type="button" value="Classes" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Class", null)'" />
+    </div>
+</div>
