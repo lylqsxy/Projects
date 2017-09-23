@@ -23,8 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\app.css" />
+    <Content Include="img\loading.gif" />
     <Content Include="js\app.js" />
     <Content Include="js\controllers\contactListCtrl.js" />
+    <Content Include="js\directives\msgbox.js" />
     <Content Include="lib\bootstrap.css" />
     <None Include="data\users.json" />
     <Content Include="index.html" />
@@ -32,6 +34,7 @@
     <Content Include="lib\bootstrap.js" />
     <None Include="lib\jquery-1.10.2.intellisense.js" />
     <Content Include="lib\jquery-1.10.2.js" />
+    <Content Include="views\msgbox.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -42,10 +45,7 @@
       <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="js\directives\" />
-    <Folder Include="views\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
   </PropertyGroup>

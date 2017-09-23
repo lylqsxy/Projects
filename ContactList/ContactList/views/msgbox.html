@@ -1,0 +1,25 @@
+﻿<div class="modal fade" id="msgbox" tabindex="-1" role="dialog" aria-labelledby="createEditLabel">
+    <div class="modal-dialog" role="document" style="margin-top:50px;">
+        <div class="modal-content" style="background-color:black; height:300px">
+            <div style="background-color:cornflowerblue; height:230px">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 10px;"><span aria-hidden="true">&times;</span></button>
+
+                <div class="bs bs-name">
+                    {{msgboxData.name}}
+                </div>
+                <div class="bs bs-pos">
+                    Web Designer
+                </div>
+                <div class="bs bs-contact">
+                    {{msgboxData.phone}} | {{msgboxData.email}}
+                </div>
+                <div class="bs bs-address">
+                    {{msgboxData.address.suite}}, {{msgboxData.address.street}}, {{msgboxData.address.city}}, {{msgboxData.address.zipcode}}
+                </div>      
+                <div class="arrow-down bs-arrow-down">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

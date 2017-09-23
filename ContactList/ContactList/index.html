@@ -11,37 +11,57 @@
     <script src="lib/angular.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/contactListCtrl.js"></script>
+    <script src="js/directives/msgbox.js"></script>
     
 </head>
-<body ng-app="contactListApp">
+<body ng-app="contactListApp" style="width: 100%; height: 100%;">
     
     <div ng-controller="contactListCtrl" class="container body-content">
 
         <h1>Contact List App</h1>
 
-        <table class="table table-hover table-striped table-responsive">
-            <tr>
-                <th>
+        <button class="btn btn-primary top-bar top-button">
+            Admin
+        </button>
+        <div class="search-bar top-bar">
+            <input type="text" ng-model="searchStr" class="form-control" placeholder="Search..." />
+        </div>
+
+        <img src="img/loading.gif" class="loading" ng-show="showLoading"/>
+
+        <div ng-show="showList">
+
+        </div>
+
+        <table class="table table-hover table-striped table-responsive" ng-show="showTable">
+            <tr style="cursor:pointer">
+                <th ng-click="sortBy('id')" style="min-width:50px">
                     ID
+                    <span class="sort-arrow" ng-show="propertyName === 'id'">{{arrow}}</span>
                 </th>
-                <th>
+                <th ng-click="sortBy('name')">
                     Name
+                    <span class="sort-arrow" ng-show="propertyName === 'name'">{{arrow}}</span>
                 </th>
-                <th>
+                <th ng-click="sortBy('username')">
                     User Name
+                    <span class="sort-arrow" ng-show="propertyName === 'username'">{{arrow}}</span>
                 </th>
-                <th>
+                <th ng-click="sortBy('email')">
                     Email
+                    <span class="sort-arrow" ng-show="propertyName === 'email'">{{arrow}}</span>
                 </th>
-                <th>
+                <th ng-click="sortBy('phone')">
                     Phone
+                    <span class="sort-arrow" ng-show="propertyName === 'phone'">{{arrow}}</span>
                 </th>
-                <th>
+                <th ng-click="sortBy('company.name')">
                     Company
+                    <span class="sort-arrow" ng-show="propertyName === 'company.name'">{{arrow}}</span>
                 </th>
             </tr>
 
-            <tr ng-repeat="x in contactList" ng-click="showDetails(x)">
+            <tr ng-repeat="x in contactList | filter: searchStr | orderBy: propertyName:reverse" ng-click="showDetails(x)" style="cursor:pointer">
                 <td>
                     {{x.id}}
                 </td>
@@ -63,6 +83,9 @@
             </tr>
 
         </table>
+
+        <c-msgbox></c-msgbox>
     </div>
+    
 </body>
 </html>

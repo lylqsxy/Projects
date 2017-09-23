@@ -2,6 +2,71 @@
     font-family: 'Segoe UI', sans-serif;
 }
 
-span {
-    font-style: italic;
+.bs {
+    color: white; 
+    opacity:0.9; 
+    display:inline-block;
+    position:absolute; 
+    right:20px; 
+}
+
+.bs-name {
+    font-size:40px; 
+    bottom:95px
+}
+
+.bs-pos {
+    font-size:20px; 
+    letter-spacing:3px; 
+    bottom:75px
+}
+
+.bs-contact {
+    font-size:15px;
+    bottom:35px
+}
+
+.bs-address {
+    font-size:16px; 
+    bottom:13px
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 15px solid cornflowerblue;
+}
+
+.bs-arrow-down {
+    display:inline-block; 
+    position:absolute; 
+    left:50px; 
+    bottom:57px
+}
+
+.loading {
+    width:30px; 
+    height:30px; 
+    position:absolute; 
+    left:50%; 
+    top:50%;
+}
+
+.top-bar {
+    margin:10px 0 10px 0; 
+}
+
+.search-bar {
+    float:right; 
+    width:30%;
+}
+
+.top-button {
+    float:left; 
+}
+
+.sort-arrow {
+    color: gray
 }

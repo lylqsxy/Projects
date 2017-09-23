@@ -5577,9 +5577,8 @@ a.list-group-item:focus {
   font-size: 21px;
   font-weight: bold;
   line-height: 1;
-  color: #000000;
-  text-shadow: 0 1px 0 #ffffff;
-  opacity: 0.2;
+  color: white;
+  opacity: 0.7;
   filter: alpha(opacity=20);
 }
 
@@ -5649,9 +5648,9 @@ body.modal-open,
 .modal-content {
   position: relative;
   background-color: #ffffff;
-  border: 1px solid #999999;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  /*border: 1px solid #999999;*/
+  /*border: 1px solid rgba(0, 0, 0, 0.2);*/
+  /*border-radius: 6px;*/
   outline: none;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
@@ -5742,7 +5741,7 @@ body.modal-open,
   .modal-dialog {
     right: auto;
     left: 50%;
-    width: 600px;
+    width: 500px;
     padding-top: 30px;
     padding-bottom: 30px;
   }
