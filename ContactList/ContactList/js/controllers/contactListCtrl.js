@@ -11,6 +11,7 @@ contactListApp.controller('contactListCtrl', function ($scope, $http, $filter) {
     $scope.showTable = false;
     $scope.showLoading = true;
     $scope.showList = false;
+    $scope.btnText = 'Show Admin';
     $scope.propertyName = 'id';
     $scope.reverse = false;
     $scope.arrow = $scope.reverse ? '▼' : '▲';
@@ -39,5 +40,25 @@ contactListApp.controller('contactListCtrl', function ($scope, $http, $filter) {
         $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
         $scope.propertyName = propertyName;
         $scope.arrow = $scope.reverse ? '▼' : '▲';
+    }
+
+    $scope.toggle = function () {
+        $scope.showList = !$scope.showList;
+        $scope.showTable = !$scope.showTable;
+        $scope.btnText = $scope.showTable ? 'Show Admin' : 'Back';
+    }
+
+    $scope.charGen = function () {
+        var charArray = [];
+        for(i = 0; i < 26; i++)
+        {
+            charArray.push(String.fromCharCode(65 + i));
+        }
+        return charArray;
+    }
+
+    $scope.startsWith = function (actual, expected) {
+        var lowerStr = (actual + "").toLowerCase();
+        return lowerStr.indexOf(expected.toLowerCase()) === 0;
     }
 })
