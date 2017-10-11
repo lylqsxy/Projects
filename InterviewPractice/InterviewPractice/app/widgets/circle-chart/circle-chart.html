@@ -1,0 +1,15 @@
+﻿
+<div class="widget">
+    <div class="circle-title">
+        {{title}}
+    </div>
+    <div [ngClass]="{'over50' : number > 50}" class="progress-circle p{{number > 100 ? 100 : number < 0 ? 0 : number}}">
+        <span class="circle-number">{{number > 100 ? 100 : number < 0 ? 0 : number}}%</span>
+        <div class="left-half-clipper">
+            <div class="first50-bar"></div>
+            <div class="value-bar"></div>
+        </div>
+    </div>
+</div>
+
+

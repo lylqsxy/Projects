@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{5215B5EC-6A8E-4F4E-890C-642D6E6B44BF}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+    <Content Include="images\batman.jpg" />
+    <Content Include="images\dashboard-section-1.png" />
+    <Content Include="images\dashboard-section-2.png" />
+    <Content Include="images\dashboard-section-3.png" />
+    <Content Include="images\flash.svg" />
+    <Content Include="images\superman.png" />
+    <Content Include="index.html" />
+    <Content Include="package.json" />
+    <Content Include="src\01-mvc-hello-world\index.html" />
+    <Content Include="src\02-template-syntax-properties\index.html" />
+    <Content Include="src\02-template-syntax-properties\lesson-2.css" />
+    <Content Include="src\03-template-syntax-interpolation\index.html" />
+    <Content Include="src\03-template-syntax-interpolation\lesson.css" />
+    <Content Include="src\04-template-syntax-events\index.html" />
+    <Content Include="src\04-template-syntax-events\lesson-4.css" />
+    <Content Include="src\05-template-syntax-components-essentials\index.html" />
+    <Content Include="src\05-template-syntax-components-essentials\lesson.css" />
+    <Content Include="src\common-styles\common.css" />
+    <Content Include="src\components-inputs-and-outputs\index.html" />
+    <Content Include="src\components-inputs-and-outputs\search-box\search-box.component.css" />
+    <Content Include="src\components-inputs-and-outputs\search-box\search-box.component.html" />
+    <Content Include="src\core-directives-ng-for\index.html" />
+    <Content Include="src\core-directives-ng-for\lesson.css" />
+    <Content Include="src\core-directives-ngif\index.html" />
+    <Content Include="src\core-directives-ngif\lesson.css" />
+    <Content Include="src\core-directives-ngstyle-ngclass\index.html" />
+    <Content Include="src\core-directives-ngstyle-ngclass\lesson.css" />
+    <Content Include="src\directives-intro\directives-intro.css" />
+    <Content Include="src\directives-intro\index.html" />
+    <Content Include="src\directives\index.html" />
+    <Content Include="src\directives\lesson.css" />
+    <Content Include="src\exercise-color-sample\index.html" />
+    <Content Include="src\forms-model-driven\index.html" />
+    <Content Include="src\forms-signup-exercise\index.html" />
+    <Content Include="src\forms-template-driven\index.html" />
+    <Content Include="src\introduction-to-pipes\index.html" />
+    <Content Include="src\introduction-to-pipes\lesson.css" />
+    <Content Include="src\modules-intro\index.html" />
+    <Content Include="src\modules-intro\lessons-list.component.js" />
+    <Content Include="src\modules-intro\lessons.js" />
+    <Content Include="src\modules-intro\lessons.service.js" />
+    <Content Include="src\modules-intro\xhr-headers.js" />
+    <Content Include="src\router-exercise\index.html" />
+    <Content Include="src\router-introduction\index.html" />
+    <Content Include="src\router-introduction\router.css" />
+    <Content Include="src\services-http\index.html" />
+    <Content Include="src\services-intro\index.html" />
+    <Content Include="system.config.js" />
+    <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\01-mvc-hello-world\tsconfig.json" />
+    <Content Include="src\02-template-syntax-properties\tsconfig.json" />
+    <Content Include="src\03-template-syntax-interpolation\tsconfig.json" />
+    <Content Include="src\04-template-syntax-events\tsconfig.json" />
+    <Content Include="src\05-template-syntax-components-essentials\tsconfig.json" />
+    <Content Include="src\common-styles\tsconfig.json" />
+    <Content Include="src\components-inputs-and-outputs\tsconfig.json" />
+    <Content Include="src\core-directives-ng-for\tsconfig.json" />
+    <Content Include="src\core-directives-ngif\tsconfig.json" />
+    <Content Include="src\core-directives-ngstyle-ngclass\tsconfig.json" />
+    <Content Include="src\directives-intro\tsconfig.json" />
+    <Content Include="src\directives\tsconfig.json" />
+    <Content Include="src\exercise-color-sample\tsconfig.json" />
+    <Content Include="src\forms-model-driven\tsconfig.json" />
+    <Content Include="src\forms-signup-exercise\tsconfig.json" />
+    <Content Include="src\forms-template-driven\tsconfig.json" />
+    <Content Include="src\introduction-to-pipes\tsconfig.json" />
+    <Content Include="src\modules-intro\lessons-list.component.js.map" />
+    <Content Include="src\modules-intro\lessons.js.map" />
+    <Content Include="src\modules-intro\lessons.service.js.map" />
+    <Content Include="src\modules-intro\tsconfig.json" />
+    <Content Include="src\modules-intro\xhr-headers.js.map" />
+    <Content Include="src\router-exercise\tsconfig.json" />
+    <Content Include="src\router-introduction\tsconfig.json" />
+    <Content Include="src\services-http\tsconfig.json" />
+    <Content Include="src\services-intro\tsconfig.json" />
+    <Content Include="src\typescript-introduction\tsconfig.json" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="lessons-server.ts" />
+    <TypeScriptCompile Include="src\01-mvc-hello-world\hello_world.ts" />
+    <TypeScriptCompile Include="src\02-template-syntax-properties\app.ts" />
+    <TypeScriptCompile Include="src\03-template-syntax-interpolation\app.ts" />
+    <TypeScriptCompile Include="src\04-template-syntax-events\app.ts" />
+    <TypeScriptCompile Include="src\05-template-syntax-components-essentials\app.ts" />
+    <TypeScriptCompile Include="src\05-template-syntax-components-essentials\color_picker.ts" />
+    <TypeScriptCompile Include="src\05-template-syntax-components-essentials\color_previewer.ts" />
+    <TypeScriptCompile Include="src\05-template-syntax-components-essentials\constants.ts" />
+    <TypeScriptCompile Include="src\components-inputs-and-outputs\app.ts" />
+    <TypeScriptCompile Include="src\components-inputs-and-outputs\search-box\search-box.component.ts" />
+    <TypeScriptCompile Include="src\core-directives-ng-for\app.ts" />
+    <TypeScriptCompile Include="src\core-directives-ng-for\hero.ts" />
+    <TypeScriptCompile Include="src\core-directives-ng-for\heroes.ts" />
+    <TypeScriptCompile Include="src\core-directives-ngif\app.ts" />
+    <TypeScriptCompile Include="src\core-directives-ngstyle-ngclass\app.ts" />
+    <TypeScriptCompile Include="src\core-directives-ngstyle-ngclass\hero.ts" />
+    <TypeScriptCompile Include="src\core-directives-ngstyle-ngclass\heroes.ts" />
+    <TypeScriptCompile Include="src\directives-intro\app.ts" />
+    <TypeScriptCompile Include="src\directives-intro\collapse-on-click.directive.ts" />
+    <TypeScriptCompile Include="src\directives\app.ts" />
+    <TypeScriptCompile Include="src\directives\show-one-container.ts" />
+    <TypeScriptCompile Include="src\directives\show-one-trigger.ts" />
+    <TypeScriptCompile Include="src\directives\show-one.ts" />
+    <TypeScriptCompile Include="src\exercise-color-sample\app.ts" />
+    <TypeScriptCompile Include="src\exercise-color-sample\color-sample.ts" />
+    <TypeScriptCompile Include="src\forms-model-driven\app.ts" />
+    <TypeScriptCompile Include="src\forms-model-driven\checkIfTitleExists.ts" />
+    <TypeScriptCompile Include="src\forms-model-driven\lesson.ts" />
+    <TypeScriptCompile Include="src\forms-model-driven\number-field.component.ts" />
+    <TypeScriptCompile Include="src\forms-model-driven\validateDuration.ts" />
+    <TypeScriptCompile Include="src\forms-signup-exercise\app.ts" />
+    <TypeScriptCompile Include="src\forms-signup-exercise\confirmPassword.ts" />
+    <TypeScriptCompile Include="src\forms-template-driven\app.ts" />
+    <TypeScriptCompile Include="src\forms-template-driven\lesson.ts" />
+    <TypeScriptCompile Include="src\forms-template-driven\validate-duration.directive.ts" />
+    <TypeScriptCompile Include="src\forms-template-driven\validateDuration.ts" />
+    <TypeScriptCompile Include="src\introduction-to-pipes\app.ts" />
+    <TypeScriptCompile Include="src\introduction-to-pipes\sort.pipe.ts" />
+    <TypeScriptCompile Include="src\modules-intro\app.ts" />
+    <TypeScriptCompile Include="src\modules-intro\lessons-list.component.ts" />
+    <TypeScriptCompile Include="src\modules-intro\lessons.module.ts" />
+    <TypeScriptCompile Include="src\modules-intro\lessons.service.ts" />
+    <TypeScriptCompile Include="src\modules-intro\lessons.ts" />
+    <TypeScriptCompile Include="src\modules-intro\xhr-headers.ts" />
+    <TypeScriptCompile Include="src\router-exercise\app.ts" />
+    <TypeScriptCompile Include="src\router-exercise\dashboard-header.ts" />
+    <TypeScriptCompile Include="src\router-exercise\impresssions-by-country.component.ts" />
+    <TypeScriptCompile Include="src\router-exercise\page-views-by-browser.component.ts" />
+    <TypeScriptCompile Include="src\router-exercise\page-views-pie-chart.component.ts" />
+    <TypeScriptCompile Include="src\router-exercise\router-config.ts" />
+    <TypeScriptCompile Include="src\router-introduction\all-lessons.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\app.ts" />
+    <TypeScriptCompile Include="src\router-introduction\chat.ts" />
+    <TypeScriptCompile Include="src\router-introduction\course-detail-activate.guard.ts" />
+    <TypeScriptCompile Include="src\router-introduction\course-detail-deactivate.guard.ts" />
+    <TypeScriptCompile Include="src\router-introduction\course-detail.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\courses-list.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\courses-router-config.ts" />
+    <TypeScriptCompile Include="src\router-introduction\courses.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\courses.module.ts" />
+    <TypeScriptCompile Include="src\router-introduction\coursesData.ts" />
+    <TypeScriptCompile Include="src\router-introduction\home.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\lesson.ts" />
+    <TypeScriptCompile Include="src\router-introduction\lessons-list.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\lessonsData.ts" />
+    <TypeScriptCompile Include="src\router-introduction\playlist.component.ts" />
+    <TypeScriptCompile Include="src\router-introduction\router-config.ts" />
+    <TypeScriptCompile Include="src\router-introduction\shared.module.ts" />
+    <TypeScriptCompile Include="src\services-http\app.ts" />
+    <TypeScriptCompile Include="src\services-http\init-observable.ts" />
+    <TypeScriptCompile Include="src\services-http\lesson.ts" />
+    <TypeScriptCompile Include="src\services-http\lessons-list.component.ts" />
+    <TypeScriptCompile Include="src\services-http\lessons.service.ts" />
+    <TypeScriptCompile Include="src\services-http\xhr-headers.ts" />
+    <TypeScriptCompile Include="src\services-intro\app.ts" />
+    <TypeScriptCompile Include="src\services-intro\lessons-list.component.ts" />
+    <TypeScriptCompile Include="src\services-intro\lessons.service.ts" />
+    <TypeScriptCompile Include="src\services-intro\lessons.ts" />
+    <TypeScriptCompile Include="src\services-intro\xhr-headers.ts" />
+    <TypeScriptCompile Include="src\typescript-introduction\typescript-introduction.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>AngularCourses</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\WebApplications\Microsoft.WebApplication.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>55056</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:55056/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+</Project>

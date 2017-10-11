@@ -1,0 +1,50 @@
+﻿
+<div class="container body-content">
+    <h2 class="main-title">
+        Suburb Insights
+    </h2>
+    <div class="row">
+        <div class="col col-sm-6" style="padding:20px">
+            <div class="row">
+                <h3 class="group-title">Market performance<sup style="font-size:14px;color:cadetblue">★</sup></h3>
+            </div>
+            <div class="row">
+                <div class="col col-sm-6">
+                    <label-widget [title]="'MEDIAN PRICE'" [details]="subInsights.medPri"></label-widget>
+                </div>
+                <div class="col col-sm-6">
+                    <label-widget [title]="'AUCTION CLEARANCE'" [details]="subInsights.aucCle"></label-widget>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-6">
+                    <label-widget [title]="'SOLD THIS YEAR'" [details]="subInsights.sold"></label-widget>
+                </div>
+                <div class="col col-sm-6">
+                    <label-widget [title]="'AVG DAYS ON MARKET'" [details]="subInsights.avgDays"></label-widget>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-6" style="padding:20px">
+            <div class="row">
+                <h3 class="group-title">Demographics</h3>           
+            </div>
+            <div class="row">
+                <div class="col col-sm-5">
+                    <label-widget [title]="'POPULATION'" [details]="subInsights.population"></label-widget>
+                </div>
+                <div class="col col-sm-7" style="margin:20px 0 0 0 ">
+                    <bar-chart-ex [percentage]="subInsights.ownerPer" [title-left]="'OWNER'" [title-right]="'RENTER'"></bar-chart-ex>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-5">
+                    <label-widget [title]="'AVERAGE AGE'" [details]="subInsights.avgAge"></label-widget>
+                </div>
+                <div class="col col-sm-7" style="margin:20px 0 0 0 ">
+                    <bar-chart-ex [percentage]="subInsights.familyPer" [title-left]="'FAMILY'" [title-right]="'SINGLE'"></bar-chart-ex>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿<div class="container body-content" >
+    <div class="image-cropper">
+        <img src="../../img/map.PNG" class="img-circle" />
+    </div>
+    <h2 class="main-title-sub">
+        Neighbourhood insights
+    </h2>
+    <div class="sub-title">
+        A little bit about who lives locally, as provided by government census data
+    </div>
+    <div class="row">
+        <div class="col col-sm-4" style="padding:20px">
+            <div class="row">
+                <bar-chart [percentage]="neigbInsights.underTwPer" [title]="'UNDER 20'"></bar-chart>
+            </div>
+            <div class="row">
+                <bar-chart [percentage]="neigbInsights.twToTnPer" [title]="'20 - 39'"></bar-chart>
+            </div>
+            <div class="row">
+                <bar-chart [percentage]="neigbInsights.FtToFnPer" [title]="'40 - 59'"></bar-chart>
+            </div>
+            <div class="row">
+                <bar-chart [percentage]="neigbInsights.overStPer" [title]="'60+'"></bar-chart>
+            </div>
+        </div>
+        <div class="col col-sm-4" style="padding:20px">
+            <circle-chart [percentage]="neigbInsights.longTermResiPer" [title]="'LONG TERM RESIDENTS*'"></circle-chart>
+        </div>
+        <div class="col col-sm-4" style="padding:20px">
+            <div class="row">
+                <bar-chart-ex [percentage]="neigbInsights.ownerPer" [title-left]="'OWNER'" [title-right]="'RENTER'"></bar-chart-ex>
+            </div>
+            <div class="row">
+                <bar-chart-ex [percentage]="neigbInsights.familyPer" [title-left]="'FAMILY'" [title-right]="'SINGLE'"></bar-chart-ex>
+            </div>
+        </div>
+
+    </div>
+</div>
