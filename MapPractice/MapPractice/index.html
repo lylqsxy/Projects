@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>TypeScript HTML App</title>
+    <link rel="stylesheet" href="app.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+          integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+          crossorigin="" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATBReljV1V9o1KDQonkim7I3E0n59dmq4&libraries=places&language=en"></script>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
+    <script src="app.js"></script>
+</head>
+<body>
+    <h1>TypeScript HTML App</h1>
+
+    <div id="content"></div>
+
+    <div id="mapid" style="height:500px"></div>
+</body>
+</html>
+
+<script>
+
+
+
+    var map = new L.Map('mapid', { center: new L.LatLng(51.51, -0.11), zoom: 9 });
+
+    var googleLayer = new L.Google('ROADMAP');
+    map.addLayer(googleLayer);
+
+
+
+</script>
+

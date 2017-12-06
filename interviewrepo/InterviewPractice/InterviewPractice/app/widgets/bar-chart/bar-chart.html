@@ -1,0 +1,12 @@
+﻿<div class="widget">
+    <div class="bar-label">
+        {{title}}
+    </div>
+    <div class="bar-title">
+        <div class="bar-bg-style">
+            <div class="bar-ft-style" [style.width]="number > 100 ? 100 : number < 0 ? 0 : number + '%'">
+                <div class="bar-number">{{number > 100 ? 100 : number < 0 ? 0 : number}}%</div>
+            </div>
+        </div>
+    </div>
+</div>

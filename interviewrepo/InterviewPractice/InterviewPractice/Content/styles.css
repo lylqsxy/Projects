@@ -1,0 +1,37 @@
+.section {
+    margin:50px 0
+}
+
+.widget {
+    padding:15px
+}
+
+.main-title {
+    font-size:31px; 
+    font-weight:600; 
+    text-align:center; 
+    color:#263248; 
+    margin: 50px 0
+}
+
+.main-title-sub {
+    font-size:31px; 
+    font-weight:600; 
+    text-align:center; 
+    color:#263248; 
+    margin: 50px 0 10px 0
+}
+
+.image-cropper {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    opacity: 0.7
+}
+
+img {
+    height: 100%;
+    width: auto;
+}

@@ -1,0 +1,16 @@
+﻿<div class="widget">
+    <div class="bar-ex-label">
+        <div class="bar-ex-label-left">{{titleLeft}}</div>
+        <div class="bar-ex-label-right">{{titleRight}}</div>
+    </div>
+
+    <div class="bar-title-ex">
+        <div class="bar-bg-style-ex">
+            <div class="bar-number-ex-ex">{{100 - (number > 100 ? 100 : number < 0 ? 0 : number)}}%</div>
+            <div class="bar-ft-style-ex" [style.width]="number > 100 ? 100 : number < 0 ? 0 : number + '%'">
+                <div class="bar-number-ex" >{{number > 100 ? 100 : number < 0 ? 0 : number}}%</div>
+            </div>
+
+        </div>
+    </div>
+</div>
